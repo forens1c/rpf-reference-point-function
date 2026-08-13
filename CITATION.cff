@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "Wenn Sie dieses Modell verwenden oder diskutieren, zitieren Sie bitte diese Archivfassung."
+title: "RPF — Referenzpunkt-Funktion"
+type: report
+version: "1.2"
+authors:
+  - family-names: "frenetik.B"
+    given-names: "Björn"
+    alias: "frenetik.B"
+abstract: >-
+  Ein hypothetisches Architekturmodell zur metakognitiven
+  Selbstkalibrierung und zur Klassifikation von Informationskonflikten
+  unter Unsicherheit. Enthält RPF v1.2 und das Reflexivitätsmodul
+  RPF-X/IR v0.2. Empirisch und klinisch nicht validiert.
+keywords:
+  - Referenzpunkt-Funktion
+  - RPF
+  - metacognition
+  - uncertainty
+  - reference-frame classification
+  - introspective reactivity
+license: CC-BY-NC-SA-4.0
