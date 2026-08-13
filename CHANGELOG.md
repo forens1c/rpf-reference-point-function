@@ -8,6 +8,10 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 - Nicht-normative Transferfallstudie zum OpenAI-/Hugging-Face-Sicherheitsvorfall
   ergänzt; dokumentierter Befund, RPF-Deutung und offene Hypothesen werden
   ausdrücklich getrennt.
+- Eigenständig lesbare englische Projektübersicht ergänzt und von der deutschen
+  README aus verlinkt.
+- Englische Such- und Klassifikationsbegriffe in der Projektübersicht und den
+  maschinenlesbaren Zitationsmetadaten ergänzt.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

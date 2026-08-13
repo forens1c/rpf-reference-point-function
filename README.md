@@ -1,5 +1,7 @@
 # RPF — Referenzpunkt-Funktion
 
+**Sprachen:** Deutsch · [English](README.en.md)
+
 Ein hypothetisches Architekturmodell zur metakognitiven Selbstkalibrierung und zur Verarbeitung von Informationskonflikten unter Unsicherheit.
 
 > Nicht sofort fragen: „Welche Aussage ist wahr?“, sondern zuerst:
@@ -85,6 +87,7 @@ RPF ist ein konzeptioneller und empirisch nicht validierter Entwurf. Das Modell 
 
 Dokumentation und Diagramme stehen unter [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE.md) (`CC BY-NC-SA 4.0`). Bearbeitungen müssen als solche gekennzeichnet werden. Die archivierten Kennungen dürfen nicht für veränderte Fassungen verwendet werden.
 
-## English summary
+## English documentation
 
-The Reference Point Function (RPF) is a hypothetical architecture for metacognitive self-calibration and conflict classification under uncertainty. It inserts an explicit checkpoint between event and action, separates internal confidence from external evidence, and classifies the reference frame of an apparent contradiction before revising a knowledge model. The project is a frozen, empirically and clinically unvalidated conceptual draft.
+Eine eigenständig lesbare englische Projektübersicht steht in
+[README.en.md](README.en.md) zur Verfügung.
