@@ -70,6 +70,16 @@ The archived versions are not changed retroactively. Conceptual developments
 require a new documented revision, and future empirical findings must remain
 separate from the frozen archive.
 
+## Next objective
+
+The next planned development step is a **non-normative experimental Python
+implementation**. Its first milestone will be a deterministic axiom validator
+that evaluates whether a reasoning process is traceable and rule-compliant —
+not whether its conclusion is true.
+
+The planned stages, boundaries, and open decisions are described in the
+[English roadmap](ROADMAP.en.md) and the [German roadmap](ROADMAP.md).
+
 ## Documentation
 
 The canonical detailed documents currently remain in German. This page provides
@@ -84,6 +94,7 @@ an English entry point and links to each source document.
 | [Reference-frame classification](docs/REFERENCE_FRAME_CLASSIFICATION.md) | classification of apparent contradictions | German |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
 | [Glossary](docs/GLOSSARY.md) | terms and symbols | German |
+| [Development roadmap](ROADMAP.en.md) | planned experimental Python implementation | English |
 | [Editorial provenance](PROVENANCE.md) | origin, reconstruction boundaries, and archive rules | German |
 | [Limitations and disclaimer](DISCLAIMER.md) | research and usage limitations | German |
 

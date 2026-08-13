@@ -12,6 +12,9 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   README aus verlinkt.
 - Englische Such- und Klassifikationsbegriffe in der Projektübersicht und den
   maschinenlesbaren Zitationsmetadaten ergänzt.
+- Zweisprachige Entwicklungsroadmap mit der nächsten Zielstellung einer
+  experimentellen Python-Implementierung und eines deterministischen
+  Axiom-Validators ergänzt.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

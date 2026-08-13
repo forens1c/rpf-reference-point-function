@@ -33,6 +33,17 @@ Die RPF ist kein Wahrheitsautomat. Sie ist ein Meta-Verfahren, das vorschnelle M
 
 Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Weiterentwicklungen benötigen eine neue, dokumentierte Revision. Empirische Befunde werden getrennt von den Archivfassungen geführt.
 
+## Nächste Zielstellung
+
+Als nächster Entwicklungsschritt ist eine **nicht-normative experimentelle
+Python-Implementierung** geplant. Der erste Meilenstein soll ein
+deterministischer Axiom-Validator werden, der die Nachvollziehbarkeit und
+Regelkonformität eines Prüfprozesses bewertet — nicht die Wahrheit seines
+Ergebnisses.
+
+Die geplanten Etappen, Grenzen und offenen Entscheidungen stehen in der
+[deutschen Roadmap](ROADMAP.md) und der [English roadmap](ROADMAP.en.md).
+
 ## Dokumentation
 
 | Dokument | Inhalt |
@@ -44,6 +55,7 @@ Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Wei
 | [Referenzrahmenklassifikation](docs/REFERENCE_FRAME_CLASSIFICATION.md) | Einordnung scheinbarer Widersprüche |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
 | [Glossar](docs/GLOSSARY.md) | Begriffe und Symbole |
+| [Entwicklungsroadmap](ROADMAP.md) | geplante experimentelle Python-Implementierung |
 | [Redaktionelle Provenienz](PROVENANCE.md) | Herkunft, Rekonstruktionsgrenzen und Archivregeln |
 | [Hinweise und Grenzen](DISCLAIMER.md) | Forschungs- und Nutzungshinweise |
 
