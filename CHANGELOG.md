@@ -4,7 +4,7 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 
 ## Unreleased
 
-- GitHub-Veröffentlichung und Tagging der archivierten Fassungen stehen aus.
+- Ein Versions-Tag für die archivierten Fassungen steht noch aus.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 
