@@ -40,6 +40,7 @@ Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Wei
 | [Zustandsautomat](docs/STATE_MACHINE.md) | Zustände, Übergänge und Abbruchpfade |
 | [Axiome](docs/AXIOMS.md) | Kompetenz, duale Kalibrierung, Terminierung und Zeitbezug |
 | [Referenzrahmenklassifikation](docs/REFERENCE_FRAME_CLASSIFICATION.md) | Einordnung scheinbarer Widersprüche |
+| [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
 | [Glossar](docs/GLOSSARY.md) | Begriffe und Symbole |
 | [Redaktionelle Provenienz](PROVENANCE.md) | Herkunft, Rekonstruktionsgrenzen und Archivregeln |
 | [Hinweise und Grenzen](DISCLAIMER.md) | Forschungs- und Nutzungshinweise |
@@ -55,6 +56,11 @@ Zwei Wetterdienste melden für denselben Nachmittag unterschiedliche Regenwahrsc
 5. Welche Handlung bleibt über mehrere Zeithorizonte sinnvoll und verhältnismäßig?
 
 Das Ergebnis kann lauten: keine globale Wissensrevision, Unsicherheit ausdrücklich beibehalten und eine kostengünstige robuste Handlung wählen.
+
+Eine getrennte [Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md)
+prüft außerdem, ob RPF als begriffliche Linse für Referenzpunkt-Instabilität in
+zieloptimierenden KI-Agenten dienen könnte. Sie ist ausdrücklich keine
+Validierung des Modells.
 
 ## Grenzen
 

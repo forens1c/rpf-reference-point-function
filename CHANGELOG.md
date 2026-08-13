@@ -5,6 +5,9 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 ## Unreleased
 
 - Ein Versions-Tag für die archivierten Fassungen steht noch aus.
+- Nicht-normative Transferfallstudie zum OpenAI-/Hugging-Face-Sicherheitsvorfall
+  ergänzt; dokumentierter Befund, RPF-Deutung und offene Hypothesen werden
+  ausdrücklich getrennt.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 
