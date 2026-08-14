@@ -244,7 +244,7 @@ offen:
 - Kompatibilitäts- und Migrationsregeln für spätere Vorab-Schemata,
 - mögliche Standardkonfigurationen jenseits der schwellenwertfreien
   Grundeinstellung,
-- ein versionierter Parser für nicht vertrauenswürdige JSON-Eingaben sowie ein
-  öffentliches JSON-Schema,
+- Kompatibilitätsregeln zwischen dem in Version 0.3 ergänzten JSON-Parser und
+  späteren Vorab-Schemata,
 - feinere Regeln für teilweise fehlende optionale Fachangaben,
 - Lokalisierung und Erweiterung der menschenlesbaren Ergebnisbegründungen.

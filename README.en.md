@@ -72,15 +72,17 @@ separate from the frozen archive.
 
 ## Current development status
 
-The **non-normative experimental Python implementation 0.2** now contains a
-deterministic validator for A1–A4 and P1–P4. It evaluates the traceability and
-rule compliance of a supplied process description — not whether its conclusion
-is true.
+The **non-normative experimental Python implementation 0.3** contains a
+deterministic validator for A1–A4 and P1–P4, a strict versioned JSON parser, a
+machine-readable JSON Schema, and the `rpf` command line. It evaluates the
+traceability and rule compliance of a supplied process description — not
+whether its conclusion is true.
 
-Its exact technical semantics and limitations are documented in
-[validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md).
-Further stages are described in the [English roadmap](ROADMAP.en.md) and the
-[German roadmap](ROADMAP.md).
+Its evaluation semantics and limitations are documented in
+[validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md). The
+new public interface is described in
+[JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md). Further stages appear in the
+[English roadmap](ROADMAP.en.md) and the [German roadmap](ROADMAP.md).
 
 ## Experimental Python prototype
 
@@ -89,6 +91,19 @@ model together with the executable `evaluate` core. It keeps competence,
 `C_i`, `C_e`, reference frames, hypotheses, termination bounds, time horizons,
 action options, and residual uncertainty separate, then emits an explainable
 status and stable reason codes for every rule.
+
+Run the public weather example directly:
+
+```bash
+python -m pip install --no-deps .
+rpf validate examples/weather-input-0.2.json
+```
+
+The bundled input contract is also available in machine-readable form:
+
+```bash
+rpf schema
+```
 
 Minimal use with a constructed `ValidatorInput`:
 
@@ -102,7 +117,6 @@ print(to_json(result))
 Run locally with Python 3.11 or newer:
 
 ```bash
-python -m pip install --no-deps .
 python -m unittest discover -s tests -v
 ```
 
@@ -124,7 +138,10 @@ an English entry point and links to each source document.
 | [Capability–calibration separation](docs/CAPABILITY_CALIBRATION_SEPARATION.en.md) | experimental validator implementation principle | English |
 | [Validator operationalization](docs/VALIDATOR_OPERATIONALIZATION.en.md) | inputs, rules, statuses, reason codes, and minimum tests for A1–A4 and P1–P4 | English |
 | [Validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md) | executable rule contract, assumptions, verification, and limitations | English |
-| [Python package](src/rpf_validator) | experimental data model and deterministic evaluator | English |
+| [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
+| [Python package](src/rpf_validator) | data model, parser, and deterministic evaluator | English |
+| [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
+| [Input JSON Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | machine-readable input contract | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
 | [Glossary](docs/GLOSSARY.md) | terms and symbols | German |
 | [Development roadmap](ROADMAP.en.md) | planned experimental Python implementation | English |
@@ -209,8 +226,9 @@ Documentation and diagrams are licensed under
 identifiers must not be used for modified versions as if they were unchanged
 canonical archive copies.
 
-The experimental Python code, its tests, and technical configuration files
-carrying an `Apache-2.0` SPDX identifier are separately licensed under the
+The experimental Python code, its tests, the technical JSON Schema, the example
+fixture, and technical configuration files carrying an `Apache-2.0` SPDX
+identifier are separately licensed under the
 [Apache License 2.0](LICENSE-CODE). This software license does not change the
 documentation license.
 

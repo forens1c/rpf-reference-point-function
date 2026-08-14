@@ -1,0 +1,143 @@
+{
+  "schema_version": "rpf-validator-input-0.2",
+  "case_id": "weather-001",
+  "observation": {
+    "content": "Two services report different rain probabilities.",
+    "provenance": "Declared neutral reference case",
+    "observed_at": null
+  },
+  "problem_domain": "Interpretation of public weather forecasts",
+  "competence": {
+    "status": "SUFFICIENT",
+    "rationale": "Competence is declared for reading public forecasts.",
+    "provenance": "Public example fixture"
+  },
+  "calibration": {
+    "internal_confidence": 0.55,
+    "internal_confidence_rationale": "Forecasts remain close and uncertain.",
+    "external_evidence": 0.6,
+    "external_evidence_rationale": "Two traceable but divergent sources.",
+    "evidence_sources": [
+      {
+        "source_id": "forecast-a",
+        "description": "Forecast from service A",
+        "provenance": "https://example.invalid/a",
+        "quality_note": "Public forecast; model details are incomplete."
+      },
+      {
+        "source_id": "forecast-b",
+        "description": "Forecast from service B",
+        "provenance": "https://example.invalid/b",
+        "quality_note": "Independent public forecast."
+      }
+    ],
+    "scale_id": "unit-interval-0.1"
+  },
+  "conflict": {
+    "present": true,
+    "revision_scope": "LOCAL"
+  },
+  "reference_frame": {
+    "status": "IDENTIFIED",
+    "classes": [
+      "OBJECTIVE_MEASUREMENT"
+    ],
+    "scope": "Same location and afternoon; compare forecast assumptions.",
+    "assumptions": [
+      "Both services refer to the same location."
+    ],
+    "constraints": [
+      {
+        "code": "LOW_COST",
+        "description": "Avoid disproportionate cost for a routine forecast.",
+        "hard": false
+      }
+    ]
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "rain",
+      "statement": "Rain occurs during the afternoon.",
+      "evidence_source_ids": [
+        "forecast-a"
+      ],
+      "internal_confidence": 0.55
+    },
+    {
+      "hypothesis_id": "dry",
+      "statement": "No rain occurs during the afternoon.",
+      "evidence_source_ids": [
+        "forecast-b"
+      ],
+      "internal_confidence": 0.45
+    }
+  ],
+  "termination": {
+    "information_gain": 0.05,
+    "information_gain_epsilon": 0.01,
+    "iteration": 1,
+    "max_iterations": 5,
+    "elapsed_ms": 4.0,
+    "max_time_ms": 100.0,
+    "budget_remaining": 10.0,
+    "budget_minimum": 1.0,
+    "reflexive": false,
+    "recursion_depth": 0,
+    "max_recursion_depth": null
+  },
+  "time_horizons": [
+    {
+      "horizon_id": "now",
+      "label": "Immediate",
+      "order": 0
+    },
+    {
+      "horizon_id": "later",
+      "label": "Later today",
+      "order": 1
+    }
+  ],
+  "candidate_actions": [
+    {
+      "action_id": "carry-umbrella",
+      "description": "Carry an umbrella.",
+      "effects": [
+        {
+          "horizon_id": "now",
+          "expected_benefit": "Prepared for possible rain.",
+          "expected_cost": "Small carrying cost.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "later",
+          "expected_benefit": "Reduced impact if rain occurs.",
+          "expected_cost": "No lasting commitment.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": true,
+      "rationale": "Low-cost action remains useful under both hypotheses.",
+      "rollback_cost": "Stop carrying the umbrella."
+    }
+  ],
+  "residual_uncertainty": {
+    "items": [
+      {
+        "item_id": "forecast-outcome",
+        "description": "The actual weather outcome remains unknown.",
+        "missing_information": [
+          "Future observation"
+        ]
+      }
+    ],
+    "empty_rationale": null
+  },
+  "validator_config": {
+    "config_id": "prototype-defaults-0.1",
+    "minimum_time_horizons": 2,
+    "calibration_values_comparable": false,
+    "confidence_evidence_divergence_threshold": null
+  },
+  "selected_action_id": "carry-umbrella",
+  "selection_rationale": "The reversible precaution remains proportionate under both hypotheses."
+}

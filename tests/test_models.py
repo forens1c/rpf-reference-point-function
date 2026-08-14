@@ -162,7 +162,7 @@ def make_valid_input(
 
 class InputModelTests(unittest.TestCase):
     def test_implementation_and_schema_versions_are_explicit(self) -> None:
-        self.assertEqual(__version__, "0.2.0.dev0")
+        self.assertEqual(__version__, "0.3.0.dev0")
         self.assertEqual(INPUT_SCHEMA_VERSION, "rpf-validator-input-0.2")
         self.assertEqual(RESULT_SCHEMA_VERSION, "rpf-validator-result-0.2")
 

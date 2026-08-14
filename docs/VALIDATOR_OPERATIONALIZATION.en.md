@@ -236,6 +236,7 @@ After experimental version 0.2, the following items remain open in particular:
 
 - compatibility and migration rules for later pre-release schemas,
 - possible default configurations beyond the threshold-free baseline,
-- a versioned parser for untrusted JSON input and a public JSON Schema,
+- compatibility rules between the JSON parser added in version 0.3 and later
+  pre-release schemas,
 - finer rules for partially missing optional domain values,
 - localization and extension of human-readable result rationales.

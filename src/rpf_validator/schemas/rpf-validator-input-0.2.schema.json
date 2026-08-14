@@ -1,0 +1,598 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/forens1c/rpf-reference-point-function/main/src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json",
+  "$comment": "Copyright 2026 Björn (frenetik.B); SPDX-License-Identifier: Apache-2.0",
+  "title": "RPF Validator Input 0.2",
+  "description": "Non-normative experimental input contract for the deterministic RPF process validator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "observation",
+    "problem_domain",
+    "competence",
+    "calibration",
+    "conflict",
+    "reference_frame",
+    "hypotheses",
+    "termination",
+    "time_horizons",
+    "candidate_actions",
+    "residual_uncertainty",
+    "validator_config"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "selection_rationale"
+        ],
+        "properties": {
+          "selection_rationale": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "selected_action_id"
+        ],
+        "properties": {
+          "selected_action_id": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "rpf-validator-input-0.2"
+    },
+    "case_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "observation": {
+      "$ref": "#/$defs/observation"
+    },
+    "problem_domain": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "competence": {
+      "$ref": "#/$defs/competence"
+    },
+    "calibration": {
+      "$ref": "#/$defs/calibration"
+    },
+    "conflict": {
+      "$ref": "#/$defs/conflict"
+    },
+    "reference_frame": {
+      "$ref": "#/$defs/referenceFrame"
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hypothesis"
+      }
+    },
+    "termination": {
+      "$ref": "#/$defs/termination"
+    },
+    "time_horizons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/timeHorizon"
+      }
+    },
+    "candidate_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/candidateAction"
+      }
+    },
+    "residual_uncertainty": {
+      "$ref": "#/$defs/uncertaintyReport"
+    },
+    "validator_config": {
+      "$ref": "#/$defs/validatorConfig"
+    },
+    "selected_action_id": {
+      "$ref": "#/$defs/nullableNonEmptyString"
+    },
+    "selection_rationale": {
+      "$ref": "#/$defs/nullableNonEmptyString"
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "nullableNonEmptyString": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "unitIntervalOrNull": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nonNegativeNumberOrNull": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "positiveNumberOrNull": {
+      "anyOf": [
+        {
+          "type": "number",
+          "exclusiveMinimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "positiveIntegerOrNull": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "uniqueStringArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content",
+        "provenance"
+      ],
+      "properties": {
+        "content": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/nullableNonEmptyString"
+        }
+      }
+    },
+    "evidenceSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "description",
+        "provenance",
+        "quality_note"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "quality_note": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "competence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "SUFFICIENT",
+            "INSUFFICIENT",
+            "UNKNOWN"
+          ]
+        },
+        "rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "internal_confidence",
+        "internal_confidence_rationale",
+        "external_evidence",
+        "external_evidence_rationale"
+      ],
+      "properties": {
+        "internal_confidence": {
+          "$ref": "#/$defs/unitIntervalOrNull"
+        },
+        "internal_confidence_rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "external_evidence": {
+          "$ref": "#/$defs/unitIntervalOrNull"
+        },
+        "external_evidence_rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidence_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidenceSource"
+          }
+        },
+        "scale_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "present",
+        "revision_scope"
+      ],
+      "properties": {
+        "present": {
+          "type": "boolean"
+        },
+        "revision_scope": {
+          "enum": [
+            "NONE",
+            "LOCAL",
+            "GLOBAL"
+          ]
+        }
+      }
+    },
+    "declaredConstraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "description",
+        "hard"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "hard": {
+          "type": "boolean"
+        }
+      }
+    },
+    "referenceFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "IDENTIFIED",
+            "AMBIGUOUS",
+            "MISSING"
+          ]
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "OBJECTIVE_MEASUREMENT",
+              "SUBJECTIVE_PERCEPTION",
+              "INDIVIDUAL_PREFERENCE",
+              "STATISTICAL_EXCEPTION",
+              "CULTURAL_EVALUATION",
+              "LINGUISTIC_AMBIGUITY",
+              "LOGICAL_CONTRADICTION"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "scope": {
+          "$ref": "#/$defs/nullableNonEmptyString"
+        },
+        "assumptions": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/declaredConstraint"
+          }
+        }
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hypothesis_id",
+        "statement"
+      ],
+      "properties": {
+        "hypothesis_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "statement": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidence_source_ids": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "internal_confidence": {
+          "$ref": "#/$defs/unitIntervalOrNull"
+        }
+      }
+    },
+    "termination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "information_gain",
+        "information_gain_epsilon",
+        "iteration",
+        "max_iterations",
+        "elapsed_ms",
+        "max_time_ms",
+        "budget_remaining",
+        "budget_minimum"
+      ],
+      "properties": {
+        "information_gain": {
+          "$ref": "#/$defs/nonNegativeNumberOrNull"
+        },
+        "information_gain_epsilon": {
+          "$ref": "#/$defs/nonNegativeNumberOrNull"
+        },
+        "iteration": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_iterations": {
+          "$ref": "#/$defs/positiveIntegerOrNull"
+        },
+        "elapsed_ms": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "max_time_ms": {
+          "$ref": "#/$defs/positiveNumberOrNull"
+        },
+        "budget_remaining": {
+          "$ref": "#/$defs/nonNegativeNumberOrNull"
+        },
+        "budget_minimum": {
+          "$ref": "#/$defs/nonNegativeNumberOrNull"
+        },
+        "reflexive": {
+          "type": "boolean"
+        },
+        "recursion_depth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_recursion_depth": {
+          "$ref": "#/$defs/positiveIntegerOrNull"
+        }
+      }
+    },
+    "timeHorizon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "horizon_id",
+        "label",
+        "order"
+      ],
+      "properties": {
+        "horizon_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "expectedEffect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "horizon_id",
+        "expected_benefit",
+        "expected_cost"
+      ],
+      "properties": {
+        "horizon_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "expected_benefit": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "expected_cost": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "constraint_conflicts": {
+          "$ref": "#/$defs/uniqueStringArray"
+        }
+      }
+    },
+    "candidateAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "description",
+        "effects",
+        "reversible",
+        "rationale"
+      ],
+      "properties": {
+        "action_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/expectedEffect"
+          }
+        },
+        "reversible": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "rollback_cost": {
+          "$ref": "#/$defs/nullableNonEmptyString"
+        }
+      }
+    },
+    "uncertaintyItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "description"
+      ],
+      "properties": {
+        "item_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "missing_information": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "uncertaintyReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uncertaintyItem"
+          }
+        },
+        "empty_rationale": {
+          "$ref": "#/$defs/nullableNonEmptyString"
+        }
+      }
+    },
+    "validatorConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "config_id"
+      ],
+      "properties": {
+        "config_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "minimum_time_horizons": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "calibration_values_comparable": {
+          "type": "boolean"
+        },
+        "confidence_evidence_divergence_threshold": {
+          "$ref": "#/$defs/unitIntervalOrNull"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "confidence_evidence_divergence_threshold"
+            ],
+            "properties": {
+              "confidence_evidence_divergence_threshold": {
+                "type": "number"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "calibration_values_comparable"
+            ],
+            "properties": {
+              "calibration_values_comparable": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
