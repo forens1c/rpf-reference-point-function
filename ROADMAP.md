@@ -33,6 +33,12 @@ nicht automatisch eine Axiomverletzung: Eine Delegation bei unzureichender
 Kompetenz oder eine regelgerechte Terminierung wären beabsichtigte
 RPF-Ergebnisse.
 
+Ein zusätzliches experimentelles Implementierungsprinzip ist die
+[Trennung von Fähigkeit und Kalibrierung](docs/CAPABILITY_CALIBRATION_SEPARATION.md):
+Kompetenzpassung, interne Konfidenz, externe Evidenz, Referenzrahmenpassung und
+zeitliche Adaptivität werden getrennt geprüft. Hohe Fähigkeit allein darf
+keinen `PASS`-Status erzeugen.
+
 ## Entwicklungsgrundsätze
 
 1. **Deterministischer Kern zuerst:** Die grundlegenden Regeln sollen ohne ein
@@ -49,6 +55,9 @@ RPF-Ergebnisse.
    Module.
 6. **Keine stillschweigende Revision:** Die archivierten Spezifikationen werden
    durch den Code weder überschrieben noch rückwirkend umgedeutet.
+7. **Fähigkeit ist keine Kalibrierung:** Kompetenz, Konfidenz, Evidenz,
+   Referenzrahmenpassung und zeitliche Adaptivität bleiben getrennte
+   Prüfdimensionen mit eigener Begründung und Datenherkunft.
 
 ## Geplante Etappen
 
@@ -59,12 +68,16 @@ RPF-Ergebnisse.
   externe Beurteilung benötigen.
 - Bedeutung und Skalen von Kompetenzpassung, `C_i`, `C_e`, `ΔK`, Zeit und
   Ressourcen präzisieren.
+- Referenzrahmenpassung und zeitliche Adaptivität als von Kompetenz und
+  Konfidenz unabhängige Prüfdimensionen operationalisieren.
 - Experimentelle Schwellenwerte ausdrücklich als Konfiguration kennzeichnen.
 
 ### 1 — Datenmodell und Ergebnisschema
 
 - Typisierte Eingaben für Problemkontext, Kompetenzpassung, Konfidenz, Evidenz,
   Referenzrahmen und Ressourcen festlegen.
+- Verhindern, dass getrennte Prüfdimensionen stillschweigend zu einem einzigen
+  Vertrauenswert zusammengeführt werden.
 - Strukturierte Ergebnisse mit Status, Begründung, ausgelösten Regeln und
   Restunsicherheit definieren.
 - Wertebereiche und fehlende Pflichtangaben validieren.
@@ -72,6 +85,8 @@ RPF-Ergebnisse.
 ### 2 — Deterministischer Axiom-Validator
 
 - Kompetenzprüfung mit dem Ergebnis `DELEGATE` umsetzen.
+- Sicherstellen, dass hohe Kompetenz oder Konfidenz allein niemals `PASS`
+  auslöst.
 - Trennung von `C_i` und `C_e` prüfen; auffällige Abweichungen zunächst als
   Kalibrierungssignal statt als automatischen Fehler behandeln.
 - Terminierung nach Informationsgewinn, Iterationen, Zeit und Ressourcen
@@ -112,6 +127,7 @@ RPF-Ergebnisse.
 ## Erster geplanter Meilenstein
 
 - [ ] Operationalisierungstabelle für A1–A4 und P1–P4 erstellen
+- [ ] Trennung von Fähigkeit und Kalibrierung in Datenmodell und Tests abbilden
 - [ ] separate Softwarelizenz für neuen Code festlegen
 - [ ] minimales Python-Paket und Ergebnisschema anlegen
 - [ ] deterministischen Axiom-Validator implementieren

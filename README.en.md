@@ -92,6 +92,7 @@ an English entry point and links to each source document.
 | [State machine](docs/STATE_MACHINE.md) | states, transitions, and termination paths | German |
 | [Axioms](docs/AXIOMS.md) | competence, dual calibration, termination, and temporal scope | German |
 | [Reference-frame classification](docs/REFERENCE_FRAME_CLASSIFICATION.md) | classification of apparent contradictions | German |
+| [Capability–calibration separation](docs/CAPABILITY_CALIBRATION_SEPARATION.en.md) | experimental validator implementation principle | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
 | [Glossary](docs/GLOSSARY.md) | terms and symbols | German |
 | [Development roadmap](ROADMAP.en.md) | planned experimental Python implementation | English |
