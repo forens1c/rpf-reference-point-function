@@ -39,6 +39,11 @@ Kompetenzpassung, interne Konfidenz, externe Evidenz, Referenzrahmenpassung und
 zeitliche Adaptivität werden getrennt geprüft. Hohe Fähigkeit allein darf
 keinen `PASS`-Status erzeugen.
 
+Die erste [Operationalisierungstabelle für A1–A4 und P1–P4](docs/VALIDATOR_OPERATIONALIZATION.md)
+legt dafür Eingabefelder, Regelergebnisse, Prozessstatus, Reason-Codes und
+Mindesttests fest. Sie ist das vorläufige Arbeitsdokument für Datenmodell und
+Validator, keine Änderung des eingefrorenen Kerns.
+
 ## Entwicklungsgrundsätze
 
 1. **Deterministischer Kern zuerst:** Die grundlegenden Regeln sollen ohne ein
@@ -126,7 +131,7 @@ keinen `PASS`-Status erzeugen.
 
 ## Erster geplanter Meilenstein
 
-- [ ] Operationalisierungstabelle für A1–A4 und P1–P4 erstellen
+- [x] [Operationalisierungstabelle für A1–A4 und P1–P4](docs/VALIDATOR_OPERATIONALIZATION.md) erstellen
 - [ ] Trennung von Fähigkeit und Kalibrierung in Datenmodell und Tests abbilden
 - [ ] separate Softwarelizenz für neuen Code festlegen
 - [ ] minimales Python-Paket und Ergebnisschema anlegen

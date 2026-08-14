@@ -18,6 +18,9 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 - Zweisprachige Designregel zur Trennung von Fähigkeit und Kalibrierung ergänzt
   und als Anforderung an Datenmodell, Statuslogik und Tests des Validators
   eingeplant.
+- Zweisprachige Operationalisierung für A1–A4 und P1–P4 mit Eingabemodell,
+  zweistufiger Statuslogik, stabilen Reason-Codes, Prioritätsregel und
+  Mindesttestmatrix ergänzt.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 
