@@ -7,8 +7,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rpf-validator"
-version = "0.1.0.dev0"
-description = "Experimental typed data model for a deterministic RPF process validator"
+version = "0.2.0.dev0"
+description = "Experimental deterministic validator for the RPF process rules"
 readme = "README.en.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"

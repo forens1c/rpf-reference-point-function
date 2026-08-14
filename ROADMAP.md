@@ -132,13 +132,27 @@ Validator, keine Änderung des eingefrorenen Kerns.
 ## Erster geplanter Meilenstein
 
 - [x] [Operationalisierungstabelle für A1–A4 und P1–P4](docs/VALIDATOR_OPERATIONALIZATION.md) erstellen
-- [ ] Trennung von Fähigkeit und Kalibrierung in Datenmodell und Tests abbilden
+- [x] Trennung von Fähigkeit und Kalibrierung in Datenmodell und Tests abbilden
 - [x] separate Softwarelizenz für neuen Code festlegen (`Apache-2.0`)
 - [x] minimales Python-Paket und typisiertes Ein-/Ausgabeschema anlegen
-- [ ] deterministischen Axiom-Validator implementieren
-- [ ] automatisierte Unit-Tests ergänzen
-- [ ] Wetterbeispiel als End-to-End-Test umsetzen
-- [ ] Grenzen und experimentelle Annahmen dokumentieren
+- [x] deterministischen Axiom-Validator implementieren
+- [x] automatisierte Unit-Tests ergänzen
+- [x] Wetterbeispiel als End-to-End-Test umsetzen
+- [x] Grenzen und experimentelle Annahmen dokumentieren
+
+Der erste Implementierungsmeilenstein ist damit in der experimentellen
+[Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md) erreicht.
+
+## Nächster technischer Schnitt
+
+Vor der Anbindung des Zustandsautomaten soll eine Version 0.3 die öffentliche
+Schnittstelle nutzbar machen:
+
+- versionierten Parser für JSON-Eingaben entwickeln,
+- ein maschinenlesbares JSON-Schema veröffentlichen,
+- den neutralen Wetterfall als ausführbare Beispieldatei bereitstellen,
+- ein Kommando wie `rpf validate scenario.json` ergänzen,
+- Parser-, CLI- und Kompatibilitätstests hinzufügen.
 
 ## Nicht-Ziele des ersten Prototyps
 
@@ -161,7 +175,6 @@ Pull Requests eingebracht werden. Beiträge sollten deutlich trennen zwischen:
 3. empirischem Befund,
 4. Interpretation oder neuer Hypothese.
 
-Konzeptänderungen benötigen eine eigene Versionskennung. Implementierungscode
-soll eine gesonderte Softwarelizenz erhalten; die bestehende
-Dokumentationslizenz `CC BY-NC-SA 4.0` gilt nicht automatisch für zukünftigen
-Code.
+Konzeptänderungen benötigen eine eigene Versionskennung. Der
+Implementierungscode steht gesondert unter `Apache-2.0`; die bestehende
+Dokumentationslizenz `CC BY-NC-SA 4.0` gilt nicht für diesen Code.

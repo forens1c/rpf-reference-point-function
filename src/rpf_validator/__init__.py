@@ -1,7 +1,7 @@
 # Copyright 2026 Björn (frenetik.B)
 # SPDX-License-Identifier: Apache-2.0
 
-"""Public API for the experimental RPF validator data model."""
+"""Public API for the experimental deterministic RPF process validator."""
 
 from rpf_validator.enums import (
     PROCESS_STATUS_PRIORITY,
@@ -37,12 +37,16 @@ from rpf_validator.models import (
     ValidatorInput,
     ValidatorResult,
 )
+from rpf_validator.evaluator import evaluate
 from rpf_validator.serialization import to_json, to_primitive
+
+__version__ = "0.2.0.dev0"
 
 __all__ = [
     "INPUT_SCHEMA_VERSION",
     "PROCESS_STATUS_PRIORITY",
     "RESULT_SCHEMA_VERSION",
+    "__version__",
     "Calibration",
     "CandidateAction",
     "CompetenceAssessment",
@@ -70,6 +74,7 @@ __all__ = [
     "ValidatorConfig",
     "ValidatorInput",
     "ValidatorResult",
+    "evaluate",
     "to_json",
     "to_primitive",
 ]

@@ -24,6 +24,10 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 - Experimentelles Python-Paket mit unveränderlichem typisiertem Datenmodell,
   stabilen Enums, Schemafehlern, JSON-Serialisierung und automatisierten Tests
   angelegt; Code separat unter `Apache-2.0` lizenziert.
+- Experimentellen deterministischen Evaluator `0.2.0.dev0` für A1–A4 und
+  P1–P4 ergänzt; Kompetenz-Gate, Statuspriorität, vollständige Regelspuren,
+  Handlungsauswahl, 0.2-Schemata und neutraler Wetter-End-to-End-Test sind
+  zweisprachig dokumentiert und durch 37 Tests abgedeckt.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 
