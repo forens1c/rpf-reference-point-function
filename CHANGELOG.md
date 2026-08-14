@@ -21,6 +21,9 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 - Zweisprachige Operationalisierung für A1–A4 und P1–P4 mit Eingabemodell,
   zweistufiger Statuslogik, stabilen Reason-Codes, Prioritätsregel und
   Mindesttestmatrix ergänzt.
+- Experimentelles Python-Paket mit unveränderlichem typisiertem Datenmodell,
+  stabilen Enums, Schemafehlern, JSON-Serialisierung und automatisierten Tests
+  angelegt; Code separat unter `Apache-2.0` lizenziert.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

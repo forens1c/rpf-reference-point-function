@@ -133,8 +133,8 @@ Validator, keine Änderung des eingefrorenen Kerns.
 
 - [x] [Operationalisierungstabelle für A1–A4 und P1–P4](docs/VALIDATOR_OPERATIONALIZATION.md) erstellen
 - [ ] Trennung von Fähigkeit und Kalibrierung in Datenmodell und Tests abbilden
-- [ ] separate Softwarelizenz für neuen Code festlegen
-- [ ] minimales Python-Paket und Ergebnisschema anlegen
+- [x] separate Softwarelizenz für neuen Code festlegen (`Apache-2.0`)
+- [x] minimales Python-Paket und typisiertes Ein-/Ausgabeschema anlegen
 - [ ] deterministischen Axiom-Validator implementieren
 - [ ] automatisierte Unit-Tests ergänzen
 - [ ] Wetterbeispiel als End-to-End-Test umsetzen

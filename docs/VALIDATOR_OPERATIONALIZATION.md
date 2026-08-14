@@ -231,8 +231,8 @@ Diese Operationalisierung ist insbesondere:
 Vor dem ersten Code-Release bleiben mindestens folgende Punkte ausdrücklich
 offen:
 
-- separate Softwarelizenz für den Python-Code,
-- genaue Python-Typen und Paketstruktur,
+- Weiterentwicklungs- und Kompatibilitätsregeln für das initiale typisierte
+  Datenmodell und die Paketstruktur,
 - Standardkonfiguration und Benennung der Schwellenwerte,
 - Umgang mit teilweise fehlenden, aber nicht zwingenden Eingaben,
 - formale Repräsentation deklarierter Grenzen,

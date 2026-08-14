@@ -1,0 +1,41 @@
+# Copyright 2026 Björn (frenetik.B)
+# SPDX-License-Identifier: Apache-2.0
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpf-validator"
+version = "0.1.0.dev0"
+description = "Experimental typed data model for a deterministic RPF process validator"
+readme = "README.en.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE-CODE"]
+authors = [
+  { name = "Björn · frenetik.B" }
+]
+keywords = [
+  "decision-making",
+  "metacognition",
+  "reference-point-function",
+  "uncertainty",
+  "validation"
+]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13"
+]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/forens1c/rpf-reference-point-function"
+Documentation = "https://github.com/forens1c/rpf-reference-point-function#readme"
+
+[tool.setuptools.packages.find]
+where = ["src"]

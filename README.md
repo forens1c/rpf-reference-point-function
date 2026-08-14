@@ -44,6 +44,24 @@ Ergebnisses.
 Die geplanten Etappen, Grenzen und offenen Entscheidungen stehen in der
 [deutschen Roadmap](ROADMAP.md) und der [English roadmap](ROADMAP.en.md).
 
+## Experimenteller Python-Prototyp
+
+Das Repository enthält nun das erste Codefundament für den Validator: ein
+abhängigkeitenfreies, typisiertes und unveränderliches Ein-/Ausgabedatenmodell.
+Es bildet Kompetenz, `C_i`, `C_e`, Referenzrahmen, Hypothesen,
+Terminierungsgrenzen, Zeithorizonte, Handlungsoptionen und Restunsicherheit als
+getrennte Strukturen ab. Noch enthalten ist **keine** Axiom-Auswertungslogik.
+
+Lokaler Testlauf ab Python 3.11:
+
+```bash
+python -m pip install --no-deps .
+python -m unittest discover -s tests -v
+```
+
+Die Struktur folgt der
+[Validator-Operationalisierung](docs/VALIDATOR_OPERATIONALIZATION.md).
+
 ## Dokumentation
 
 | Dokument | Inhalt |
@@ -55,6 +73,7 @@ Die geplanten Etappen, Grenzen und offenen Entscheidungen stehen in der
 | [Referenzrahmenklassifikation](docs/REFERENCE_FRAME_CLASSIFICATION.md) | Einordnung scheinbarer Widersprüche |
 | [Trennung von Fähigkeit und Kalibrierung](docs/CAPABILITY_CALIBRATION_SEPARATION.md) | experimentelles Implementierungsprinzip für den Validator |
 | [Validator-Operationalisierung](docs/VALIDATOR_OPERATIONALIZATION.md) | Eingaben, Regeln, Status, Reason-Codes und Mindesttests für A1–A4 und P1–P4 |
+| [Python-Paket](src/rpf_validator) | experimentelles typisiertes Ein-/Ausgabedatenmodell |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
 | [Glossar](docs/GLOSSARY.md) | Begriffe und Symbole |
 | [Entwicklungsroadmap](ROADMAP.md) | geplante experimentelle Python-Implementierung |
@@ -100,6 +119,12 @@ RPF ist ein konzeptioneller und empirisch nicht validierter Entwurf. Das Modell 
 © 2026 Björn · frenetik.B.
 
 Dokumentation und Diagramme stehen unter [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE.md) (`CC BY-NC-SA 4.0`). Bearbeitungen müssen als solche gekennzeichnet werden. Die archivierten Kennungen dürfen nicht für veränderte Fassungen verwendet werden.
+
+Der experimentelle Python-Code, die zugehörigen Tests und mit einer
+`Apache-2.0`-SPDX-Kennung versehenen technischen Konfigurationsdateien stehen
+separat unter der
+[Apache License 2.0](LICENSE-CODE). Diese Softwarelizenz verändert die Lizenz
+der Dokumentation nicht.
 
 ## English documentation
 

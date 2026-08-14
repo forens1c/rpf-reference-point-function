@@ -80,6 +80,24 @@ not whether its conclusion is true.
 The planned stages, boundaries, and open decisions are described in the
 [English roadmap](ROADMAP.en.md) and the [German roadmap](ROADMAP.md).
 
+## Experimental Python prototype
+
+The repository now contains the first validator code foundation: a
+dependency-free, typed, and immutable input/output data model. It represents
+competence, `C_i`, `C_e`, reference frames, hypotheses, termination bounds,
+time horizons, action options, and residual uncertainty as separate
+structures. It does **not yet** contain axiom evaluation logic.
+
+Run locally with Python 3.11 or newer:
+
+```bash
+python -m pip install --no-deps .
+python -m unittest discover -s tests -v
+```
+
+The structure follows the
+[validator operationalization](docs/VALIDATOR_OPERATIONALIZATION.en.md).
+
 ## Documentation
 
 The canonical detailed documents currently remain in German. This page provides
@@ -94,6 +112,7 @@ an English entry point and links to each source document.
 | [Reference-frame classification](docs/REFERENCE_FRAME_CLASSIFICATION.md) | classification of apparent contradictions | German |
 | [Capability–calibration separation](docs/CAPABILITY_CALIBRATION_SEPARATION.en.md) | experimental validator implementation principle | English |
 | [Validator operationalization](docs/VALIDATOR_OPERATIONALIZATION.en.md) | inputs, rules, statuses, reason codes, and minimum tests for A1–A4 and P1–P4 | English |
+| [Python package](src/rpf_validator) | experimental typed input/output data model | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
 | [Glossary](docs/GLOSSARY.md) | terms and symbols | German |
 | [Development roadmap](ROADMAP.en.md) | planned experimental Python implementation | English |
@@ -177,6 +196,11 @@ Documentation and diagrams are licensed under
 (`CC BY-NC-SA 4.0`). Adaptations must be identified as such. The archived
 identifiers must not be used for modified versions as if they were unchanged
 canonical archive copies.
+
+The experimental Python code, its tests, and technical configuration files
+carrying an `Apache-2.0` SPDX identifier are separately licensed under the
+[Apache License 2.0](LICENSE-CODE). This software license does not change the
+documentation license.
 
 ## Discovery terms
 

@@ -225,8 +225,8 @@ This operationalization is specifically not:
 At least the following items remain explicitly open before the first code
 release:
 
-- a separate software license for the Python code,
-- exact Python types and package structure,
+- evolution and compatibility rules for the initial typed data model and
+  package structure,
 - default configuration and threshold names,
 - handling of partially missing but non-mandatory inputs,
 - formal representation of declared constraints,
