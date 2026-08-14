@@ -38,12 +38,15 @@ from rpf_validator.models import (
     ValidatorResult,
 )
 from rpf_validator.evaluator import evaluate
+from rpf_validator.parsing import load_input, parse_input, parse_json
+from rpf_validator.schema import INPUT_SCHEMA_RESOURCE, load_input_schema
 from rpf_validator.serialization import to_json, to_primitive
 
-__version__ = "0.2.0.dev0"
+__version__ = "0.3.0.dev0"
 
 __all__ = [
     "INPUT_SCHEMA_VERSION",
+    "INPUT_SCHEMA_RESOURCE",
     "PROCESS_STATUS_PRIORITY",
     "RESULT_SCHEMA_VERSION",
     "__version__",
@@ -75,6 +78,10 @@ __all__ = [
     "ValidatorInput",
     "ValidatorResult",
     "evaluate",
+    "load_input",
+    "load_input_schema",
+    "parse_input",
+    "parse_json",
     "to_json",
     "to_primitive",
 ]

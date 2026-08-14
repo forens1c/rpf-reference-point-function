@@ -28,6 +28,11 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   P1–P4 ergänzt; Kompetenz-Gate, Statuspriorität, vollständige Regelspuren,
   Handlungsauswahl, 0.2-Schemata und neutraler Wetter-End-to-End-Test sind
   zweisprachig dokumentiert und durch 37 Tests abgedeckt.
+- Öffentliche Schnittstelle `0.3.0.dev0` mit strengem versioniertem JSON-Parser,
+  gebündeltem JSON-Schema, ausführbarer Wetter-Fixture sowie den Kommandos
+  `rpf validate` und `rpf schema` ergänzt; Parser-, Schema-, CLI- und
+  Kompatibilitätsverhalten ist zweisprachig dokumentiert und durch 58 Tests
+  abgedeckt.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

@@ -14,8 +14,10 @@ gehören nicht automatisch zum eingefrorenen RPF-Kern. Abweichungen und spätere
 
 ## Nächste Zielstellung
 
-Geplant ist eine **experimentelle Python-Referenzimplementierung**. Ihr erster
-Meilenstein soll ein deterministischer Axiom-Validator sein.
+Die **experimentelle Python-Referenzimplementierung** besitzt inzwischen einen
+deterministischen Axiom-Validator und eine öffentliche JSON-/CLI-Schnittstelle.
+Als nächster größerer Schritt ist die ausführbare Übergangslogik des
+RPF-Zustandsautomaten vorgesehen.
 
 Der Validator soll nicht entscheiden, ob eine Aussage wahr ist. Er soll prüfen,
 ob ein Kalibrierungs- und Entscheidungsprozess:
@@ -143,16 +145,34 @@ Validator, keine Änderung des eingefrorenen Kerns.
 Der erste Implementierungsmeilenstein ist damit in der experimentellen
 [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md) erreicht.
 
+## Abgeschlossener technischer Schnitt 0.3
+
+Version 0.3 macht die öffentliche Schnittstelle direkt nutzbar:
+
+- [x] versionierten Parser für JSON-Eingaben entwickeln,
+- [x] ein maschinenlesbares JSON-Schema veröffentlichen,
+- [x] den neutralen Wetterfall als ausführbare Beispieldatei bereitstellen,
+- [x] `rpf validate scenario.json` und `rpf schema` ergänzen,
+- [x] Parser-, CLI- und Kompatibilitätstests hinzufügen.
+
+Die Einzelheiten stehen in
+[JSON-Schnittstelle und CLI 0.3](docs/JSON_CLI_0.3.md). Die Paketversion
+`0.3.0.dev0` verwendet weiterhin die unveränderten Ein- und Ergebnisverträge
+`rpf-validator-input-0.2` und `rpf-validator-result-0.2`.
+
 ## Nächster technischer Schnitt
 
-Vor der Anbindung des Zustandsautomaten soll eine Version 0.3 die öffentliche
-Schnittstelle nutzbar machen:
+Der nächste Schnitt beginnt mit Etappe 4:
 
-- versionierten Parser für JSON-Eingaben entwickeln,
-- ein maschinenlesbares JSON-Schema veröffentlichen,
-- den neutralen Wetterfall als ausführbare Beispieldatei bereitstellen,
-- ein Kommando wie `rpf validate scenario.json` ergänzen,
-- Parser-, CLI- und Kompatibilitätstests hinzufügen.
+- Zustände und zulässige Übergänge als getrenntes Modul implementieren,
+- ungültige Übergänge deterministisch ablehnen,
+- `DELEGATE`, `NO_REFERENCE` und `STOP` als explizite Pfade protokollieren,
+- die Rückkehr zu `IDLE` und feste Schrittgrenzen testen,
+- Validator und Zustandsautomat zunächst nur über versionierte Ergebnisse
+  koppeln.
+
+Kompatibilitäts- und Migrationsregeln für spätere Vorab-Schemata bleiben
+parallel als offene Aufgabe bestehen.
 
 ## Nicht-Ziele des ersten Prototyps
 

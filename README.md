@@ -35,15 +35,19 @@ Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Wei
 
 ## Aktueller Entwicklungsstand
 
-Die **nicht-normative experimentelle Python-Implementierung 0.2** enthält nun
-einen deterministischen Validator für A1–A4 und P1–P4. Er bewertet die
-Nachvollziehbarkeit und Regelkonformität einer bereitgestellten
-Prozessbeschreibung — nicht die Wahrheit ihres Ergebnisses.
+Die **nicht-normative experimentelle Python-Implementierung 0.3** enthält
+einen deterministischen Validator für A1–A4 und P1–P4, einen strikten
+versionierten JSON-Parser, ein maschinenlesbares JSON-Schema und die
+Kommandozeile `rpf`. Sie bewertet die Nachvollziehbarkeit und Regelkonformität
+einer bereitgestellten Prozessbeschreibung — nicht die Wahrheit ihres
+Ergebnisses.
 
-Die exakte technische Semantik und ihre Grenzen stehen in der
-[Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md). Weitere
-Etappen beschreibt die [deutsche Roadmap](ROADMAP.md); eine vollständige
-englische Fassung steht in der [English roadmap](ROADMAP.en.md).
+Die Bewertungssemantik und ihre Grenzen stehen in der
+[Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md). Die neue
+öffentliche Schnittstelle beschreibt
+[JSON und CLI 0.3](docs/JSON_CLI_0.3.md). Weitere Etappen enthält die
+[deutsche Roadmap](ROADMAP.md); eine vollständige englische Fassung steht in
+der [English roadmap](ROADMAP.en.md).
 
 ## Experimenteller Python-Prototyp
 
@@ -53,6 +57,20 @@ unveränderliches Ein-/Ausgabedatenmodell sowie den ausführbaren
 Terminierungsgrenzen, Zeithorizonte, Handlungsoptionen und Restunsicherheit als
 getrennte Strukturen ab und erzeugt für jede Regel einen erklärbaren Status mit
 stabilen Reason-Codes.
+
+Direkter Lauf des öffentlichen Wetterbeispiels:
+
+```bash
+python -m pip install --no-deps .
+rpf validate examples/weather-input-0.2.json
+```
+
+Das mitgelieferte Eingabeschema kann ebenfalls maschinenlesbar ausgegeben
+werden:
+
+```bash
+rpf schema
+```
 
 Minimale Verwendung mit einem konstruierten `ValidatorInput`:
 
@@ -66,7 +84,6 @@ print(to_json(result))
 Lokaler Testlauf ab Python 3.11:
 
 ```bash
-python -m pip install --no-deps .
 python -m unittest discover -s tests -v
 ```
 
@@ -85,7 +102,10 @@ Die Struktur folgt der
 | [Trennung von Fähigkeit und Kalibrierung](docs/CAPABILITY_CALIBRATION_SEPARATION.md) | experimentelles Implementierungsprinzip für den Validator |
 | [Validator-Operationalisierung](docs/VALIDATOR_OPERATIONALIZATION.md) | Eingaben, Regeln, Status, Reason-Codes und Mindesttests für A1–A4 und P1–P4 |
 | [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md) | ausführbarer Regelvertrag, Annahmen, Prüfstand und Grenzen |
-| [Python-Paket](src/rpf_validator) | experimentelles Datenmodell und deterministischer Evaluator |
+| [JSON und CLI 0.3](docs/JSON_CLI_0.3.md) | Parser, JSON-Schema, Kommandozeile, Exit-Codes und öffentliches Beispiel |
+| [Python-Paket](src/rpf_validator) | Datenmodell, Parser und deterministischer Evaluator |
+| [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
+| [Eingabe-JSON-Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | maschinenlesbarer Eingabevertrag |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
 | [Glossar](docs/GLOSSARY.md) | Begriffe und Symbole |
 | [Entwicklungsroadmap](ROADMAP.md) | geplante experimentelle Python-Implementierung |
@@ -132,9 +152,9 @@ RPF ist ein konzeptioneller und empirisch nicht validierter Entwurf. Das Modell 
 
 Dokumentation und Diagramme stehen unter [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE.md) (`CC BY-NC-SA 4.0`). Bearbeitungen müssen als solche gekennzeichnet werden. Die archivierten Kennungen dürfen nicht für veränderte Fassungen verwendet werden.
 
-Der experimentelle Python-Code, die zugehörigen Tests und mit einer
-`Apache-2.0`-SPDX-Kennung versehenen technischen Konfigurationsdateien stehen
-separat unter der
+Der experimentelle Python-Code, die zugehörigen Tests, das technische
+JSON-Schema, die Beispiel-Fixture und mit einer `Apache-2.0`-SPDX-Kennung
+versehenen technischen Konfigurationsdateien stehen separat unter der
 [Apache License 2.0](LICENSE-CODE). Diese Softwarelizenz verändert die Lizenz
 der Dokumentation nicht.
 

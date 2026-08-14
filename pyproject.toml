@@ -7,8 +7,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rpf-validator"
-version = "0.2.0.dev0"
-description = "Experimental deterministic validator for the RPF process rules"
+version = "0.3.0.dev0"
+description = "Experimental deterministic RPF validator with JSON and CLI support"
 readme = "README.en.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
@@ -33,9 +33,15 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+rpf = "rpf_validator.cli:main"
+
 [project.urls]
 Repository = "https://github.com/forens1c/rpf-reference-point-function"
 Documentation = "https://github.com/forens1c/rpf-reference-point-function#readme"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+rpf_validator = ["schemas/*.json"]

@@ -28,8 +28,9 @@ Bearbeitungen der Dokumentation:
 
 ## Beiträge zum experimentellen Code
 
-Der Python-Code, zugehörige Tests und mit einer `Apache-2.0`-SPDX-Kennung
-versehene technische Konfigurationsdateien stehen unter der separaten
+Der Python-Code, zugehörige Tests, technische JSON-Schemata und
+Beispiel-Fixtures sowie mit einer `Apache-2.0`-SPDX-Kennung versehene technische
+Konfigurationsdateien stehen unter der separaten
 [Apache License 2.0](LICENSE-CODE). Sofern ein Beitrag nicht ausdrücklich als
 „Not a Contribution“ gekennzeichnet wird, wird er nach den Bedingungen dieser
 Softwarelizenz zur Aufnahme in das Projekt eingereicht.
@@ -48,7 +49,13 @@ Vor einem Pull Request sollen mindestens die lokalen Tests ausgeführt werden:
 ```bash
 python -m pip install --no-deps .
 python -m unittest discover -s tests -v
+rpf validate examples/weather-input-0.2.json --compact
 ```
+
+Änderungen am Eingabemodell müssen außerdem Parser, JSON-Schema,
+Beispieldateien und die zweisprachige Schnittstellendokumentation konsistent
+halten. Der Python-Parser bleibt für Querverweise zwischen Kennungen
+maßgeblich, die sich nicht vollständig im JSON-Schema ausdrücken lassen.
 
 ## Claims
 

@@ -14,8 +14,9 @@ must remain traceable.
 
 ## Next objective
 
-The next objective is an **experimental Python reference implementation**. Its
-first milestone will be a deterministic axiom validator.
+The **experimental Python reference implementation** now has a deterministic
+axiom validator and a public JSON/CLI interface. The next major step is planned
+as executable transition logic for the RPF state machine.
 
 The validator will not determine whether a statement is true. It will evaluate
 whether a calibration and decision process:
@@ -139,16 +140,34 @@ not a change to the frozen core.
 The first implementation milestone is therefore complete in experimental
 [validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md).
 
+## Completed technical slice 0.3
+
+Version 0.3 makes the public interface directly usable:
+
+- [x] Develop a versioned parser for JSON input.
+- [x] Publish a machine-readable JSON Schema.
+- [x] Provide the neutral weather case as an executable scenario file.
+- [x] Add `rpf validate scenario.json` and `rpf schema`.
+- [x] Add parser, CLI, and compatibility tests.
+
+Details appear in
+[JSON interface and CLI 0.3](docs/JSON_CLI_0.3.en.md). Package version
+`0.3.0.dev0` continues to use the unchanged input and result contracts
+`rpf-validator-input-0.2` and `rpf-validator-result-0.2`.
+
 ## Next technical slice
 
-Before connecting the state machine, a version 0.3 should make the public
-interface directly usable:
+The next slice begins with stage 4:
 
-- develop a versioned parser for JSON input,
-- publish a machine-readable JSON Schema,
-- provide the neutral weather case as an executable scenario file,
-- add a command such as `rpf validate scenario.json`,
-- add parser, CLI, and compatibility tests.
+- implement states and allowed transitions as a separate module,
+- reject invalid transitions deterministically,
+- record `DELEGATE`, `NO_REFERENCE`, and `STOP` as explicit paths,
+- test return to `IDLE` and fixed step bounds,
+- initially connect the validator and state machine only through versioned
+  results.
+
+Compatibility and migration rules for later pre-release schemas remain an open
+parallel task.
 
 ## Non-goals of the first prototype
 

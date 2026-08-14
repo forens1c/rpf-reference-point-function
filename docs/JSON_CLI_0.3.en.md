@@ -1,0 +1,127 @@
+# JSON Interface and CLI 0.3
+
+**Languages:** [Deutsch](JSON_CLI_0.3.md) · English
+
+## Status and boundary
+
+`rpf-validator 0.3.0.dev0` makes the experimental validator directly usable
+through a strict JSON interface and the `rpf` command. This version does not
+change any evaluation rule in
+[validator implementation 0.2](VALIDATOR_IMPLEMENTATION_0.2.en.md).
+
+The package version and data-contract versions are intentionally independent:
+
+| Component | Identifier |
+| --- | --- |
+| Python package and CLI | `0.3.0.dev0` |
+| Input contract | `rpf-validator-input-0.2` |
+| Result contract | `rpf-validator-result-0.2` |
+
+A `PASS` still means only that the supplied process description satisfies the
+implemented rules. It does not confirm its facts, sources, or action.
+
+## Included interfaces
+
+| Artifact | Function |
+| --- | --- |
+| [`parse_json`](../src/rpf_validator/parsing.py) | convert strict JSON into an immutable `ValidatorInput` |
+| [JSON Schema](../src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | machine-readable description of the input contract |
+| [`rpf validate`](../src/rpf_validator/cli.py) | evaluate a file or standard input |
+| [`rpf schema`](../src/rpf_validator/cli.py) | print the bundled input schema |
+| [Weather example](../examples/weather-input-0.2.json) | public neutral end-to-end case |
+
+The parser and CLI use only the Python standard library at runtime.
+
+## Installation and use
+
+With Python 3.11 or newer, install the package locally without runtime
+dependencies:
+
+```bash
+python -m pip install --no-deps .
+```
+
+Evaluate the public example:
+
+```bash
+rpf validate examples/weather-input-0.2.json
+```
+
+Produce compact output or read JSON from standard input:
+
+```bash
+rpf validate examples/weather-input-0.2.json --compact
+rpf validate - --compact < examples/weather-input-0.2.json
+```
+
+Print the schema:
+
+```bash
+rpf schema
+```
+
+The same interface is available without an installed console script as:
+
+```bash
+python -m rpf_validator validate examples/weather-input-0.2.json
+```
+
+## Strict input validation
+
+Before evaluation, the parser checks among other things:
+
+- valid UTF-8 JSON without `NaN`, `Infinity`, or duplicate object keys,
+- known and required fields plus the declared schema identifier,
+- data types, enums, ranges, and non-empty text,
+- unique model identifiers,
+- references to evidence sources, time horizons, constraints, and the selected
+  action.
+
+Structural failures contain the stable reason code `INPUT_SCHEMA_INVALID`, a
+JSONPath-like path, and a rationale. The JSON Schema helps editors and external
+tools perform preliminary validation. The Python parser remains authoritative,
+however, because JSON Schema cannot express every cross-object reference and
+identifier uniqueness rule.
+
+## Output and exit codes
+
+For valid input, `rpf validate` always emits a complete
+`rpf-validator-result-0.2` JSON document.
+
+| Exit code | Meaning |
+| --- | --- |
+| `0` | Input was evaluated; this also covers `WARN`, `DELEGATE`, `NO_REFERENCE`, and `STOP` |
+| `2` | JSON or the input model is invalid; error code `INPUT_SCHEMA_INVALID` |
+| `3` | The file could not be read or decoded as UTF-8; error code `INPUT_FILE_ERROR` |
+
+CLI usage errors, such as omitting a required subcommand, are also reported by
+`argparse` with exit code `2` and a usage message.
+
+## Neutral reference case
+
+The [weather example](../examples/weather-input-0.2.json) describes two
+divergent public forecasts, separate internal confidence and external evidence,
+two hypotheses, fixed termination bounds, and a reversible action across two
+time horizons. Its expected process result is `PASS`.
+
+This status does not predict whether it will rain. It shows only that the
+declared process description satisfies the implemented rules while retaining
+its residual uncertainty.
+
+## Verification and limitations
+
+The interface is covered by 58 automated tests, including roundtrips, invalid
+and duplicate JSON fields, precise error paths, cross-references, standard
+input, compact output, schema output, and CLI exit codes.
+
+The CLI:
+
+- does not verify facts or sources outside the supplied input,
+- does not authorize an action,
+- is not a safety, medical, or diagnostic system,
+- does not currently localize the English result rationales,
+- does not change the frozen RPF specifications.
+
+The next planned technical step is executable transition logic for the RPF
+state machine. Compatibility rules for later pre-release schemas remain a
+separate open task.
