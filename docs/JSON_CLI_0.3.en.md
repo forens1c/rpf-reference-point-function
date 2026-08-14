@@ -29,6 +29,8 @@ implemented rules. It does not confirm its facts, sources, or action.
 | [`rpf validate`](../src/rpf_validator/cli.py) | evaluate a file or standard input |
 | [`rpf schema`](../src/rpf_validator/cli.py) | print the bundled input schema |
 | [Weather example](../examples/weather-input-0.2.json) | public neutral end-to-end case |
+| [Loop-collapse self-assessment](../examples/loop-collapse-self-input-0.2.json) | A1 gate producing `DELEGATE` |
+| [Externally documented loop-collapse mechanics case](../examples/loop-collapse-external-input-0.2.json) | retained signal path producing `STOP` |
 
 The parser and CLI use only the Python standard library at runtime.
 
@@ -108,9 +110,14 @@ This status does not predict whether it will rain. It shows only that the
 declared process description satisfies the implemented rules while retaining
 its residual uncertainty.
 
+Two additional [loop-collapse fixtures](TRANSFER_CASE_LOOP_COLLAPSE.en.md)
+represent a non-clinical negative case. The self-assessment correctly produces
+`DELEGATE`; the separate externally documented mechanics case produces `STOP`
+while retaining every triggered signal in its rule trace.
+
 ## Verification and limitations
 
-The interface is covered by 58 automated tests, including roundtrips, invalid
+The interface is covered by 60 automated tests, including roundtrips, invalid
 and duplicate JSON fields, precise error paths, cross-references, standard
 input, compact output, schema output, and CLI exit codes.
 

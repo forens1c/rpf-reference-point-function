@@ -1,0 +1,168 @@
+{
+  "schema_version": "rpf-validator-input-0.2",
+  "case_id": "CASE-BIO-LOOP-001-SELF",
+  "observation": {
+    "content": "A synthetic subject attempts to assess its own acute repetitive threat interpretation after an unspecified exogenous state change.",
+    "provenance": "Synthetic non-clinical fixture; values are declarations, not measurements.",
+    "observed_at": null
+  },
+  "problem_domain": "Self-assessment of a synthetic acute cognitive loop",
+  "competence": {
+    "status": "INSUFFICIENT",
+    "rationale": "The subject explicitly declares that its own domain judgement is compromised; the validator does not infer a numeric competence threshold.",
+    "provenance": "Synthetic fixture role declaration"
+  },
+  "calibration": {
+    "internal_confidence": 0.98,
+    "internal_confidence_rationale": "The subject declares near-certain confidence in an immediate external threat while the internal alarm signal is dominant.",
+    "external_evidence": 0.02,
+    "external_evidence_rationale": "The subject reports almost no external support for the threat hypothesis.",
+    "evidence_sources": [
+      {
+        "source_id": "self-reported-context",
+        "description": "The same subject reports that no external threat indicator was observed inside the bounded scenario.",
+        "provenance": "Synthetic self-report; not independently verified.",
+        "quality_note": "The source is intentionally not independent and cannot establish real-world safety, diagnosis, or cause."
+      }
+    ],
+    "scale_id": "unit-interval-0.1"
+  },
+  "conflict": {
+    "present": true,
+    "revision_scope": "GLOBAL"
+  },
+  "reference_frame": {
+    "status": "AMBIGUOUS",
+    "classes": [
+      "SUBJECTIVE_PERCEPTION",
+      "OBJECTIVE_MEASUREMENT"
+    ],
+    "scope": "The subject attempts to compare its internal alarm signal with its own bounded observation.",
+    "assumptions": [
+      "The subject and assessor are the same role in this fixture.",
+      "All numeric calibration values are synthetic and use the same declared unit interval."
+    ],
+    "constraints": [
+      {
+        "code": "PREFER_REVERSIBLE",
+        "description": "Prefer a reversible pause while the declared process remains outside its bounds.",
+        "hard": false
+      }
+    ]
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "external-threat",
+      "statement": "The alarm signal is caused by an immediate external threat.",
+      "evidence_source_ids": [
+        "self-reported-context"
+      ],
+      "internal_confidence": 0.95
+    },
+    {
+      "hypothesis_id": "internal-state-change",
+      "statement": "The alarm signal may arise from an internal state change rather than an external threat.",
+      "evidence_source_ids": [
+        "self-reported-context"
+      ],
+      "internal_confidence": 0.05
+    }
+  ],
+  "termination": {
+    "information_gain": 0.0,
+    "information_gain_epsilon": 0.01,
+    "iteration": 412,
+    "max_iterations": 50,
+    "elapsed_ms": 1800000.0,
+    "max_time_ms": 300000.0,
+    "budget_remaining": 0.0,
+    "budget_minimum": 1.0,
+    "reflexive": true,
+    "recursion_depth": 412,
+    "max_recursion_depth": 50
+  },
+  "time_horizons": [
+    {
+      "horizon_id": "acute",
+      "label": "Immediate synthetic loop",
+      "order": 0
+    },
+    {
+      "horizon_id": "later",
+      "label": "Later stabilization window",
+      "order": 1
+    }
+  ],
+  "candidate_actions": [
+    {
+      "action_id": "repeat-exogenous-input",
+      "description": "Introduce another dose of the unspecified exogenous input to suppress the alarm.",
+      "effects": [
+        {
+          "horizon_id": "acute",
+          "expected_benefit": "May appear to suppress the alarm within the subject's current hypothesis.",
+          "expected_cost": "Adds an unverified state change while calibration is divergent.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "later",
+          "expected_benefit": "No robust later benefit is established by this fixture.",
+          "expected_cost": "May reinforce the loop and further reduce traceability.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": false,
+      "rationale": "Included as a challenged action because the loop assigns it short-term appeal; this is not a recommendation.",
+      "rollback_cost": null
+    },
+    {
+      "action_id": "pause-and-delegate",
+      "description": "Suspend further state-changing action and delegate assessment to a competent external observer.",
+      "effects": [
+        {
+          "horizon_id": "acute",
+          "expected_benefit": "Prevents the current loop from authorizing another immediate state change.",
+          "expected_cost": "Leaves the alarm unresolved in the short term.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "later",
+          "expected_benefit": "Allows new evidence and an independent reference point to enter the process.",
+          "expected_cost": "Requires waiting and external support.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": true,
+      "rationale": "A reversible pause preserves options without claiming a medical or factual conclusion.",
+      "rollback_cost": "Reopen evaluation only when new evidence and competent oversight are available."
+    }
+  ],
+  "residual_uncertainty": {
+    "items": [
+      {
+        "item_id": "causal-origin",
+        "description": "The origin of the alarm signal remains unverified.",
+        "missing_information": [
+          "Independent observation",
+          "Reliable causal evidence"
+        ]
+      },
+      {
+        "item_id": "external-context",
+        "description": "The bounded fixture does not establish that any real environment is safe.",
+        "missing_information": [
+          "Real-world context"
+        ]
+      }
+    ],
+    "empty_rationale": null
+  },
+  "validator_config": {
+    "config_id": "loop-collapse-comparable-0.1",
+    "minimum_time_horizons": 2,
+    "calibration_values_comparable": true,
+    "confidence_evidence_divergence_threshold": 0.4
+  },
+  "selected_action_id": "repeat-exogenous-input",
+  "selection_rationale": null
+}

@@ -33,6 +33,11 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   `rpf validate` und `rpf schema` ergänzt; Parser-, Schema-, CLI- und
   Kompatibilitätsverhalten ist zweisprachig dokumentiert und durch 58 Tests
   abgedeckt.
+- Nicht-klinischen Loop-Collapse-Transferfall in eine schema-gültige
+  Selbstbewertungs-Fixture (`DELEGATE`) und eine getrennte externe
+  Mechanik-Fixture (`STOP`) aufgeteilt; Gate-, Divergenz-, Terminierungs-,
+  Reflexivitäts- und Reversibilitätsspuren sind zweisprachig dokumentiert und
+  durch insgesamt 60 Tests abgesichert.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 
