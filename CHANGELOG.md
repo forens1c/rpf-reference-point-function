@@ -15,6 +15,9 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
 - Zweisprachige Entwicklungsroadmap mit der nächsten Zielstellung einer
   experimentellen Python-Implementierung und eines deterministischen
   Axiom-Validators ergänzt.
+- Zweisprachige Designregel zur Trennung von Fähigkeit und Kalibrierung ergänzt
+  und als Anforderung an Datenmodell, Statuslogik und Tests des Validators
+  eingeplant.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

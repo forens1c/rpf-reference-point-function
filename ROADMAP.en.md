@@ -32,6 +32,12 @@ Planned structured result states include `PASS`, `WARN`, `DELEGATE`,
 an axiom violation: delegation under insufficient competence and rule-compliant
 termination are intended RPF outcomes.
 
+An additional experimental implementation principle is
+[capability–calibration separation](docs/CAPABILITY_CALIBRATION_SEPARATION.en.md):
+competence fit, internal confidence, external evidence, reference-frame fit,
+and temporal adaptivity are evaluated independently. High capability alone
+must not produce `PASS`.
+
 ## Development principles
 
 1. **Deterministic core first:** The fundamental rules should be executable and
@@ -46,6 +52,9 @@ termination are intended RPF outcomes.
    classifier, and optional AI components remain separate modules.
 6. **No silent revision:** Code neither overwrites nor retrospectively
    reinterprets the archived specifications.
+7. **Capability is not calibration:** Competence, confidence, evidence,
+   reference-frame fit, and temporal adaptivity remain separate evaluation
+   dimensions with their own rationale and provenance.
 
 ## Planned stages
 
@@ -56,12 +65,16 @@ termination are intended RPF outcomes.
   or external assessment.
 - Clarify the meaning and scales of competence fit, `C_i`, `C_e`, `ΔK`, time,
   and resources.
+- Operationalize reference-frame fit and temporal adaptivity as dimensions
+  independent of competence and confidence.
 - Mark experimental thresholds explicitly as configuration.
 
 ### 1 — Data model and result schema
 
 - Define typed inputs for problem context, competence fit, confidence, evidence,
   reference frame, and resources.
+- Prevent separate evaluation dimensions from being silently collapsed into a
+  single trust score.
 - Define structured results containing status, rationale, triggered rules, and
   residual uncertainty.
 - Validate ranges and missing required fields.
@@ -69,6 +82,7 @@ termination are intended RPF outcomes.
 ### 2 — Deterministic axiom validator
 
 - Implement the competence gate with a `DELEGATE` result.
+- Ensure that high competence or confidence alone never produces `PASS`.
 - Verify separation of `C_i` and `C_e`; initially treat notable divergence as a
   calibration signal rather than an automatic error.
 - Implement termination based on information gain, iterations, time, and
@@ -109,6 +123,7 @@ termination are intended RPF outcomes.
 ## First planned milestone
 
 - [ ] Create an operationalization table for A1–A4 and P1–P4
+- [ ] Represent capability–calibration separation in the data model and tests
 - [ ] Select a separate software license for new code
 - [ ] Create a minimal Python package and result schema
 - [ ] Implement the deterministic axiom validator
