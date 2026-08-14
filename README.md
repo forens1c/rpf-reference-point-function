@@ -105,6 +105,7 @@ Die Struktur folgt der
 | [JSON und CLI 0.3](docs/JSON_CLI_0.3.md) | Parser, JSON-Schema, Kommandozeile, Exit-Codes und öffentliches Beispiel |
 | [Python-Paket](src/rpf_validator) | Datenmodell, Parser und deterministischer Evaluator |
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
+| [Loop-Collapse-Transferfall](docs/TRANSFER_CASE_LOOP_COLLAPSE.md) | zwei nicht-klinische Negativ-Fixtures für Kompetenz-Gate und nachgelagerte Regelmechanik |
 | [Eingabe-JSON-Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | maschinenlesbarer Eingabevertrag |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
 | [Glossar](docs/GLOSSARY.md) | Begriffe und Symbole |
@@ -128,6 +129,13 @@ Eine getrennte [Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md)
 prüft außerdem, ob RPF als begriffliche Linse für Referenzpunkt-Instabilität in
 zieloptimierenden KI-Agenten dienen könnte. Sie ist ausdrücklich keine
 Validierung des Modells.
+
+Der [nicht-klinische Loop-Collapse-Transferfall](docs/TRANSFER_CASE_LOOP_COLLAPSE.md)
+zeigt mit zwei ausführbaren JSON-Fixtures, warum eine beeinträchtigte
+Selbstbewertung bei A1 delegiert werden muss, während ein getrenntes, extern
+dokumentiertes Mechanikszenario Kalibrierungs-, Terminierungs- und
+Reversibilitätssignale sichtbar halten kann. Er trifft keine medizinische oder
+psychologische Aussage.
 
 ## Grenzen
 

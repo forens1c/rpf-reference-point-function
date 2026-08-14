@@ -119,6 +119,8 @@ Validator, keine Änderung des eingefrorenen Kerns.
 
 - Eine regelbasierte Referenzrahmenklassifikation vor einer KI-Variante prüfen.
 - KI-Ausgaben nur als Hypothesen behandeln und durch denselben Validator führen.
+- Prüfen, ob ein späteres Schema Bewertungssubjekt, Bewertungsinstanz und die
+  Herkunft ihrer jeweiligen Angaben ausdrücklich trennen muss.
 - Den KI-Agenten-Transferfall als anspruchsvollen Untersuchungsfall nutzen, ohne
   daraus eine Validierung der RPF abzuleiten.
 - Autorisierung und technische Erreichbarkeit in sicherheitsbezogenen Versuchen
@@ -172,7 +174,9 @@ Der nächste Schnitt beginnt mit Etappe 4:
   koppeln.
 
 Kompatibilitäts- und Migrationsregeln für spätere Vorab-Schemata bleiben
-parallel als offene Aufgabe bestehen.
+parallel als offene Aufgabe bestehen. Dazu gehört die im
+[Loop-Collapse-Transferfall](docs/TRANSFER_CASE_LOOP_COLLAPSE.md) sichtbar
+gewordene Rollenfrage zwischen Bewertungssubjekt und Bewertungsinstanz.
 
 ## Nicht-Ziele des ersten Prototyps
 

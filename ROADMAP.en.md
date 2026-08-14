@@ -114,6 +114,8 @@ not a change to the frozen core.
 
 - Evaluate a rule-based reference-frame classifier before an AI-based variant.
 - Treat AI outputs as hypotheses and pass them through the same validator.
+- Examine whether a later schema must explicitly separate the assessment
+  subject, assessment authority, and provenance of their respective claims.
 - Use the AI agent transfer case as a demanding research case without treating
   it as validation of RPF.
 - Keep authorization separate from technical reachability in security-related
@@ -167,7 +169,9 @@ The next slice begins with stage 4:
   results.
 
 Compatibility and migration rules for later pre-release schemas remain an open
-parallel task.
+parallel task. This includes the role distinction between assessment subject
+and assessment authority exposed by the
+[loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md).
 
 ## Non-goals of the first prototype
 

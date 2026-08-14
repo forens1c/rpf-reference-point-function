@@ -30,6 +30,8 @@ Quellen oder Handlung.
 | [`rpf validate`](../src/rpf_validator/cli.py) | eine Datei oder Standardeingabe prüfen |
 | [`rpf schema`](../src/rpf_validator/cli.py) | das mitgelieferte Eingabeschema ausgeben |
 | [Wetterbeispiel](../examples/weather-input-0.2.json) | öffentlicher, neutraler End-to-End-Fall |
+| [Loop-Collapse-Selbstbewertung](../examples/loop-collapse-self-input-0.2.json) | A1-Gate mit `DELEGATE` |
+| [Extern dokumentierter Loop-Collapse-Mechanikfall](../examples/loop-collapse-external-input-0.2.json) | erhaltener Signalpfad mit `STOP` |
 
 Der Parser und die CLI verwenden zur Laufzeit nur die Python-Standardbibliothek.
 
@@ -110,9 +112,15 @@ Dieser Status sagt nicht voraus, ob es regnen wird. Er zeigt nur, dass die
 deklarierte Prozessbeschreibung die implementierten Regeln erfüllt und ihre
 Restunsicherheit beibehält.
 
+Zwei zusätzliche
+[Loop-Collapse-Fixtures](TRANSFER_CASE_LOOP_COLLAPSE.md) bilden einen
+nicht-klinischen Negativfall ab. Die Selbstbewertung endet bestimmungsgemäß
+mit `DELEGATE`; der getrennte extern dokumentierte Mechanikfall endet mit
+`STOP` und behält alle ausgelösten Signale in der Regelspur.
+
 ## Prüfstand und Grenzen
 
-Die Schnittstelle ist durch 58 automatisierte Tests abgedeckt. Dazu gehören
+Die Schnittstelle ist durch 60 automatisierte Tests abgedeckt. Dazu gehören
 Roundtrips, ungültige und doppelte JSON-Felder, genaue Fehlerpfade,
 Querverweise, Standardeingabe, kompakte Ausgabe, Schemaausgabe und CLI-Exit-Codes.
 

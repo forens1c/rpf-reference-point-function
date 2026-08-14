@@ -28,4 +28,7 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Run CLI smoke test
-        run: rpf validate examples/weather-input-0.2.json --compact
+        run: |
+          rpf validate examples/weather-input-0.2.json --compact
+          rpf validate examples/loop-collapse-self-input-0.2.json --compact
+          rpf validate examples/loop-collapse-external-input-0.2.json --compact

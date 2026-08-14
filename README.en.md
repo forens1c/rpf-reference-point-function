@@ -141,6 +141,7 @@ an English entry point and links to each source document.
 | [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
 | [Python package](src/rpf_validator) | data model, parser, and deterministic evaluator | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
+| [Loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md) | two non-clinical negative fixtures for the competence gate and downstream rule mechanics | English |
 | [Input JSON Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | machine-readable input contract | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
 | [Glossary](docs/GLOSSARY.md) | terms and symbols | German |
@@ -159,6 +160,13 @@ actually comparable.
 A possible outcome is to avoid a global knowledge revision, preserve the
 remaining uncertainty, and choose a low-cost robust action, such as carrying an
 umbrella.
+
+The separate
+[non-clinical loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md)
+uses two executable JSON fixtures to show why an impaired self-assessment must
+delegate at A1, while a separate, externally documented mechanics scenario can
+retain calibration, termination, and reversibility signals. It makes no
+medical or psychological claim.
 
 ## AI agent safety transfer case
 
