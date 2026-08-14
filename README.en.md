@@ -70,23 +70,34 @@ The archived versions are not changed retroactively. Conceptual developments
 require a new documented revision, and future empirical findings must remain
 separate from the frozen archive.
 
-## Next objective
+## Current development status
 
-The next planned development step is a **non-normative experimental Python
-implementation**. Its first milestone will be a deterministic axiom validator
-that evaluates whether a reasoning process is traceable and rule-compliant —
-not whether its conclusion is true.
+The **non-normative experimental Python implementation 0.2** now contains a
+deterministic validator for A1–A4 and P1–P4. It evaluates the traceability and
+rule compliance of a supplied process description — not whether its conclusion
+is true.
 
-The planned stages, boundaries, and open decisions are described in the
-[English roadmap](ROADMAP.en.md) and the [German roadmap](ROADMAP.md).
+Its exact technical semantics and limitations are documented in
+[validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md).
+Further stages are described in the [English roadmap](ROADMAP.en.md) and the
+[German roadmap](ROADMAP.md).
 
 ## Experimental Python prototype
 
-The repository now contains the first validator code foundation: a
-dependency-free, typed, and immutable input/output data model. It represents
-competence, `C_i`, `C_e`, reference frames, hypotheses, termination bounds,
-time horizons, action options, and residual uncertainty as separate
-structures. It does **not yet** contain axiom evaluation logic.
+The repository contains a dependency-free, typed, and immutable input/output
+model together with the executable `evaluate` core. It keeps competence,
+`C_i`, `C_e`, reference frames, hypotheses, termination bounds, time horizons,
+action options, and residual uncertainty separate, then emits an explainable
+status and stable reason codes for every rule.
+
+Minimal use with a constructed `ValidatorInput`:
+
+```python
+from rpf_validator import evaluate, to_json
+
+result = evaluate(case)
+print(to_json(result))
+```
 
 Run locally with Python 3.11 or newer:
 
@@ -112,7 +123,8 @@ an English entry point and links to each source document.
 | [Reference-frame classification](docs/REFERENCE_FRAME_CLASSIFICATION.md) | classification of apparent contradictions | German |
 | [Capability–calibration separation](docs/CAPABILITY_CALIBRATION_SEPARATION.en.md) | experimental validator implementation principle | English |
 | [Validator operationalization](docs/VALIDATOR_OPERATIONALIZATION.en.md) | inputs, rules, statuses, reason codes, and minimum tests for A1–A4 and P1–P4 | English |
-| [Python package](src/rpf_validator) | experimental typed input/output data model | English |
+| [Validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md) | executable rule contract, assumptions, verification, and limitations | English |
+| [Python package](src/rpf_validator) | experimental data model and deterministic evaluator | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
 | [Glossary](docs/GLOSSARY.md) | terms and symbols | German |
 | [Development roadmap](ROADMAP.en.md) | planned experimental Python implementation | English |

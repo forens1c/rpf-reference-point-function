@@ -17,6 +17,14 @@ explicitly provided to it.
 All scales, thresholds, and priority rules in this document are prototype
 design choices. They must remain configurable and traceable in every output.
 
+## Implementation status
+
+Experimental Python version `0.2.0.dev0` is the first complete deterministic
+implementation of this table. Its exact technical semantics, schema
+identifiers, and known limitations are documented in
+[validator implementation 0.2](VALIDATOR_IMPLEMENTATION_0.2.en.md). This
+implementation status does not change the frozen RPF core.
+
 ## Fundamental separation
 
 The operationalization follows the experimental principle of
@@ -93,6 +101,8 @@ importance.
 | `termination` | `ΔK`, `ε`, iteration, iteration limit, time, and resource budget | A3 and P3 |
 | `time_horizons` | at least two named horizons with expected consequences | A4 |
 | `candidate_actions` | action options, effects by horizon, reversibility, and rationale | A4 and P4 |
+| `selected_action_id` | optional identifier of the candidate action actually selected | A4 and P4 |
+| `selection_rationale` | optional rationale for the concrete selection, separate from the action's general rationale | P4 |
 | `residual_uncertainty` | open questions, missing information, and remaining alternatives | P2 and output |
 | `validator_config` | thresholds, scales, hard constraints, and their identifiers | reproducible rule application |
 
@@ -149,7 +159,7 @@ supplement the codes but does not replace them.
 
 ```json
 {
-  "schema_version": "rpf-validator-result-0.1",
+  "schema_version": "rpf-validator-result-0.2",
   "case_id": "example-001",
   "overall_status": "WARN",
   "rule_results": [
@@ -222,12 +232,10 @@ This operationalization is specifically not:
 
 ## Open implementation decisions
 
-At least the following items remain explicitly open before the first code
-release:
+After experimental version 0.2, the following items remain open in particular:
 
-- evolution and compatibility rules for the initial typed data model and
-  package structure,
-- default configuration and threshold names,
-- handling of partially missing but non-mandatory inputs,
-- formal representation of declared constraints,
-- serialization and versioning strategy for input and output schemas.
+- compatibility and migration rules for later pre-release schemas,
+- possible default configurations beyond the threshold-free baseline,
+- a versioned parser for untrusted JSON input and a public JSON Schema,
+- finer rules for partially missing optional domain values,
+- localization and extension of human-readable result rationales.

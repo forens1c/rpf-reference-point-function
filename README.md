@@ -33,24 +33,35 @@ Die RPF ist kein Wahrheitsautomat. Sie ist ein Meta-Verfahren, das vorschnelle M
 
 Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Weiterentwicklungen benötigen eine neue, dokumentierte Revision. Empirische Befunde werden getrennt von den Archivfassungen geführt.
 
-## Nächste Zielstellung
+## Aktueller Entwicklungsstand
 
-Als nächster Entwicklungsschritt ist eine **nicht-normative experimentelle
-Python-Implementierung** geplant. Der erste Meilenstein soll ein
-deterministischer Axiom-Validator werden, der die Nachvollziehbarkeit und
-Regelkonformität eines Prüfprozesses bewertet — nicht die Wahrheit seines
-Ergebnisses.
+Die **nicht-normative experimentelle Python-Implementierung 0.2** enthält nun
+einen deterministischen Validator für A1–A4 und P1–P4. Er bewertet die
+Nachvollziehbarkeit und Regelkonformität einer bereitgestellten
+Prozessbeschreibung — nicht die Wahrheit ihres Ergebnisses.
 
-Die geplanten Etappen, Grenzen und offenen Entscheidungen stehen in der
-[deutschen Roadmap](ROADMAP.md) und der [English roadmap](ROADMAP.en.md).
+Die exakte technische Semantik und ihre Grenzen stehen in der
+[Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md). Weitere
+Etappen beschreibt die [deutsche Roadmap](ROADMAP.md); eine vollständige
+englische Fassung steht in der [English roadmap](ROADMAP.en.md).
 
 ## Experimenteller Python-Prototyp
 
-Das Repository enthält nun das erste Codefundament für den Validator: ein
-abhängigkeitenfreies, typisiertes und unveränderliches Ein-/Ausgabedatenmodell.
-Es bildet Kompetenz, `C_i`, `C_e`, Referenzrahmen, Hypothesen,
+Das Repository enthält ein abhängigkeitenfreies, typisiertes und
+unveränderliches Ein-/Ausgabedatenmodell sowie den ausführbaren
+`evaluate`-Kern. Er bildet Kompetenz, `C_i`, `C_e`, Referenzrahmen, Hypothesen,
 Terminierungsgrenzen, Zeithorizonte, Handlungsoptionen und Restunsicherheit als
-getrennte Strukturen ab. Noch enthalten ist **keine** Axiom-Auswertungslogik.
+getrennte Strukturen ab und erzeugt für jede Regel einen erklärbaren Status mit
+stabilen Reason-Codes.
+
+Minimale Verwendung mit einem konstruierten `ValidatorInput`:
+
+```python
+from rpf_validator import evaluate, to_json
+
+result = evaluate(case)
+print(to_json(result))
+```
 
 Lokaler Testlauf ab Python 3.11:
 
@@ -73,7 +84,8 @@ Die Struktur folgt der
 | [Referenzrahmenklassifikation](docs/REFERENCE_FRAME_CLASSIFICATION.md) | Einordnung scheinbarer Widersprüche |
 | [Trennung von Fähigkeit und Kalibrierung](docs/CAPABILITY_CALIBRATION_SEPARATION.md) | experimentelles Implementierungsprinzip für den Validator |
 | [Validator-Operationalisierung](docs/VALIDATOR_OPERATIONALIZATION.md) | Eingaben, Regeln, Status, Reason-Codes und Mindesttests für A1–A4 und P1–P4 |
-| [Python-Paket](src/rpf_validator) | experimentelles typisiertes Ein-/Ausgabedatenmodell |
+| [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md) | ausführbarer Regelvertrag, Annahmen, Prüfstand und Grenzen |
+| [Python-Paket](src/rpf_validator) | experimentelles Datenmodell und deterministischer Evaluator |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
 | [Glossar](docs/GLOSSARY.md) | Begriffe und Symbole |
 | [Entwicklungsroadmap](ROADMAP.md) | geplante experimentelle Python-Implementierung |

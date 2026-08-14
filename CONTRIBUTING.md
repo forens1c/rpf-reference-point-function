@@ -38,6 +38,10 @@ Codebeiträge müssen die nicht-normative Trennung zwischen eingefrorener
 Spezifikation und experimenteller Implementierung erhalten. Neue Schwellenwerte
 oder Statusregeln sind als Implementierungsentscheidungen zu dokumentieren und
 dürfen nicht stillschweigend als kanonische RPF-Regeln ausgegeben werden.
+Die aktuelle ausführbare Semantik ist in der
+[Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md)
+festgehalten; Änderungen daran benötigen passende Tests und eine Aktualisierung
+der deutschen sowie englischen Dokumentation.
 
 Vor einem Pull Request sollen mindestens die lokalen Tests ausgeführt werden:
 

@@ -18,6 +18,14 @@ Alle Skalen, Schwellenwerte und Prioritätsregeln in diesem Dokument sind
 Entwurfsentscheidungen für den Prototyp. Sie müssen konfigurierbar und in jeder
 Ausgabe nachvollziehbar bleiben.
 
+## Implementierungsstand
+
+Die experimentelle Python-Version `0.2.0.dev0` setzt diese Tabelle erstmals
+vollständig als deterministischen Evaluator um. Die exakte technische Semantik,
+Schema-Kennungen und bekannten Grenzen stehen in der
+[Validator-Implementierung 0.2](VALIDATOR_IMPLEMENTATION_0.2.md). Dieser
+Implementierungsstand ist keine Änderung des eingefrorenen RPF-Kerns.
+
 ## Grundlegende Trennung
 
 Die Operationalisierung folgt dem experimentellen Prinzip der
@@ -96,6 +104,8 @@ allgemeine Rangfolge von Gefährlichkeit oder Bedeutung.
 | `termination` | `ΔK`, `ε`, Iteration, Iterationsgrenze, Zeit und Ressourcenbudget | A3 und P3 |
 | `time_horizons` | mindestens zwei benannte Horizonte mit erwarteten Folgen | A4 |
 | `candidate_actions` | Handlungsoptionen, Folgen je Horizont, Reversibilität und Begründung | A4 und P4 |
+| `selected_action_id` | optionale Kennung der tatsächlich ausgewählten Kandidatenhandlung | A4 und P4 |
+| `selection_rationale` | optionale Begründung der konkreten Auswahl, getrennt von der allgemeinen Handlungsbegründung | P4 |
 | `residual_uncertainty` | offene Fragen, fehlende Information und verbleibende Alternativen | P2 und Ausgabe |
 | `validator_config` | Schwellenwerte, Skalen, harte Grenzen und deren Kennungen | reproduzierbare Regelanwendung |
 
@@ -154,7 +164,7 @@ ergänzt die Codes, ersetzt sie aber nicht.
 
 ```json
 {
-  "schema_version": "rpf-validator-result-0.1",
+  "schema_version": "rpf-validator-result-0.2",
   "case_id": "example-001",
   "overall_status": "WARN",
   "rule_results": [
@@ -228,12 +238,13 @@ Diese Operationalisierung ist insbesondere:
 
 ## Offene Implementierungsentscheidungen
 
-Vor dem ersten Code-Release bleiben mindestens folgende Punkte ausdrücklich
+Nach der experimentellen Version 0.2 bleiben insbesondere folgende Punkte
 offen:
 
-- Weiterentwicklungs- und Kompatibilitätsregeln für das initiale typisierte
-  Datenmodell und die Paketstruktur,
-- Standardkonfiguration und Benennung der Schwellenwerte,
-- Umgang mit teilweise fehlenden, aber nicht zwingenden Eingaben,
-- formale Repräsentation deklarierter Grenzen,
-- Serialisierung und Versionsstrategie der Ein- und Ausgabeschemata.
+- Kompatibilitäts- und Migrationsregeln für spätere Vorab-Schemata,
+- mögliche Standardkonfigurationen jenseits der schwellenwertfreien
+  Grundeinstellung,
+- ein versionierter Parser für nicht vertrauenswürdige JSON-Eingaben sowie ein
+  öffentliches JSON-Schema,
+- feinere Regeln für teilweise fehlende optionale Fachangaben,
+- Lokalisierung und Erweiterung der menschenlesbaren Ergebnisbegründungen.

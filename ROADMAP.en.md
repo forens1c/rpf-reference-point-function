@@ -128,13 +128,27 @@ not a change to the frozen core.
 ## First planned milestone
 
 - [x] Create an [operationalization table for A1–A4 and P1–P4](docs/VALIDATOR_OPERATIONALIZATION.en.md)
-- [ ] Represent capability–calibration separation in the data model and tests
+- [x] Represent capability–calibration separation in the data model and tests
 - [x] Select a separate software license for new code (`Apache-2.0`)
 - [x] Create a minimal Python package and typed input/output schema
-- [ ] Implement the deterministic axiom validator
-- [ ] Add automated unit tests
-- [ ] Implement the weather example as an end-to-end test
-- [ ] Document limitations and experimental assumptions
+- [x] Implement the deterministic axiom validator
+- [x] Add automated unit tests
+- [x] Implement the weather example as an end-to-end test
+- [x] Document limitations and experimental assumptions
+
+The first implementation milestone is therefore complete in experimental
+[validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md).
+
+## Next technical slice
+
+Before connecting the state machine, a version 0.3 should make the public
+interface directly usable:
+
+- develop a versioned parser for JSON input,
+- publish a machine-readable JSON Schema,
+- provide the neutral weather case as an executable scenario file,
+- add a command such as `rpf validate scenario.json`,
+- add parser, CLI, and compatibility tests.
 
 ## Non-goals of the first prototype
 
@@ -158,5 +172,5 @@ GitHub Issues and pull requests. Contributions should clearly distinguish:
 4. an interpretation or new hypothesis.
 
 Conceptual changes require a separate version identifier. Implementation code
-should receive a separate software license; the existing `CC BY-NC-SA 4.0`
-documentation license does not automatically apply to future code.
+is separately licensed under `Apache-2.0`; the existing `CC BY-NC-SA 4.0`
+documentation license does not apply to that code.

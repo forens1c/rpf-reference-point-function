@@ -11,6 +11,7 @@ from rpf_validator import (
     INPUT_SCHEMA_VERSION,
     PROCESS_STATUS_PRIORITY,
     RESULT_SCHEMA_VERSION,
+    __version__,
     Calibration,
     CandidateAction,
     CompetenceAssessment,
@@ -152,10 +153,19 @@ def make_valid_input(
             )
         ),
         validator_config=ValidatorConfig(config_id="prototype-defaults-0.1"),
+        selected_action_id="carry-umbrella",
+        selection_rationale=(
+            "The reversible precaution remains proportionate under both hypotheses."
+        ),
     )
 
 
 class InputModelTests(unittest.TestCase):
+    def test_implementation_and_schema_versions_are_explicit(self) -> None:
+        self.assertEqual(__version__, "0.2.0.dev0")
+        self.assertEqual(INPUT_SCHEMA_VERSION, "rpf-validator-input-0.2")
+        self.assertEqual(RESULT_SCHEMA_VERSION, "rpf-validator-result-0.2")
+
     def test_valid_weather_input_is_immutable(self) -> None:
         model = make_valid_input()
 
@@ -305,6 +315,54 @@ class InputModelTests(unittest.TestCase):
 
         self.assertIn("unknown horizon", caught.exception.message)
 
+    def test_unknown_selected_action_is_input_error(self) -> None:
+        model = make_valid_input()
+
+        with self.assertRaises(InputValidationError) as caught:
+            ValidatorInput(
+                schema_version=model.schema_version,
+                case_id=model.case_id,
+                observation=model.observation,
+                problem_domain=model.problem_domain,
+                competence=model.competence,
+                calibration=model.calibration,
+                conflict=model.conflict,
+                reference_frame=model.reference_frame,
+                hypotheses=model.hypotheses,
+                termination=model.termination,
+                time_horizons=model.time_horizons,
+                candidate_actions=model.candidate_actions,
+                residual_uncertainty=model.residual_uncertainty,
+                validator_config=model.validator_config,
+                selected_action_id="not-present",
+            )
+
+        self.assertEqual(caught.exception.path, "selected_action_id")
+
+    def test_selection_rationale_requires_selected_action(self) -> None:
+        model = make_valid_input()
+
+        with self.assertRaises(InputValidationError) as caught:
+            ValidatorInput(
+                schema_version=model.schema_version,
+                case_id=model.case_id,
+                observation=model.observation,
+                problem_domain=model.problem_domain,
+                competence=model.competence,
+                calibration=model.calibration,
+                conflict=model.conflict,
+                reference_frame=model.reference_frame,
+                hypotheses=model.hypotheses,
+                termination=model.termination,
+                time_horizons=model.time_horizons,
+                candidate_actions=model.candidate_actions,
+                residual_uncertainty=model.residual_uncertainty,
+                validator_config=model.validator_config,
+                selection_rationale="No selected action exists.",
+            )
+
+        self.assertEqual(caught.exception.path, "selection_rationale")
+
 
 class ResultModelTests(unittest.TestCase):
     def test_status_priority_matches_operationalization(self) -> None:
@@ -353,6 +411,7 @@ class ResultModelTests(unittest.TestCase):
         self.assertEqual(payload["competence"]["status"], "SUFFICIENT")
         self.assertIsInstance(payload["hypotheses"], list)
         self.assertEqual(payload["schema_version"], INPUT_SCHEMA_VERSION)
+        self.assertEqual(payload["selected_action_id"], "carry-umbrella")
 
 
 if __name__ == "__main__":

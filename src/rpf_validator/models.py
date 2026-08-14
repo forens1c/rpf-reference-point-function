@@ -28,8 +28,8 @@ from rpf_validator.enums import (
 )
 from rpf_validator.errors import InputValidationError
 
-INPUT_SCHEMA_VERSION = "rpf-validator-input-0.1"
-RESULT_SCHEMA_VERSION = "rpf-validator-result-0.1"
+INPUT_SCHEMA_VERSION = "rpf-validator-input-0.2"
+RESULT_SCHEMA_VERSION = "rpf-validator-result-0.2"
 
 _EnumT = TypeVar("_EnumT")
 
@@ -479,7 +479,7 @@ class ValidatorConfig:
 
 @dataclass(frozen=True, slots=True)
 class ValidatorInput:
-    """Complete structural input for a future deterministic validator run."""
+    """Complete structural input for a deterministic validator run."""
 
     schema_version: str
     case_id: str
@@ -495,6 +495,8 @@ class ValidatorInput:
     candidate_actions: tuple[CandidateAction, ...]
     residual_uncertainty: UncertaintyReport
     validator_config: ValidatorConfig
+    selected_action_id: str | None = None
+    selection_rationale: str | None = None
 
     def __post_init__(self) -> None:
         if self.schema_version != INPUT_SCHEMA_VERSION:
@@ -543,6 +545,13 @@ class ValidatorInput:
             raise InputValidationError(
                 "validator_config", "must be ValidatorConfig"
             )
+        _optional_non_empty(self.selected_action_id, "selected_action_id")
+        _optional_non_empty(self.selection_rationale, "selection_rationale")
+        if self.selected_action_id is None and self.selection_rationale is not None:
+            raise InputValidationError(
+                "selection_rationale",
+                "requires selected_action_id",
+            )
         self._validate_references()
 
     def _validate_references(self) -> None:
@@ -562,6 +571,15 @@ class ValidatorInput:
         constraint_codes = {
             constraint.code for constraint in self.reference_frame.constraints
         }
+        action_ids = {action.action_id for action in self.candidate_actions}
+        if (
+            self.selected_action_id is not None
+            and self.selected_action_id not in action_ids
+        ):
+            raise InputValidationError(
+                "selected_action_id",
+                f"references unknown action {self.selected_action_id!r}",
+            )
         for action_index, action in enumerate(self.candidate_actions):
             for effect_index, effect in enumerate(action.effects):
                 if effect.horizon_id not in horizon_ids:
