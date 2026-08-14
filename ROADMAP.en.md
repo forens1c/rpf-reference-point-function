@@ -38,6 +38,11 @@ competence fit, internal confidence, external evidence, reference-frame fit,
 and temporal adaptivity are evaluated independently. High capability alone
 must not produce `PASS`.
 
+The initial [operationalization table for A1–A4 and P1–P4](docs/VALIDATOR_OPERATIONALIZATION.en.md)
+defines input fields, rule results, process statuses, reason codes, and minimum
+tests. It is the provisional working document for the data model and validator,
+not a change to the frozen core.
+
 ## Development principles
 
 1. **Deterministic core first:** The fundamental rules should be executable and
@@ -122,7 +127,7 @@ must not produce `PASS`.
 
 ## First planned milestone
 
-- [ ] Create an operationalization table for A1–A4 and P1–P4
+- [x] Create an [operationalization table for A1–A4 and P1–P4](docs/VALIDATOR_OPERATIONALIZATION.en.md)
 - [ ] Represent capability–calibration separation in the data model and tests
 - [ ] Select a separate software license for new code
 - [ ] Create a minimal Python package and result schema
