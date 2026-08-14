@@ -129,8 +129,8 @@ not a change to the frozen core.
 
 - [x] Create an [operationalization table for A1–A4 and P1–P4](docs/VALIDATOR_OPERATIONALIZATION.en.md)
 - [ ] Represent capability–calibration separation in the data model and tests
-- [ ] Select a separate software license for new code
-- [ ] Create a minimal Python package and result schema
+- [x] Select a separate software license for new code (`Apache-2.0`)
+- [x] Create a minimal Python package and typed input/output schema
 - [ ] Implement the deterministic axiom validator
 - [ ] Add automated unit tests
 - [ ] Implement the weather example as an end-to-end test
