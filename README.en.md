@@ -72,16 +72,18 @@ separate from the frozen archive.
 
 ## Current development status
 
-The **non-normative experimental Python implementation 0.3** contains a
+The **non-normative experimental Python implementation 0.4** contains a
 deterministic validator for A1–A4 and P1–P4, a strict versioned JSON parser, a
-machine-readable JSON Schema, and the `rpf` command line. It evaluates the
-traceability and rule compliance of a supplied process description — not
-whether its conclusion is true.
+machine-readable JSON Schema, the `rpf` command line, and the first executable
+RPF state machine. It evaluates the traceability and rule compliance of a
+supplied process description — not whether its conclusion is true.
 
 Its evaluation semantics and limitations are documented in
 [validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md). The
 new public interface is described in
-[JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md). Further stages appear in the
+[JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md). The new control flow is documented
+in [executable state machine 0.4](docs/STATE_MACHINE_RUNTIME_0.4.en.md).
+Further stages appear in the
 [English roadmap](ROADMAP.en.md) and the [German roadmap](ROADMAP.md).
 
 ## Experimental Python prototype
@@ -90,13 +92,21 @@ The repository contains a dependency-free, typed, and immutable input/output
 model together with the executable `evaluate` core. It keeps competence,
 `C_i`, `C_e`, reference frames, hypotheses, termination bounds, time horizons,
 action options, and residual uncertainty separate, then emits an explainable
-status and stable reason codes for every rule.
+status and stable reason codes for every rule. `run_state_machine` then routes
+the versioned result through an immutable transition table and emits a bounded
+audit trace.
 
 Run the public weather example directly:
 
 ```bash
 python -m pip install --no-deps .
 rpf validate examples/weather-input-0.2.json
+```
+
+Run an executable state trace for the same case:
+
+```bash
+rpf trace examples/weather-input-0.2.json
 ```
 
 The bundled input contract is also available in machine-readable form:
@@ -108,10 +118,11 @@ rpf schema
 Minimal use with a constructed `ValidatorInput`:
 
 ```python
-from rpf_validator import evaluate, to_json
+from rpf_validator import evaluate, run_state_machine, to_json
 
 result = evaluate(case)
-print(to_json(result))
+trace = run_state_machine(result)
+print(to_json(trace))
 ```
 
 Run locally with Python 3.11 or newer:
@@ -139,7 +150,8 @@ an English entry point and links to each source document.
 | [Validator operationalization](docs/VALIDATOR_OPERATIONALIZATION.en.md) | inputs, rules, statuses, reason codes, and minimum tests for A1–A4 and P1–P4 | English |
 | [Validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md) | executable rule contract, assumptions, verification, and limitations | English |
 | [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
-| [Python package](src/rpf_validator) | data model, parser, and deterministic evaluator | English |
+| [Executable state machine 0.4](docs/STATE_MACHINE_RUNTIME_0.4.en.md) | declarative transition table, result routing, audit trace, and limitations | English |
+| [Python package](src/rpf_validator) | data model, parser, deterministic evaluator, and state-machine runtime | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
 | [Model boat without a reference definition](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.en.md) | synthetic `NO_REFERENCE` fixture for two undocumented laboratory displays | English |
 | [Coincidence interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md) | synthetic `WARN` fixture separating meaning, confidence, evidence, and causality | English |

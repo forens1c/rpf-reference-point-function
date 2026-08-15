@@ -63,6 +63,16 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   Achse, Nullpunkt, Einheit und Labelsemantik unvergleichbar. Der Fall trennt
   Fachhypothesen von dokumentierten Kanaldefinitionen, schließt die öffentliche
   Statusmatrix und erhöht den Prüfstand auf 64 Tests.
+- Experimentelle Runtime `0.4.0.dev0` für den RPF-Zustandsautomaten ergänzt.
+  Kanonische Zustände und Ereignisse, eine unveränderliche deklarative
+  Übergangstabelle, deterministische Übergangsfehler, eine feste Grenze von
+  sieben Schritten sowie explizite `DELEGATE`-, `NO_REFERENCE`- und frühe oder
+  adaptive `STOP`-Pfade erzeugen den versionierten Audit-Trace
+  `rpf-state-machine-trace-0.1`. `rpf trace` macht ihn öffentlich ausführbar;
+  Eingabe- und Validator-Ergebnisverträge bleiben unverändert auf 0.2. Die
+  zweisprachige Dokumentation grenzt Kontrollfluss, Semantikanalyse und
+  Wahrheitsprüfung ausdrücklich voneinander ab; insgesamt 80 Tests sichern den
+  Stand ab.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

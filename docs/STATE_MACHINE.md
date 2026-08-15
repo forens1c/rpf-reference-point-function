@@ -1,5 +1,10 @@
 # RPF-Zustandsautomat
 
+> **Experimentelle Runtime:** Die nicht-normative ausführbare Umsetzung dieses
+> Zustandsraums ist zweisprachig in
+> [RPF-Zustandsautomat 0.4](STATE_MACHINE_RUNTIME_0.4.md) dokumentiert. Sie
+> verändert den hier dargestellten eingefrorenen Konzeptstand nicht.
+
 Dieses Dokument visualisiert den in RPF v1.2 bestätigten Zustandsraum. Es ergänzt die Archivfassung, ersetzt sie jedoch nicht.
 
 ```mermaid

@@ -106,9 +106,9 @@ not a change to the frozen core.
 
 ### 4 — RPF state machine
 
-- Model the existing state space as executable transition logic.
-- Test allowed and disallowed transitions.
-- Record delegation, `NO_REFERENCE`, termination, and return to `IDLE`.
+- [x] Model the existing state space as executable transition logic.
+- [x] Test allowed and disallowed transitions.
+- [x] Record delegation, `NO_REFERENCE`, termination, and return to `IDLE`.
 
 ### 5 — Optional classification and AI experiments
 
@@ -161,25 +161,51 @@ Details appear in
 `0.3.0.dev0` continues to use the unchanged input and result contracts
 `rpf-validator-input-0.2` and `rpf-validator-result-0.2`.
 
+## Completed technical slice 0.4
+
+Version 0.4 implements stage 4 as executable, bounded control flow:
+
+- [x] represent canonical states and events as typed enums,
+- [x] publish allowed transitions in an immutable table,
+- [x] reject invalid transitions deterministically,
+- [x] record `DELEGATE`, `NO_REFERENCE`, and early or adaptive `STOP` paths,
+- [x] return every successful run to `IDLE` within at most seven transitions,
+- [x] couple validator and runtime only through
+  `rpf-validator-result-0.2`,
+- [x] add the versioned `rpf-state-machine-trace-0.1` audit trace and
+  `rpf trace scenario.json`.
+
+Details appear in
+[executable state machine 0.4](docs/STATE_MACHINE_RUNTIME_0.4.en.md). Package
+version `0.4.0.dev0` continues to use the unchanged input and result contracts
+`rpf-validator-input-0.2` and `rpf-validator-result-0.2`.
+
 ## Next technical slice
 
-The next slice begins with stage 4:
+The next slice prepares stage 5 without placing a language model inside the
+deterministic core:
 
-- implement states and allowed transitions as a separate module,
-- reject invalid transitions deterministically,
-- record `DELEGATE`, `NO_REFERENCE`, and `STOP` as explicit paths,
-- test return to `IDLE` and fixed step bounds,
-- initially connect the validator and state machine only through versioned
-  results.
+- design a versioned contract for optional classification providers,
+- evaluate a rule-based reference-frame classifier first,
+- record provider identifier, version, provenance, and assessment authority
+  for every proposal,
+- continue to pass every classification proposal through the same validator
+  and state machine,
+- test that a provider cannot directly override the transition table or
+  process status.
+
+Automatic semantic analysis remains a later, replaceable variant. The
+deterministic core can reject structurally invalid or incomplete proposals, but
+without additional evidence it cannot identify internally consistent false
+input as untrue.
 
 Compatibility and migration rules for later pre-release schemas remain an open
 parallel task. This includes the role distinction between assessment subject
 and assessment authority exposed by the
 [loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md).
 The [Source Echo transfer case](docs/TRANSFER_CASE_SOURCE_ECHO.en.md) adds a
-claim-relative provenance structure as another parallel task; it does not
-change the priority of the state machine and will not be silently added to the
-existing 0.2 input contract.
+claim-relative provenance structure as another parallel task; it will not be
+silently added to the existing 0.2 input contract.
 
 ## Non-goals of the first prototype
 
