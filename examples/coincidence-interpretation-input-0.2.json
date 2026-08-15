@@ -1,0 +1,153 @@
+{
+  "schema_version": "rpf-validator-input-0.2",
+  "case_id": "coincidence-interpretation-001",
+  "observation": {
+    "content": "An internally salient topic was followed by a noticed external event with similar content.",
+    "provenance": "Declared synthetic, non-clinical fixture",
+    "observed_at": null
+  },
+  "problem_domain": "Interpretation of a synthetic coincidence without an established causal model",
+  "competence": {
+    "status": "SUFFICIENT",
+    "rationale": "Competence is declared only for the structural evaluation of this synthetic record; no domain-level causal expertise is claimed.",
+    "provenance": "Fixture precondition"
+  },
+  "calibration": {
+    "internal_confidence": null,
+    "internal_confidence_rationale": "Confidence in an external causal claim is intentionally unquantified; subjective salience is not used as a confidence score.",
+    "external_evidence": null,
+    "external_evidence_rationale": "The fixture declares temporal co-occurrence but no predefined event class, opportunity count, sampling protocol, or causal evidence; event probability is not inferred.",
+    "evidence_sources": [],
+    "scale_id": "causal-claim-unquantified-0.1"
+  },
+  "conflict": {
+    "present": true,
+    "revision_scope": "LOCAL"
+  },
+  "reference_frame": {
+    "status": "AMBIGUOUS",
+    "classes": [
+      "SUBJECTIVE_PERCEPTION",
+      "OBJECTIVE_MEASUREMENT",
+      "STATISTICAL_EXCEPTION"
+    ],
+    "scope": "Subjective significance, recorded co-occurrence, and external causality are distinct claims; the fixture does not resolve which frame governs a causal interpretation.",
+    "assumptions": [
+      "The synthetic record declares temporal proximity between the thought and the noticed event.",
+      "Temporal proximity alone does not establish causal direction.",
+      "No event class, observation window, or opportunity count was predefined."
+    ],
+    "constraints": [
+      {
+        "code": "PRESERVE_CAUSAL_UNCERTAINTY",
+        "description": "Do not promote subjective salience or temporal proximity to external causal evidence.",
+        "hard": false
+      }
+    ]
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "coincidence-without-established-link",
+      "statement": "The co-occurrence has no established external causal link.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "unknown-causal-link",
+      "statement": "An unknown external causal link exists but is not established by this record.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "subjective-significance",
+      "statement": "The event has subjective significance without implying external causality.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    }
+  ],
+  "termination": {
+    "information_gain": 0.1,
+    "information_gain_epsilon": 0.01,
+    "iteration": 1,
+    "max_iterations": 8,
+    "elapsed_ms": 5.0,
+    "max_time_ms": 200.0,
+    "budget_remaining": 8.0,
+    "budget_minimum": 1.0,
+    "reflexive": false,
+    "recursion_depth": 0,
+    "max_recursion_depth": null
+  },
+  "time_horizons": [
+    {
+      "horizon_id": "now",
+      "label": "Immediate interpretation",
+      "order": 0
+    },
+    {
+      "horizon_id": "later",
+      "label": "After additional observations",
+      "order": 1
+    }
+  ],
+  "candidate_actions": [
+    {
+      "action_id": "defer-causal-conclusion",
+      "description": "Record the coincidence, preserve its subjective significance, and defer any external causal conclusion.",
+      "effects": [
+        {
+          "horizon_id": "now",
+          "expected_benefit": "Meaning and observation remain visible without being collapsed into a causal claim.",
+          "expected_cost": "No immediate causal explanation is selected.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "later",
+          "expected_benefit": "The claim can be revisited if a defined observation protocol and traceable evidence become available.",
+          "expected_cost": "The causal question remains unresolved in the meantime.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": true,
+      "rationale": "Deferral preserves multiple interpretations without denying subjective significance or asserting external causality.",
+      "rollback_cost": "Re-evaluate the causal claim when new, methodologically defined evidence is available."
+    }
+  ],
+  "residual_uncertainty": {
+    "items": [
+      {
+        "item_id": "causal-relation",
+        "description": "The record does not establish whether an external causal relation exists.",
+        "missing_information": [
+          "A testable causal model",
+          "Traceable causal evidence"
+        ]
+      },
+      {
+        "item_id": "statistical-context",
+        "description": "The statistical context of the noticed event is undefined.",
+        "missing_information": [
+          "Predefined event class",
+          "Observation window",
+          "Opportunity count or base rate"
+        ]
+      },
+      {
+        "item_id": "frame-selection",
+        "description": "The appropriate frame depends on whether the task concerns personal meaning, recorded co-occurrence, or external causality.",
+        "missing_information": [
+          "A declared target claim for frame classification"
+        ]
+      }
+    ],
+    "empty_rationale": null
+  },
+  "validator_config": {
+    "config_id": "coincidence-non-comparable-0.1",
+    "minimum_time_horizons": 2,
+    "calibration_values_comparable": false,
+    "confidence_evidence_divergence_threshold": null
+  },
+  "selected_action_id": "defer-causal-conclusion",
+  "selection_rationale": "The reversible selection preserves explicit uncertainty while the governing reference frame remains ambiguous."
+}

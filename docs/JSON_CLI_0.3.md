@@ -30,6 +30,7 @@ Quellen oder Handlung.
 | [`rpf validate`](../src/rpf_validator/cli.py) | eine Datei oder Standardeingabe prüfen |
 | [`rpf schema`](../src/rpf_validator/cli.py) | das mitgelieferte Eingabeschema ausgeben |
 | [Wetterbeispiel](../examples/weather-input-0.2.json) | öffentlicher, neutraler End-to-End-Fall |
+| [Koinzidenz-Interpretation](../examples/coincidence-interpretation-input-0.2.json) | mehrdeutiger Referenzrahmen mit `WARN` |
 | [Loop-Collapse-Selbstbewertung](../examples/loop-collapse-self-input-0.2.json) | A1-Gate mit `DELEGATE` |
 | [Extern dokumentierter Loop-Collapse-Mechanikfall](../examples/loop-collapse-external-input-0.2.json) | erhaltener Signalpfad mit `STOP` |
 
@@ -118,9 +119,28 @@ nicht-klinischen Negativfall ab. Die Selbstbewertung endet bestimmungsgemäß
 mit `DELEGATE`; der getrennte extern dokumentierte Mechanikfall endet mit
 `STOP` und behält alle ausgelösten Signale in der Regelspur.
 
+Die zusätzliche
+[Koinzidenz-Interpretation](TRANSFER_CASE_COINCIDENCE_INTERPRETATION.md)
+trennt persönliche Auffälligkeit von Konfidenz und externer Evidenz für eine
+Kausalbehauptung. Ihre unquantifizierten Kalibrierungswerte erzeugen keine
+Scheingenauigkeit; der ausdrücklich mehrdeutige Referenzrahmen erzeugt
+bestimmungsgemäß `WARN`.
+
+## Öffentliche Szenariomatrix
+
+| Eingabe | Schwerpunkt | Führende Regelspur | Ergebnis |
+| --- | --- | --- | --- |
+| [Wetter](../examples/weather-input-0.2.json) | neutraler Referenzprozess | keine ausgelöste Regel | `PASS` |
+| [Koinzidenz](../examples/coincidence-interpretation-input-0.2.json) | Bedeutung und Kausalität getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Loop-Selbstbewertung](../examples/loop-collapse-self-input-0.2.json) | Kompetenz-Gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
+| [Loop-Mechanik](../examples/loop-collapse-external-input-0.2.json) | Abbruch- und Reflexivitätsgrenzen | A3/P3 · erreichte Grenzen | `STOP` |
+
+Der `NO_REFERENCE`-Pfad ist durch Unit-Tests abgedeckt, besitzt aber noch keine
+vollständige öffentliche Fixture.
+
 ## Prüfstand und Grenzen
 
-Die Schnittstelle ist durch 60 automatisierte Tests abgedeckt. Dazu gehören
+Die Schnittstelle ist durch 61 automatisierte Tests abgedeckt. Dazu gehören
 Roundtrips, ungültige und doppelte JSON-Felder, genaue Fehlerpfade,
 Querverweise, Standardeingabe, kompakte Ausgabe, Schemaausgabe und CLI-Exit-Codes.
 

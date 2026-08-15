@@ -141,6 +141,7 @@ an English entry point and links to each source document.
 | [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
 | [Python package](src/rpf_validator) | data model, parser, and deterministic evaluator | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
+| [Coincidence interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md) | synthetic `WARN` fixture separating meaning, confidence, evidence, and causality | English |
 | [Loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md) | two non-clinical negative fixtures for the competence gate and downstream rule mechanics | English |
 | [Input JSON Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | machine-readable input contract | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
@@ -167,6 +168,25 @@ uses two executable JSON fixtures to show why an impaired self-assessment must
 delegate at A1, while a separate, externally documented mechanics scenario can
 retain calibration, termination, and reversibility signals. It makes no
 medical or psychological claim.
+
+The new
+[non-clinical coincidence transfer case](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md)
+tests a different boundary: an observation may remain subjectively meaningful
+without treating salience as confidence or external evidence for a causal
+claim.
+
+## Public result examples
+
+| Scenario | Leading rule trace | Result |
+| --- | --- | --- |
+| [Weather conflict](examples/weather-input-0.2.json) | no triggered rule | `PASS` |
+| [Coincidence interpretation](examples/coincidence-interpretation-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Loop-collapse self-assessment](examples/loop-collapse-self-input-0.2.json) | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
+| [Loop-collapse mechanics](examples/loop-collapse-external-input-0.2.json) | A3/P3 · reached termination bounds | `STOP` |
+
+`NO_REFERENCE` is already covered by unit tests; a complete public fixture for
+that status remains outstanding. Statuses evaluate the declared process, not
+the truth of the scenario.
 
 ## AI agent safety transfer case
 
@@ -235,7 +255,7 @@ identifiers must not be used for modified versions as if they were unchanged
 canonical archive copies.
 
 The experimental Python code, its tests, the technical JSON Schema, the example
-fixture, and technical configuration files carrying an `Apache-2.0` SPDX
+fixtures, and technical configuration files carrying an `Apache-2.0` SPDX
 identifier are separately licensed under the
 [Apache License 2.0](LICENSE-CODE). This software license does not change the
 documentation license.

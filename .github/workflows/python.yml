@@ -30,5 +30,6 @@ jobs:
       - name: Run CLI smoke test
         run: |
           rpf validate examples/weather-input-0.2.json --compact
+          rpf validate examples/coincidence-interpretation-input-0.2.json --compact
           rpf validate examples/loop-collapse-self-input-0.2.json --compact
           rpf validate examples/loop-collapse-external-input-0.2.json --compact

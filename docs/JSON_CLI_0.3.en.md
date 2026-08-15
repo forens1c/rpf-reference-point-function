@@ -29,6 +29,7 @@ implemented rules. It does not confirm its facts, sources, or action.
 | [`rpf validate`](../src/rpf_validator/cli.py) | evaluate a file or standard input |
 | [`rpf schema`](../src/rpf_validator/cli.py) | print the bundled input schema |
 | [Weather example](../examples/weather-input-0.2.json) | public neutral end-to-end case |
+| [Coincidence interpretation](../examples/coincidence-interpretation-input-0.2.json) | ambiguous reference frame producing `WARN` |
 | [Loop-collapse self-assessment](../examples/loop-collapse-self-input-0.2.json) | A1 gate producing `DELEGATE` |
 | [Externally documented loop-collapse mechanics case](../examples/loop-collapse-external-input-0.2.json) | retained signal path producing `STOP` |
 
@@ -115,9 +116,27 @@ represent a non-clinical negative case. The self-assessment correctly produces
 `DELEGATE`; the separate externally documented mechanics case produces `STOP`
 while retaining every triggered signal in its rule trace.
 
+The additional
+[coincidence interpretation](TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md)
+keeps personal salience separate from confidence and external evidence for a
+causal claim. Its unquantified calibration values create no false precision;
+the explicitly ambiguous reference frame correctly produces `WARN`.
+
+## Public scenario matrix
+
+| Input | Focus | Leading rule trace | Result |
+| --- | --- | --- | --- |
+| [Weather](../examples/weather-input-0.2.json) | neutral reference process | no triggered rule | `PASS` |
+| [Coincidence](../examples/coincidence-interpretation-input-0.2.json) | keep meaning and causality separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Loop self-assessment](../examples/loop-collapse-self-input-0.2.json) | competence gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
+| [Loop mechanics](../examples/loop-collapse-external-input-0.2.json) | termination and reflexivity bounds | A3/P3 · reached bounds | `STOP` |
+
+The `NO_REFERENCE` path is covered by unit tests but does not yet have a
+complete public fixture.
+
 ## Verification and limitations
 
-The interface is covered by 60 automated tests, including roundtrips, invalid
+The interface is covered by 61 automated tests, including roundtrips, invalid
 and duplicate JSON fields, precise error paths, cross-references, standard
 input, compact output, schema output, and CLI exit codes.
 
