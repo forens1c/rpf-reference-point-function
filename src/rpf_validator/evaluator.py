@@ -516,8 +516,8 @@ def _next_step(status: ProcessStatus) -> str:
             "reported uncertainty."
         ),
         ProcessStatus.WARN: (
-            "Review the reported calibration signals before relying on the "
-            "process output."
+            "Review every reported signal and the retained uncertainty before "
+            "relying on the process output."
         ),
         ProcessStatus.NO_REFERENCE: (
             "Establish a traceable reference frame before revising the model "

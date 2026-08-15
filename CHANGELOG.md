@@ -38,6 +38,12 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   Mechanik-Fixture (`STOP`) aufgeteilt; Gate-, Divergenz-, Terminierungs-,
   Reflexivitäts- und Reversibilitätsspuren sind zweisprachig dokumentiert und
   durch insgesamt 60 Tests abgesichert.
+- Nicht-klinische Koinzidenz-Interpretation als schema-gültige `WARN`-Fixture
+  ergänzt; persönliche Auffälligkeit, Konfidenz, Evidenz und Kausalität bleiben
+  getrennt, P1 meldet `REFERENCE_FRAME_AMBIGUOUS`, und die öffentliche
+  Szenariomatrix ist zweisprachig dokumentiert. Der generische `WARN`-Hinweis
+  benennt nun regelübergreifend alle Signale und Restunsicherheit; insgesamt 61
+  Tests sichern den Stand ab.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 
