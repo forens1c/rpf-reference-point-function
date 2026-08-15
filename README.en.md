@@ -142,6 +142,7 @@ an English entry point and links to each source document.
 | [Python package](src/rpf_validator) | data model, parser, and deterministic evaluator | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
 | [Coincidence interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md) | synthetic `WARN` fixture separating meaning, confidence, evidence, and causality | English |
+| [Context feedback and reflected desire](docs/TRANSFER_CASE_REFLECTED_DESIRE.en.md) | synthetic `WARN` fixture separating external cue, perceived norm, deficit, and personal desire | English |
 | [Loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md) | two non-clinical negative fixtures for the competence gate and downstream rule mechanics | English |
 | [Input JSON Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | machine-readable input contract | English |
 | [AI agent safety transfer case](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | non-normative RPF hypothesis concerning the OpenAI/Hugging Face security incident | German |
@@ -175,12 +176,21 @@ tests a different boundary: an observation may remain subjectively meaningful
 without treating salience as confidence or external evidence for a causal
 claim.
 
+The complementary
+[context-feedback transfer case](docs/TRANSFER_CASE_REFLECTED_DESIRE.en.md)
+follows a possible downstream step from heightened attention through a
+perceived collective preference to deficit attribution, an attributed personal
+desire, and an action impulse. A deliberately low-stakes example and a socially
+consequential example expose the same inference form without equating their
+contents or implying a personal life situation.
+
 ## Public result examples
 
 | Scenario | Leading rule trace | Result |
 | --- | --- | --- |
 | [Weather conflict](examples/weather-input-0.2.json) | no triggered rule | `PASS` |
 | [Coincidence interpretation](examples/coincidence-interpretation-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Reflected desire](examples/reflected-desire-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Loop-collapse self-assessment](examples/loop-collapse-self-input-0.2.json) | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-collapse mechanics](examples/loop-collapse-external-input-0.2.json) | A3/P3 · reached termination bounds | `STOP` |
 

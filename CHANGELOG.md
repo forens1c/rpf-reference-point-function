@@ -44,6 +44,13 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   Szenariomatrix ist zweisprachig dokumentiert. Der generische `WARN`-Hinweis
   benennt nun regelübergreifend alle Signale und Restunsicherheit; insgesamt 61
   Tests sichern den Stand ab.
+- Zweisprachigen Transferfall zur Kontext-Rückkopplung und rückgespiegelten
+  Begehrlichkeit ergänzt. Die neue neutrale `WARN`-Fixture trennt äußeren Reiz,
+  wahrgenommene Norm, Defizit-Zuschreibung und eigenen Wunsch; ein bewusst
+  niedrig gewichtetes und ein sozial folgenreicheres Beispiel markieren die
+  gleiche Inferenzform ohne inhaltliche Gleichsetzung. Ein dokumentierter
+  Kontext-Vervollständigungsfall (`Wort fehlt` → `not self`) ergänzt die
+  Quellenprüfung. Insgesamt 62 Tests sichern den Stand ab.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

@@ -1,0 +1,171 @@
+{
+  "schema_version": "rpf-validator-input-0.2",
+  "case_id": "reflected-desire-001",
+  "observation": {
+    "content": "After a peer displayed a newly acquired large television, the synthetic observer recorded an immediate urge to obtain a comparable device and a thought that not owning one might be a personal deficit.",
+    "provenance": "Declared synthetic, non-clinical contrast fixture",
+    "observed_at": null
+  },
+  "problem_domain": "Structural evaluation of a cue-linked desire and deficit inference",
+  "competence": {
+    "status": "SUFFICIENT",
+    "rationale": "Competence is declared only for tracing the inferences in this synthetic consumer case; no claim is made about a real person's motives.",
+    "provenance": "Fixture precondition"
+  },
+  "calibration": {
+    "internal_confidence": null,
+    "internal_confidence_rationale": "A transient urge is not encoded as confidence in a stable personal preference; the source and persistence of the desire remain unquantified.",
+    "external_evidence": null,
+    "external_evidence_rationale": "One peer's ownership and perceived popularity are not external evidence of the observer's personal need or of a population-wide preference.",
+    "evidence_sources": [],
+    "scale_id": "desire-source-unquantified-0.1"
+  },
+  "conflict": {
+    "present": true,
+    "revision_scope": "LOCAL"
+  },
+  "reference_frame": {
+    "status": "AMBIGUOUS",
+    "classes": [
+      "SUBJECTIVE_PERCEPTION",
+      "INDIVIDUAL_PREFERENCE",
+      "CULTURAL_EVALUATION"
+    ],
+    "scope": "Observed ownership, perceived social desirability, felt deficit, and stable personal preference are distinct claims; the source of the purchase impulse remains unresolved.",
+    "assumptions": [
+      "The synthetic observer recorded the impulse after exposure to the peer's purchase.",
+      "Visibility of an object does not establish a collective preference for it.",
+      "A perceived social preference does not by itself establish a personal deficit or need.",
+      "Temporal order alone does not identify whether the cue revealed, amplified, or generated the desire."
+    ],
+    "constraints": [
+      {
+        "code": "NO_NORM_TO_NEED_COLLAPSE",
+        "description": "Do not collapse a perceived collective preference into a personal need without a separate rationale.",
+        "hard": false
+      }
+    ]
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "stable-preexisting-preference",
+      "statement": "The cue made a stable, pre-existing personal preference more noticeable.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "comparison-induced-deficit",
+      "statement": "Social comparison produced a temporary sense of deficit that was interpreted as personal desire.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "attention-amplification",
+      "statement": "The cue increased attention to similar objects without establishing a new stable preference.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "mixed-source",
+      "statement": "A pre-existing preference, attention, and social comparison jointly contributed to the impulse.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    }
+  ],
+  "termination": {
+    "information_gain": 0.1,
+    "information_gain_epsilon": 0.01,
+    "iteration": 1,
+    "max_iterations": 10,
+    "elapsed_ms": 5.0,
+    "max_time_ms": 250.0,
+    "budget_remaining": 10.0,
+    "budget_minimum": 1.0,
+    "reflexive": false,
+    "recursion_depth": 0,
+    "max_recursion_depth": null
+  },
+  "time_horizons": [
+    {
+      "horizon_id": "immediate",
+      "label": "Immediate cue response",
+      "order": 0
+    },
+    {
+      "horizon_id": "after-pause",
+      "label": "After a cooling-off period",
+      "order": 1
+    },
+    {
+      "horizon_id": "long-term",
+      "label": "Long-term preference and use",
+      "order": 2
+    }
+  ],
+  "candidate_actions": [
+    {
+      "action_id": "defer-and-test-persistence",
+      "description": "Keep the impulse visible, defer the purchase conclusion, and revisit whether the preference persists outside the triggering comparison.",
+      "effects": [
+        {
+          "horizon_id": "immediate",
+          "expected_benefit": "The cue, deficit inference, and desire claim remain separate rather than becoming an automatic purchase decision.",
+          "expected_cost": "No immediate resolution or acquisition occurs.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "after-pause",
+          "expected_benefit": "Persistence can be reconsidered with less immediate comparison pressure.",
+          "expected_cost": "The observer must tolerate an unresolved impulse during the pause.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "long-term",
+          "expected_benefit": "A later decision can use stable preference, expected use, cost, and alternatives rather than visibility alone.",
+          "expected_cost": "Relevant opportunities or prices may change while the decision remains open.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": true,
+      "rationale": "Deferral does not suppress or invalidate the desire; it prevents a perceived norm from being treated as a personal need before the source and persistence are clearer.",
+      "rollback_cost": "Resume the decision process if the preference persists and gains an independent rationale."
+    }
+  ],
+  "residual_uncertainty": {
+    "items": [
+      {
+        "item_id": "preexisting-preference",
+        "description": "It is unknown whether a stable preference existed before the comparison cue.",
+        "missing_information": [
+          "Prior preference record",
+          "Independent use case"
+        ]
+      },
+      {
+        "item_id": "perceived-norm",
+        "description": "The visibility of one purchase does not establish what a wider group wants or values.",
+        "missing_information": [
+          "Defined population",
+          "Traceable preference evidence"
+        ]
+      },
+      {
+        "item_id": "persistence",
+        "description": "The stability of the impulse across time and lower-cue contexts remains unknown.",
+        "missing_information": [
+          "Observation after a pause",
+          "Comparison across contexts"
+        ]
+      }
+    ],
+    "empty_rationale": null
+  },
+  "validator_config": {
+    "config_id": "reflected-desire-non-comparable-0.1",
+    "minimum_time_horizons": 3,
+    "calibration_values_comparable": false,
+    "confidence_evidence_divergence_threshold": null
+  },
+  "selected_action_id": "defer-and-test-persistence",
+  "selection_rationale": "The reversible pause preserves a possibly genuine preference while the relation among cue, perceived norm, deficit inference, and stable desire remains ambiguous."
+}

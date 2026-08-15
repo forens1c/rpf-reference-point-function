@@ -106,6 +106,7 @@ Die Struktur folgt der
 | [Python-Paket](src/rpf_validator) | Datenmodell, Parser und deterministischer Evaluator |
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
 | [Koinzidenz-Interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.md) | synthetische `WARN`-Fixture zur Trennung von Bedeutung, Konfidenz, Evidenz und Kausalität |
+| [Kontext-Rückkopplung und rückgespiegelte Begehrlichkeit](docs/TRANSFER_CASE_REFLECTED_DESIRE.md) | synthetische `WARN`-Fixture zur Trennung von äußerem Reiz, wahrgenommener Norm, Defizit und eigenem Wunsch |
 | [Loop-Collapse-Transferfall](docs/TRANSFER_CASE_LOOP_COLLAPSE.md) | zwei nicht-klinische Negativ-Fixtures für Kompetenz-Gate und nachgelagerte Regelmechanik |
 | [Eingabe-JSON-Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | maschinenlesbarer Eingabevertrag |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
@@ -144,12 +145,21 @@ prüft einen anderen Grenzfall: Eine Beobachtung darf subjektiv bedeutsam
 bleiben, ohne dass Auffälligkeit als Konfidenz oder externe Evidenz für eine
 Kausalbehauptung ausgegeben wird.
 
+Der ergänzende
+[Transferfall zur Kontext-Rückkopplung](docs/TRANSFER_CASE_REFLECTED_DESIRE.md)
+verfolgt den möglichen Folgeschritt von erhöhter Aufmerksamkeit über eine
+wahrgenommene kollektive Präferenz bis zu Defizit-Zuschreibung, zugeschriebenem
+eigenem Wunsch und Handlungsimpuls. Ein bewusst niedrig gewichtetes und ein
+sozial folgenreicheres Beispiel zeigen dieselbe Inferenzform, ohne ihre Inhalte
+gleichzusetzen oder eine persönliche Lebenssituation zu unterstellen.
+
 ## Öffentliche Ergebnisbeispiele
 
 | Szenario | Führende Regelspur | Ergebnis |
 | --- | --- | --- |
 | [Wetterkonflikt](examples/weather-input-0.2.json) | keine ausgelöste Regel | `PASS` |
 | [Koinzidenz-Interpretation](examples/coincidence-interpretation-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Rückgespiegelte Begehrlichkeit](examples/reflected-desire-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Loop-Collapse-Selbstbewertung](examples/loop-collapse-self-input-0.2.json) | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-Collapse-Mechanik](examples/loop-collapse-external-input-0.2.json) | A3/P3 · erreichte Abbruchgrenzen | `STOP` |
 
