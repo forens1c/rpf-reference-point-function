@@ -144,6 +144,26 @@ class CliTests(unittest.TestCase):
         )
         self.assertEqual(len(stdout.splitlines()), 1)
 
+    def test_schema_command_can_emit_classification_proposal_contract(self) -> None:
+        code, stdout, stderr = run_cli(
+            "schema",
+            "--contract",
+            "classification-proposal",
+            "--compact",
+        )
+
+        self.assertEqual(code, EXIT_SUCCESS)
+        self.assertEqual(stderr, "")
+        payload = json.loads(stdout)
+        self.assertEqual(
+            payload["properties"]["schema_version"]["const"],
+            "rpf-classification-proposal-0.1",
+        )
+        self.assertEqual(
+            payload["properties"]["proposal_role"]["const"],
+            "NON_AUTHORITATIVE_SUGGESTION",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,1 @@
+Panel A displays 14 and panel B displays 82; no channel label, measured quantity, unit, datum, or scale definition is supplied.

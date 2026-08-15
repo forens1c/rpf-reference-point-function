@@ -13,7 +13,10 @@ from typing import Sequence, TextIO
 from rpf_validator.errors import InputValidationError
 from rpf_validator.evaluator import evaluate
 from rpf_validator.parsing import parse_json
-from rpf_validator.schema import load_input_schema
+from rpf_validator.schema import (
+    load_classification_proposal_schema,
+    load_input_schema,
+)
 from rpf_validator.serialization import to_json
 from rpf_validator.state_machine import StateMachineError, run_state_machine
 
@@ -68,7 +71,13 @@ def _build_parser(version: str) -> argparse.ArgumentParser:
 
     schema = commands.add_parser(
         "schema",
-        help="print the bundled input JSON Schema",
+        help="print one bundled JSON Schema",
+    )
+    schema.add_argument(
+        "--contract",
+        choices=("validator-input", "classification-proposal"),
+        default="validator-input",
+        help="contract to print (default: validator-input)",
     )
     schema.add_argument(
         "--compact",
@@ -116,7 +125,12 @@ def main(
     args = _build_parser(__version__).parse_args(argv)
 
     if args.command == "schema":
-        _write_json(output_stream, load_input_schema(), compact=args.compact)
+        schema_value = (
+            load_classification_proposal_schema()
+            if args.contract == "classification-proposal"
+            else load_input_schema()
+        )
+        _write_json(output_stream, schema_value, compact=args.compact)
         return EXIT_SUCCESS
 
     try:

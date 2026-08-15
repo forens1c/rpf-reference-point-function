@@ -1,0 +1,56 @@
+{
+  "fixture_version": "rpf-classification-proposal-invalid-cases-0.1",
+  "base_fixture": "examples/classification-proposal-missing-0.1.json",
+  "cases": [
+    {
+      "case_id": "forbidden-overall-status",
+      "description": "A provider attempts to set the validator process status.",
+      "mutation_path": "overall_status",
+      "value": "PASS",
+      "expected_error_path": "$",
+      "expected_message_fragment": "overall_status"
+    },
+    {
+      "case_id": "self-declared-authority",
+      "description": "A provider attempts to assign itself an authority level.",
+      "mutation_path": "provider.authority_level",
+      "value": "AUTHORITATIVE",
+      "expected_error_path": "$.provider",
+      "expected_message_fragment": "authority_level"
+    },
+    {
+      "case_id": "malformed-payload-digest",
+      "description": "The source digest is not a lowercase SHA-256 value.",
+      "mutation_path": "input_reference.payload_digest.value",
+      "value": "not-a-sha-256-digest",
+      "expected_error_path": "$.input_reference.payload_digest.value",
+      "expected_message_fragment": "64 lowercase hexadecimal"
+    },
+    {
+      "case_id": "status-class-confusion",
+      "description": "A reference-frame class is supplied in the status field.",
+      "mutation_path": "candidates.0.status",
+      "value": "OBJECTIVE_MEASUREMENT",
+      "expected_error_path": "$.candidates[0].status",
+      "expected_message_fragment": "IDENTIFIED"
+    },
+    {
+      "case_id": "missing-frame-with-class",
+      "description": "A MISSING frame improperly declares a classification class.",
+      "mutation_path": "candidates.0.classes",
+      "value": [
+        "OBJECTIVE_MEASUREMENT"
+      ],
+      "expected_error_path": "$.candidates[0].classes",
+      "expected_message_fragment": "empty when status is MISSING"
+    },
+    {
+      "case_id": "provider-external-evidence-injection",
+      "description": "Provider self-confidence is incorrectly presented as external evidence.",
+      "mutation_path": "candidates.0.external_evidence",
+      "value": 0.99,
+      "expected_error_path": "$.candidates[0]",
+      "expected_message_fragment": "external_evidence"
+    }
+  ]
+}

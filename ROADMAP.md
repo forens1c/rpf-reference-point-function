@@ -15,9 +15,15 @@ gehören nicht automatisch zum eingefrorenen RPF-Kern. Abweichungen und spätere
 ## Nächste Zielstellung
 
 Die **experimentelle Python-Referenzimplementierung** besitzt inzwischen einen
-deterministischen Axiom-Validator und eine öffentliche JSON-/CLI-Schnittstelle.
-Als nächster größerer Schritt ist die ausführbare Übergangslogik des
-RPF-Zustandsautomaten vorgesehen.
+deterministischen Axiom-Validator, eine öffentliche JSON-/CLI-Schnittstelle,
+einen ausführbaren Zustandsautomaten und den getrennten, nicht-autorisierenden
+Vorschlagsvertrag `rpf-classification-proposal-0.1`.
+
+Als nächster abgegrenzter Schritt ist ein kleiner deterministischer,
+regelbasierter Klassifikationsanbieter vorgesehen. Er soll ausschließlich den
+neuen Vorschlagsvertrag erzeugen. Ein Adapter zum `ValidatorInput`, eine
+automatische Semantikanalyse und ein Sprachmodell bleiben spätere, getrennt
+versionierte Schritte.
 
 Der Validator soll nicht entscheiden, ob eine Aussage wahr ist. Er soll prüfen,
 ob ein Kalibrierungs- und Entscheidungsprozess:
@@ -118,6 +124,14 @@ Validator, keine Änderung des eingefrorenen Kerns.
 
 ### 5 — Optionale Klassifikation und KI-Experimente
 
+- [x] Einen versionierten, nicht-autorisierenden Vertrag für
+  Klassifikationsvorschläge definieren.
+- [x] Status, Klassen, Provider-Konfidenz, Unsicherheit und belegende
+  Textfragmente als getrennte Dimensionen modellieren.
+- [x] Verhindern, dass ein Vorschlag Prozessstatus, Reason-Codes,
+  Zustandsübergänge, Kompetenz, Evidenzwerte oder Handlungen festlegt.
+- [x] Neutrale Positiv- und Negativ-Fixtures für die Vertragsgrenze
+  veröffentlichen.
 - Eine regelbasierte Referenzrahmenklassifikation vor einer KI-Variante prüfen.
 - KI-Ausgaben nur als Hypothesen behandeln und durch denselben Validator führen.
 - Prüfen, ob ein späteres Schema Bewertungssubjekt, Bewertungsinstanz und die
@@ -190,19 +204,47 @@ Paketversion `0.4.0.dev0` verwendet weiterhin die unveränderten Eingabe- und
 Ergebnisverträge `rpf-validator-input-0.2` und
 `rpf-validator-result-0.2`.
 
+## Abgeschlossener technischer Schnitt 0.5
+
+Version 0.5 schafft die erste maschinenlesbare Grenze für optionale
+Klassifikationsanbieter, ohne ihnen Bewertungsautorität zu geben:
+
+- [x] den Vorschlagsvertrag `rpf-classification-proposal-0.1` versionieren,
+- [x] unveränderliche Python-Modelle, einen strikten Parser und ein
+  Draft-2020-12-JSON-Schema bereitstellen,
+- [x] Provider-Identität, Konfigurations-Digest, Quellbindung und
+  byte-adressierte Evidenzfragmente protokollieren,
+- [x] Frame-Status und Frame-Klassen sowie Provider-Konfidenz und `C_i`/`C_e`
+  ausdrücklich trennen,
+- [x] unbekannte Felder und autorisierende Eingriffe deterministisch ablehnen,
+- [x] drei neutrale öffentliche Vorschläge und einen Negativfall-Katalog
+  veröffentlichen,
+- [x] Validator-Eingabe, Validator-Ergebnis und State-Machine-Trace unverändert
+  lassen.
+
+Die Einzelheiten stehen im
+[Klassifikationsvorschlagsvertrag 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.md).
+Die Paketversion `0.5.0.dev0` enthält absichtlich noch keinen Provider und
+keinen Adapter.
+
 ## Nächster technischer Schnitt
 
-Der nächste Schnitt bereitet Etappe 5 vor, ohne bereits ein Sprachmodell in
-den deterministischen Kern einzubauen:
+Der nächste Schnitt setzt Etappe 5 mit einem kleinen regelbasierten Anbieter
+fort, ohne bereits ein Sprachmodell oder einen Adapter in den Kern einzubauen:
 
-- einen versionierten Vertrag für optionale Klassifikationsanbieter entwerfen,
-- zuerst eine regelbasierte Referenzrahmenklassifikation erproben,
-- Anbieterkennung, Version, Herkunft und Bewertungsautorität jedes Vorschlags
-  ausdrücklich protokollieren,
-- jeden Klassifikationsvorschlag weiterhin durch denselben Validator und
-  Zustandsautomaten führen,
-- testen, dass ein Anbieter weder Übergangstabelle noch Prozessstatus direkt
-  überschreiben kann.
+- einen kleinen, deterministischen Provider hinter einer schmalen
+  Python-Schnittstelle implementieren,
+- den vertrauenswürdigen Aufrufkontext beziehungsweise eine Provider-Registry
+  getrennt von der Provider-Ausgabe definieren,
+- reproduzierbare Vorschläge für wenige ausdrücklich begrenzte Regeln erzeugen,
+- Vertrags-, Provenienz- und Reproduzierbarkeitstests ergänzen,
+- weiterhin testen, dass der Anbieter weder Validator noch Übergangstabelle
+  aufruft oder Prozessstatus festlegt.
+
+Erst nach diesem Provider-Schnitt soll ein Adapter mit expliziter Feld-Allowlist,
+Bindungsprüfung und eigenem Mapping-Trace entworfen werden. Erst dieser Adapter
+könnte einen Vorschlag zusammen mit einem unabhängig gelieferten Basisfall in
+Richtung `ValidatorInput` übersetzen.
 
 Eine automatische Semantikanalyse bleibt eine spätere austauschbare Variante.
 Der deterministische Kern kann strukturwidrige oder unvollständige Vorschläge

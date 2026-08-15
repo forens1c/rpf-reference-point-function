@@ -3,6 +3,28 @@
 
 """Public API for the experimental deterministic RPF process validator."""
 
+from rpf_validator.classification import (
+    CLASSIFICATION_PROPOSAL_SCHEMA_VERSION,
+    MAX_EVIDENCE_EXCERPT_LENGTH,
+    PROVIDER_CONFIDENCE_SCALE_ID,
+    ClassificationProposal,
+    ContentDigest,
+    DigestAlgorithm,
+    DigestCanonicalization,
+    EvidenceFragment,
+    FrameCandidate,
+    ProposalInputReference,
+    ProposalRole,
+    ProposalUncertainty,
+    ProviderKind,
+    ProviderMetadata,
+    verify_source_payload,
+)
+from rpf_validator.classification_parsing import (
+    load_classification_proposal,
+    parse_classification_proposal,
+    parse_classification_proposal_json,
+)
 from rpf_validator.enums import (
     PROCESS_STATUS_PRIORITY,
     CompetenceStatus,
@@ -39,7 +61,12 @@ from rpf_validator.models import (
 )
 from rpf_validator.evaluator import evaluate
 from rpf_validator.parsing import load_input, parse_input, parse_json
-from rpf_validator.schema import INPUT_SCHEMA_RESOURCE, load_input_schema
+from rpf_validator.schema import (
+    CLASSIFICATION_PROPOSAL_SCHEMA_RESOURCE,
+    INPUT_SCHEMA_RESOURCE,
+    load_classification_proposal_schema,
+    load_input_schema,
+)
 from rpf_validator.serialization import to_json, to_primitive
 from rpf_validator.state_machine import (
     ALLOWED_TRANSITIONS,
@@ -59,24 +86,33 @@ from rpf_validator.state_machine import (
     transition,
 )
 
-__version__ = "0.4.0.dev0"
+__version__ = "0.5.0.dev0"
 
 __all__ = [
     "INPUT_SCHEMA_VERSION",
     "INPUT_SCHEMA_RESOURCE",
+    "CLASSIFICATION_PROPOSAL_SCHEMA_RESOURCE",
+    "CLASSIFICATION_PROPOSAL_SCHEMA_VERSION",
     "ALLOWED_TRANSITIONS",
+    "MAX_EVIDENCE_EXCERPT_LENGTH",
     "PROCESS_STATUS_PRIORITY",
+    "PROVIDER_CONFIDENCE_SCALE_ID",
     "RESULT_SCHEMA_VERSION",
     "STATE_MACHINE_MAX_TRANSITIONS",
     "STATE_MACHINE_TRACE_VERSION",
     "__version__",
     "Calibration",
     "CandidateAction",
+    "ClassificationProposal",
     "CompetenceAssessment",
     "CompetenceStatus",
     "Conflict",
+    "ContentDigest",
     "DeclaredConstraint",
+    "DigestAlgorithm",
+    "DigestCanonicalization",
     "EvidenceSource",
+    "EvidenceFragment",
     "ExpectedEffect",
     "Hypothesis",
     "InconsistentResultStatusError",
@@ -84,11 +120,17 @@ __all__ = [
     "InvalidTransitionError",
     "Observation",
     "ProcessStatus",
+    "ProposalInputReference",
+    "ProposalRole",
+    "ProposalUncertainty",
+    "ProviderKind",
+    "ProviderMetadata",
     "RPFState",
     "ReasonCode",
     "ReferenceFrame",
     "ReferenceFrameClass",
     "ReferenceFrameStatus",
+    "FrameCandidate",
     "RevisionScope",
     "RuleId",
     "RuleResult",
@@ -108,12 +150,17 @@ __all__ = [
     "ValidatorResult",
     "UnsupportedResultContractError",
     "evaluate",
+    "load_classification_proposal",
+    "load_classification_proposal_schema",
     "load_input",
     "load_input_schema",
     "parse_input",
     "parse_json",
+    "parse_classification_proposal",
+    "parse_classification_proposal_json",
     "run_state_machine",
     "to_json",
     "to_primitive",
     "transition",
+    "verify_source_payload",
 ]
