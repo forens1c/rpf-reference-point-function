@@ -35,17 +35,19 @@ Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Wei
 
 ## Aktueller Entwicklungsstand
 
-Die **nicht-normative experimentelle Python-Implementierung 0.3** enthält
+Die **nicht-normative experimentelle Python-Implementierung 0.4** enthält
 einen deterministischen Validator für A1–A4 und P1–P4, einen strikten
-versionierten JSON-Parser, ein maschinenlesbares JSON-Schema und die
-Kommandozeile `rpf`. Sie bewertet die Nachvollziehbarkeit und Regelkonformität
-einer bereitgestellten Prozessbeschreibung — nicht die Wahrheit ihres
-Ergebnisses.
+versionierten JSON-Parser, ein maschinenlesbares JSON-Schema, die
+Kommandozeile `rpf` und den ersten ausführbaren RPF-Zustandsautomaten. Sie
+bewertet die Nachvollziehbarkeit und Regelkonformität einer bereitgestellten
+Prozessbeschreibung — nicht die Wahrheit ihres Ergebnisses.
 
 Die Bewertungssemantik und ihre Grenzen stehen in der
 [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md). Die neue
 öffentliche Schnittstelle beschreibt
-[JSON und CLI 0.3](docs/JSON_CLI_0.3.md). Weitere Etappen enthält die
+[JSON und CLI 0.3](docs/JSON_CLI_0.3.md). Der neue Kontrollfluss ist im
+[ausführbaren Zustandsautomaten 0.4](docs/STATE_MACHINE_RUNTIME_0.4.md)
+dokumentiert. Weitere Etappen enthält die
 [deutsche Roadmap](ROADMAP.md); eine vollständige englische Fassung steht in
 der [English roadmap](ROADMAP.en.md).
 
@@ -56,13 +58,21 @@ unveränderliches Ein-/Ausgabedatenmodell sowie den ausführbaren
 `evaluate`-Kern. Er bildet Kompetenz, `C_i`, `C_e`, Referenzrahmen, Hypothesen,
 Terminierungsgrenzen, Zeithorizonte, Handlungsoptionen und Restunsicherheit als
 getrennte Strukturen ab und erzeugt für jede Regel einen erklärbaren Status mit
-stabilen Reason-Codes.
+stabilen Reason-Codes. `run_state_machine` führt das versionierte Ergebnis
+anschließend durch eine unveränderliche Übergangstabelle und erzeugt einen
+begrenzten Audit-Trace.
 
 Direkter Lauf des öffentlichen Wetterbeispiels:
 
 ```bash
 python -m pip install --no-deps .
 rpf validate examples/weather-input-0.2.json
+```
+
+Ausführbarer Zustands-Trace desselben Falls:
+
+```bash
+rpf trace examples/weather-input-0.2.json
 ```
 
 Das mitgelieferte Eingabeschema kann ebenfalls maschinenlesbar ausgegeben
@@ -75,10 +85,11 @@ rpf schema
 Minimale Verwendung mit einem konstruierten `ValidatorInput`:
 
 ```python
-from rpf_validator import evaluate, to_json
+from rpf_validator import evaluate, run_state_machine, to_json
 
 result = evaluate(case)
-print(to_json(result))
+trace = run_state_machine(result)
+print(to_json(trace))
 ```
 
 Lokaler Testlauf ab Python 3.11:
@@ -103,7 +114,8 @@ Die Struktur folgt der
 | [Validator-Operationalisierung](docs/VALIDATOR_OPERATIONALIZATION.md) | Eingaben, Regeln, Status, Reason-Codes und Mindesttests für A1–A4 und P1–P4 |
 | [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md) | ausführbarer Regelvertrag, Annahmen, Prüfstand und Grenzen |
 | [JSON und CLI 0.3](docs/JSON_CLI_0.3.md) | Parser, JSON-Schema, Kommandozeile, Exit-Codes und öffentliches Beispiel |
-| [Python-Paket](src/rpf_validator) | Datenmodell, Parser und deterministischer Evaluator |
+| [Ausführbarer Zustandsautomat 0.4](docs/STATE_MACHINE_RUNTIME_0.4.md) | deklarative Übergangstabelle, Ergebnisrouting, Audit-Trace und Grenzen |
+| [Python-Paket](src/rpf_validator) | Datenmodell, Parser, deterministischer Evaluator und State-Machine-Runtime |
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
 | [Modellboot ohne Referenzdefinition](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.md) | synthetische `NO_REFERENCE`-Fixture zu zwei nicht dokumentierten Laboranzeigen |
 | [Koinzidenz-Interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.md) | synthetische `WARN`-Fixture zur Trennung von Bedeutung, Konfidenz, Evidenz und Kausalität |

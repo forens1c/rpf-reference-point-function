@@ -111,9 +111,10 @@ Validator, keine Änderung des eingefrorenen Kerns.
 
 ### 4 — RPF-Zustandsautomat
 
-- Den bestehenden Zustandsraum als ausführbare Übergangslogik modellieren.
-- Zulässige und unzulässige Übergänge testen.
-- Delegation, `NO_REFERENCE`, Terminierung und Rückkehr zu `IDLE` protokollieren.
+- [x] Den bestehenden Zustandsraum als ausführbare Übergangslogik modellieren.
+- [x] Zulässige und unzulässige Übergänge testen.
+- [x] Delegation, `NO_REFERENCE`, Terminierung und Rückkehr zu `IDLE`
+  protokollieren.
 
 ### 5 — Optionale Klassifikation und KI-Experimente
 
@@ -167,16 +168,46 @@ Die Einzelheiten stehen in
 `0.3.0.dev0` verwendet weiterhin die unveränderten Ein- und Ergebnisverträge
 `rpf-validator-input-0.2` und `rpf-validator-result-0.2`.
 
+## Abgeschlossener technischer Schnitt 0.4
+
+Version 0.4 setzt Etappe 4 als ausführbaren, begrenzten Kontrollfluss um:
+
+- [x] kanonische Zustände und Ereignisse als typsichere Enums abbilden,
+- [x] zulässige Übergänge in einer unveränderlichen Tabelle veröffentlichen,
+- [x] ungültige Übergänge deterministisch ablehnen,
+- [x] `DELEGATE`, `NO_REFERENCE` und frühe beziehungsweise adaptive `STOP`-Pfade
+  protokollieren,
+- [x] jeden erfolgreichen Lauf innerhalb von höchstens sieben Übergängen zu
+  `IDLE` zurückführen,
+- [x] Validator und Runtime ausschließlich über
+  `rpf-validator-result-0.2` koppeln,
+- [x] den versionierten Audit-Trace `rpf-state-machine-trace-0.1` und
+  `rpf trace scenario.json` ergänzen.
+
+Die Einzelheiten stehen im
+[ausführbaren Zustandsautomaten 0.4](docs/STATE_MACHINE_RUNTIME_0.4.md). Die
+Paketversion `0.4.0.dev0` verwendet weiterhin die unveränderten Eingabe- und
+Ergebnisverträge `rpf-validator-input-0.2` und
+`rpf-validator-result-0.2`.
+
 ## Nächster technischer Schnitt
 
-Der nächste Schnitt beginnt mit Etappe 4:
+Der nächste Schnitt bereitet Etappe 5 vor, ohne bereits ein Sprachmodell in
+den deterministischen Kern einzubauen:
 
-- Zustände und zulässige Übergänge als getrenntes Modul implementieren,
-- ungültige Übergänge deterministisch ablehnen,
-- `DELEGATE`, `NO_REFERENCE` und `STOP` als explizite Pfade protokollieren,
-- die Rückkehr zu `IDLE` und feste Schrittgrenzen testen,
-- Validator und Zustandsautomat zunächst nur über versionierte Ergebnisse
-  koppeln.
+- einen versionierten Vertrag für optionale Klassifikationsanbieter entwerfen,
+- zuerst eine regelbasierte Referenzrahmenklassifikation erproben,
+- Anbieterkennung, Version, Herkunft und Bewertungsautorität jedes Vorschlags
+  ausdrücklich protokollieren,
+- jeden Klassifikationsvorschlag weiterhin durch denselben Validator und
+  Zustandsautomaten führen,
+- testen, dass ein Anbieter weder Übergangstabelle noch Prozessstatus direkt
+  überschreiben kann.
+
+Eine automatische Semantikanalyse bleibt eine spätere austauschbare Variante.
+Der deterministische Kern kann strukturwidrige oder unvollständige Vorschläge
+abweisen, aber keine intern konsistent eingetragene Falschinformation ohne
+zusätzliche Evidenz als unwahr erkennen.
 
 Kompatibilitäts- und Migrationsregeln für spätere Vorab-Schemata bleiben
 parallel als offene Aufgabe bestehen. Dazu gehört die im
@@ -184,8 +215,7 @@ parallel als offene Aufgabe bestehen. Dazu gehört die im
 gewordene Rollenfrage zwischen Bewertungssubjekt und Bewertungsinstanz. Der
 [Quellen-Echo-Transferfall](docs/TRANSFER_CASE_SOURCE_ECHO.md) ergänzt als
 weitere parallele Aufgabe eine behauptungsbezogene Provenienzstruktur; sie
-ändert nicht die Priorität des Zustandsautomaten und wird nicht stillschweigend
-in den bestehenden 0.2-Eingabevertrag aufgenommen.
+wird nicht stillschweigend in den bestehenden 0.2-Eingabevertrag aufgenommen.
 
 ## Nicht-Ziele des ersten Prototyps
 

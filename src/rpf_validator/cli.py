@@ -1,7 +1,7 @@
 # Copyright 2026 Björn (frenetik.B)
 # SPDX-License-Identifier: Apache-2.0
 
-"""Command-line interface for the experimental RPF validator."""
+"""Command-line interface for the RPF validator and state-machine runtime."""
 
 from __future__ import annotations
 
@@ -15,18 +15,20 @@ from rpf_validator.evaluator import evaluate
 from rpf_validator.parsing import parse_json
 from rpf_validator.schema import load_input_schema
 from rpf_validator.serialization import to_json
+from rpf_validator.state_machine import StateMachineError, run_state_machine
 
 EXIT_SUCCESS = 0
 EXIT_INPUT_ERROR = 2
 EXIT_IO_ERROR = 3
+EXIT_STATE_MACHINE_ERROR = 4
 
 
 def _build_parser(version: str) -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="rpf",
         description=(
-            "Validate a declared reasoning process against the experimental "
-            "RPF rules. This does not determine factual truth."
+            "Validate or trace a declared reasoning process against the "
+            "experimental RPF rules. This does not determine factual truth."
         ),
     )
     parser.add_argument(
@@ -48,6 +50,20 @@ def _build_parser(version: str) -> argparse.ArgumentParser:
         "--compact",
         action="store_true",
         help="emit the result on one line",
+    )
+
+    trace = commands.add_parser(
+        "trace",
+        help="validate one input and emit its bounded state-machine trace",
+    )
+    trace.add_argument(
+        "input",
+        help="path to the JSON input file, or '-' to read standard input",
+    )
+    trace.add_argument(
+        "--compact",
+        action="store_true",
+        help="emit the trace on one line",
     )
 
     schema = commands.add_parser(
@@ -124,7 +140,20 @@ def main(
         )
         return EXIT_INPUT_ERROR
 
-    _write_json(output_stream, result, compact=args.compact)
+    if args.command == "trace":
+        try:
+            output = run_state_machine(result)
+        except StateMachineError as exc:
+            _write_json(
+                error_stream,
+                _error_payload(exc.code.value, exc.path, exc.message),
+                compact=True,
+            )
+            return EXIT_STATE_MACHINE_ERROR
+    else:
+        output = result
+
+    _write_json(output_stream, output, compact=args.compact)
     return EXIT_SUCCESS
 
 

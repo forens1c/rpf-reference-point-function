@@ -58,6 +58,41 @@ class CliTests(unittest.TestCase):
         self.assertEqual(code, EXIT_SUCCESS)
         self.assertEqual(len(stdout.splitlines()), 1)
 
+    def test_trace_emits_versioned_bounded_state_machine_path(self) -> None:
+        code, stdout, stderr = run_cli(
+            "trace",
+            str(WEATHER_EXAMPLE),
+            "--compact",
+        )
+
+        self.assertEqual(code, EXIT_SUCCESS)
+        self.assertEqual(stderr, "")
+        payload = json.loads(stdout)
+        self.assertEqual(payload["schema_version"], "rpf-state-machine-trace-0.1")
+        self.assertEqual(payload["result_schema_version"], "rpf-validator-result-0.2")
+        self.assertEqual(payload["overall_status"], "PASS")
+        self.assertEqual(payload["final_state"], "IDLE")
+        self.assertEqual(payload["transitions"][0]["source_state"], "IDLE")
+        self.assertEqual(payload["transitions"][-1]["target_state"], "IDLE")
+        self.assertLessEqual(
+            len(payload["transitions"]),
+            payload["max_transitions"],
+        )
+
+    def test_trace_preserves_no_reference_as_an_explicit_event(self) -> None:
+        example = ROOT / "examples" / "wave-tank-no-reference-input-0.2.json"
+
+        code, stdout, stderr = run_cli("trace", str(example))
+
+        self.assertEqual(code, EXIT_SUCCESS)
+        self.assertEqual(stderr, "")
+        payload = json.loads(stdout)
+        self.assertEqual(payload["overall_status"], "NO_REFERENCE")
+        self.assertIn(
+            "NO_REFERENCE",
+            [record["event"] for record in payload["transitions"]],
+        )
+
     def test_stop_is_a_valid_evaluation_not_a_cli_failure(self) -> None:
         value = json.loads(WEATHER_EXAMPLE.read_text(encoding="utf-8"))
         value["termination"]["iteration"] = 5

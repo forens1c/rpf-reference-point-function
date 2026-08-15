@@ -36,3 +36,10 @@ jobs:
           rpf validate examples/wave-tank-no-reference-input-0.2.json --compact
           rpf validate examples/loop-collapse-self-input-0.2.json --compact
           rpf validate examples/loop-collapse-external-input-0.2.json --compact
+          rpf trace examples/weather-input-0.2.json --compact
+          rpf trace examples/coincidence-interpretation-input-0.2.json --compact
+          rpf trace examples/reflected-desire-input-0.2.json --compact
+          rpf trace examples/source-echo-input-0.2.json --compact
+          rpf trace examples/wave-tank-no-reference-input-0.2.json --compact
+          rpf trace examples/loop-collapse-self-input-0.2.json --compact
+          rpf trace examples/loop-collapse-external-input-0.2.json --compact
