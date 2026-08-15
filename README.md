@@ -107,6 +107,7 @@ Die Struktur folgt der
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
 | [Koinzidenz-Interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.md) | synthetische `WARN`-Fixture zur Trennung von Bedeutung, Konfidenz, Evidenz und Kausalität |
 | [Kontext-Rückkopplung und rückgespiegelte Begehrlichkeit](docs/TRANSFER_CASE_REFLECTED_DESIRE.md) | synthetische `WARN`-Fixture zur Trennung von äußerem Reiz, wahrgenommener Norm, Defizit und eigenem Wunsch |
+| [Quellen-Echo und Referenzrahmen-Drift](docs/TRANSFER_CASE_SOURCE_ECHO.md) | behauptungsbezogene Trennung von Dokumentzahl, Evidenzwurzel, Formulierung und Scheinkonsens |
 | [Loop-Collapse-Transferfall](docs/TRANSFER_CASE_LOOP_COLLAPSE.md) | zwei nicht-klinische Negativ-Fixtures für Kompetenz-Gate und nachgelagerte Regelmechanik |
 | [Eingabe-JSON-Schema](src/rpf_validator/schemas/rpf-validator-input-0.2.schema.json) | maschinenlesbarer Eingabevertrag |
 | [KI-Agenten-Transferfallstudie](docs/TRANSFER_CASE_HUGGING_FACE_INCIDENT.md) | nicht-normative RPF-These zum OpenAI-/Hugging-Face-Sicherheitsvorfall |
@@ -153,6 +154,15 @@ eigenem Wunsch und Handlungsimpuls. Ein bewusst niedrig gewichtetes und ein
 sozial folgenreicheres Beispiel zeigen dieselbe Inferenzform, ohne ihre Inhalte
 gleichzusetzen oder eine persönliche Lebenssituation zu unterstellen.
 
+Der neue
+[Transferfall zu Quellen-Echo und Referenzrahmen-Drift](docs/TRANSFER_CASE_SOURCE_ECHO.md)
+prüft Quellenunabhängigkeit nicht pauschal pro Dokument, sondern bezogen auf
+eine atomare Behauptung und eine benannte Evidenzdimension. Er trennt eine
+gemeinsame Evidenzwurzel, sprachliche Drift und daraus entstehenden
+Scheinkonsens. Die ausführbare Fixture erzeugt nur für den ausdrücklich
+mehrdeutigen Referenzrahmen ein `WARN`; automatische Quellen- oder
+Semantikanalyse bleibt eine spätere, versionierte Erweiterung.
+
 ## Öffentliche Ergebnisbeispiele
 
 | Szenario | Führende Regelspur | Ergebnis |
@@ -160,6 +170,7 @@ gleichzusetzen oder eine persönliche Lebenssituation zu unterstellen.
 | [Wetterkonflikt](examples/weather-input-0.2.json) | keine ausgelöste Regel | `PASS` |
 | [Koinzidenz-Interpretation](examples/coincidence-interpretation-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Rückgespiegelte Begehrlichkeit](examples/reflected-desire-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Quellen-Echo](examples/source-echo-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Loop-Collapse-Selbstbewertung](examples/loop-collapse-self-input-0.2.json) | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-Collapse-Mechanik](examples/loop-collapse-external-input-0.2.json) | A3/P3 · erreichte Abbruchgrenzen | `STOP` |
 

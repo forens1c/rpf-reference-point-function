@@ -31,6 +31,7 @@ implemented rules. It does not confirm its facts, sources, or action.
 | [Weather example](../examples/weather-input-0.2.json) | public neutral end-to-end case |
 | [Coincidence interpretation](../examples/coincidence-interpretation-input-0.2.json) | ambiguous reference frame producing `WARN` |
 | [Reflected desire](../examples/reflected-desire-input-0.2.json) | ambiguous source of an action impulse producing `WARN` |
+| [Source Echo](../examples/source-echo-input-0.2.json) | claim-relative source ambiguity producing `WARN` |
 | [Loop-collapse self-assessment](../examples/loop-collapse-self-input-0.2.json) | A1 gate producing `DELEGATE` |
 | [Externally documented loop-collapse mechanics case](../examples/loop-collapse-external-input-0.2.json) | retained signal path producing `STOP` |
 
@@ -130,6 +131,15 @@ attribution, and personal desire silently collapse into one inference. The
 neutral executable fixture leaves the source of the spontaneous impulse open
 and therefore also produces `WARN`.
 
+The additional
+[Source Echo and Reference-Frame Drift transfer case](TRANSFER_CASE_SOURCE_ECHO.en.md)
+separates the number of texts from the number of independent evidence roots for
+one atomic target claim. The fixture therefore records only one synthetic
+primary observation as an evidence source and retains claim equivalence,
+derivation edges, and semantic drift as residual uncertainty. The current
+contract does not infer these features; the `WARN` comes from the declared
+ambiguous reference frame.
+
 ## Public scenario matrix
 
 | Input | Focus | Leading rule trace | Result |
@@ -137,6 +147,7 @@ and therefore also produces `WARN`.
 | [Weather](../examples/weather-input-0.2.json) | neutral reference process | no triggered rule | `PASS` |
 | [Coincidence](../examples/coincidence-interpretation-input-0.2.json) | keep meaning and causality separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Reflected desire](../examples/reflected-desire-input-0.2.json) | keep norm, deficit, and personal desire separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Source Echo](../examples/source-echo-input-0.2.json) | keep texts, claims, and evidence roots separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Loop self-assessment](../examples/loop-collapse-self-input-0.2.json) | competence gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop mechanics](../examples/loop-collapse-external-input-0.2.json) | termination and reflexivity bounds | A3/P3 · reached bounds | `STOP` |
 
@@ -145,7 +156,7 @@ complete public fixture.
 
 ## Verification and limitations
 
-The interface is covered by 62 automated tests, including roundtrips, invalid
+The interface is covered by 63 automated tests, including roundtrips, invalid
 and duplicate JSON fields, precise error paths, cross-references, standard
 input, compact output, schema output, and CLI exit codes.
 

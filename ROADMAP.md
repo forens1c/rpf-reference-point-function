@@ -121,6 +121,11 @@ Validator, keine Änderung des eingefrorenen Kerns.
 - KI-Ausgaben nur als Hypothesen behandeln und durch denselben Validator führen.
 - Prüfen, ob ein späteres Schema Bewertungssubjekt, Bewertungsinstanz und die
   Herkunft ihrer jeweiligen Angaben ausdrücklich trennen muss.
+- Quellenunabhängigkeit behauptungsbezogen und nach Daten-, Analyse-, Methoden-,
+  Kontext- und Provenienzdimension modellieren.
+- Für einen späteren, versionierten Claim-Vertrag Evidenzwurzeln,
+  Ableitungskanten, Geltungsbereich, epistemische Modalität und Kausalstatus
+  untersuchen.
 - Den KI-Agenten-Transferfall als anspruchsvollen Untersuchungsfall nutzen, ohne
   daraus eine Validierung der RPF abzuleiten.
 - Autorisierung und technische Erreichbarkeit in sicherheitsbezogenen Versuchen
@@ -176,7 +181,11 @@ Der nächste Schnitt beginnt mit Etappe 4:
 Kompatibilitäts- und Migrationsregeln für spätere Vorab-Schemata bleiben
 parallel als offene Aufgabe bestehen. Dazu gehört die im
 [Loop-Collapse-Transferfall](docs/TRANSFER_CASE_LOOP_COLLAPSE.md) sichtbar
-gewordene Rollenfrage zwischen Bewertungssubjekt und Bewertungsinstanz.
+gewordene Rollenfrage zwischen Bewertungssubjekt und Bewertungsinstanz. Der
+[Quellen-Echo-Transferfall](docs/TRANSFER_CASE_SOURCE_ECHO.md) ergänzt als
+weitere parallele Aufgabe eine behauptungsbezogene Provenienzstruktur; sie
+ändert nicht die Priorität des Zustandsautomaten und wird nicht stillschweigend
+in den bestehenden 0.2-Eingabevertrag aufgenommen.
 
 ## Nicht-Ziele des ersten Prototyps
 
