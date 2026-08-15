@@ -1,0 +1,62 @@
+{
+  "schema_version": "rpf-classification-proposal-0.1",
+  "proposal_id": "proposal-neutral-identified-001",
+  "proposal_role": "NON_AUTHORITATIVE_SUGGESTION",
+  "provider": {
+    "provider_id": "rpf.synthetic-fixture-provider",
+    "provider_version": "fixture-0.1.0",
+    "provider_kind": "RULE_BASED",
+    "configuration_digest": {
+      "algorithm": "sha-256",
+      "canonicalization": "rfc8785-json",
+      "value": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  },
+  "input_reference": {
+    "case_id": "classification-neutral-identified-001",
+    "assessment_subject_id": "neutral-instrument-report",
+    "source_id": "classification-source-identified",
+    "media_type": "text/plain",
+    "payload_digest": {
+      "algorithm": "sha-256",
+      "canonicalization": "raw-utf8",
+      "value": "ae64f16df43795822f77262863d71e9c9fcd825109eae9b4a0235b4c165027b6"
+    }
+  },
+  "preferred_candidate_id": "frame-celsius-measurement",
+  "candidates": [
+    {
+      "candidate_id": "frame-celsius-measurement",
+      "status": "IDENTIFIED",
+      "classes": [
+        "OBJECTIVE_MEASUREMENT"
+      ],
+      "scope": "Sensor A temperature during the declared afternoon window on the Celsius scale.",
+      "rationale": "The source explicitly names an instrument reading, measured quantity, sensor, time window, and unit.",
+      "provider_confidence": 0.96,
+      "provider_confidence_rationale": "The rule set matched explicit measurement and unit terms; this is provider self-confidence, not external evidence.",
+      "confidence_scale_id": "provider-self-report-unit-interval-0.1",
+      "evidence_ids": [
+        "evidence-identified-entire-sentence"
+      ],
+      "assumptions": [
+        "The quoted unit label applies to the reported sensor value."
+      ]
+    }
+  ],
+  "evidence_fragments": [
+    {
+      "evidence_id": "evidence-identified-entire-sentence",
+      "source_id": "classification-source-identified",
+      "start_byte": 0,
+      "end_byte": 106,
+      "fragment_digest": {
+        "algorithm": "sha-256",
+        "canonicalization": "raw-utf8",
+        "value": "c7d694faa32de44ed461aa198a1fbb8e1f61156921df86cc88fd7ddd6ceb307a"
+      },
+      "excerpt": "The instrument log reports a temperature of 18.2 degrees Celsius for sensor A during the afternoon window."
+    }
+  ],
+  "uncertainties": []
+}

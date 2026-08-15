@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/forens1c/rpf-reference-point-function/main/src/rpf_validator/schemas/rpf-classification-proposal-0.1.schema.json",
+  "$comment": "Copyright 2026 Björn (frenetik.B); SPDX-License-Identifier: Apache-2.0",
+  "title": "RPF Classification Proposal 0.1",
+  "description": "Non-authoritative reference-frame candidates from an optional classification provider. This contract cannot set validator status, reason codes, transitions, competence, evidence strength, or actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proposal_id",
+    "proposal_role",
+    "provider",
+    "input_reference",
+    "preferred_candidate_id",
+    "candidates",
+    "evidence_fragments",
+    "uncertainties"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "rpf-classification-proposal-0.1"
+    },
+    "proposal_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "proposal_role": {
+      "const": "NON_AUTHORITATIVE_SUGGESTION"
+    },
+    "provider": {
+      "$ref": "#/$defs/provider"
+    },
+    "input_reference": {
+      "$ref": "#/$defs/inputReference"
+    },
+    "preferred_candidate_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/frameCandidate"
+      }
+    },
+    "evidence_fragments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidenceFragment"
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/proposalUncertainty"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[Tt][0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$"
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "nullableNonEmptyString": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "unitIntervalOrNull": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "uniqueStringArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true
+    },
+    "contentDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "canonicalization",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha-256"
+        },
+        "canonicalization": {
+          "enum": [
+            "raw-utf8",
+            "rfc8785-json"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "rawUtf8Digest": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/contentDigest"
+        },
+        {
+          "properties": {
+            "canonicalization": {
+              "const": "raw-utf8"
+            }
+          }
+        }
+      ]
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "provider_version",
+        "provider_kind",
+        "configuration_digest"
+      ],
+      "properties": {
+        "provider_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "provider_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "provider_kind": {
+          "enum": [
+            "RULE_BASED",
+            "MODEL_BASED"
+          ]
+        },
+        "configuration_digest": {
+          "$ref": "#/$defs/contentDigest"
+        },
+        "model_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "model_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "provider_kind"
+            ],
+            "properties": {
+              "provider_kind": {
+                "const": "MODEL_BASED"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "model_id",
+              "model_version"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "provider_kind"
+            ],
+            "properties": {
+              "provider_kind": {
+                "const": "RULE_BASED"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "model_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "model_version"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "inputReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "assessment_subject_id",
+        "source_id",
+        "media_type",
+        "payload_digest"
+      ],
+      "properties": {
+        "case_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "assessment_subject_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "media_type": {
+          "type": "string",
+          "pattern": "^text/[^\\s/]+$"
+        },
+        "payload_digest": {
+          "$ref": "#/$defs/rawUtf8Digest"
+        }
+      }
+    },
+    "evidenceFragment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "source_id",
+        "start_byte",
+        "end_byte",
+        "fragment_digest"
+      ],
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "start_byte": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_byte": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fragment_digest": {
+          "$ref": "#/$defs/rawUtf8Digest"
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "frameCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "status",
+        "classes",
+        "scope",
+        "rationale",
+        "provider_confidence",
+        "provider_confidence_rationale",
+        "confidence_scale_id",
+        "evidence_ids",
+        "assumptions"
+      ],
+      "properties": {
+        "candidate_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "enum": [
+            "IDENTIFIED",
+            "AMBIGUOUS",
+            "MISSING"
+          ]
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "OBJECTIVE_MEASUREMENT",
+              "SUBJECTIVE_PERCEPTION",
+              "INDIVIDUAL_PREFERENCE",
+              "STATISTICAL_EXCEPTION",
+              "CULTURAL_EVALUATION",
+              "LINGUISTIC_AMBIGUITY",
+              "LOGICAL_CONTRADICTION"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "scope": {
+          "$ref": "#/$defs/nullableNonEmptyString"
+        },
+        "rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "provider_confidence": {
+          "$ref": "#/$defs/unitIntervalOrNull"
+        },
+        "provider_confidence_rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "confidence_scale_id": {
+          "const": "provider-self-report-unit-interval-0.1"
+        },
+        "evidence_ids": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "assumptions": {
+          "$ref": "#/$defs/uniqueStringArray"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "MISSING"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "classes": {
+                "maxItems": 0
+              },
+              "scope": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "classes": {
+                "minItems": 1
+              },
+              "scope": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "proposalUncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uncertainty_id",
+        "description",
+        "affects_candidate_ids"
+      ],
+      "properties": {
+        "uncertainty_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "affects_candidate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

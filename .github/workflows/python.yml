@@ -43,3 +43,4 @@ jobs:
           rpf trace examples/wave-tank-no-reference-input-0.2.json --compact
           rpf trace examples/loop-collapse-self-input-0.2.json --compact
           rpf trace examples/loop-collapse-external-input-0.2.json --compact
+          rpf schema --contract classification-proposal --compact

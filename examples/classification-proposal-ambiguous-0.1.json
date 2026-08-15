@@ -1,0 +1,87 @@
+{
+  "schema_version": "rpf-classification-proposal-0.1",
+  "proposal_id": "proposal-neutral-ambiguous-001",
+  "proposal_role": "NON_AUTHORITATIVE_SUGGESTION",
+  "provider": {
+    "provider_id": "rpf.synthetic-fixture-provider",
+    "provider_version": "fixture-0.1.0",
+    "provider_kind": "RULE_BASED",
+    "configuration_digest": {
+      "algorithm": "sha-256",
+      "canonicalization": "rfc8785-json",
+      "value": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  },
+  "input_reference": {
+    "case_id": "classification-neutral-ambiguous-001",
+    "assessment_subject_id": "neutral-summary-label",
+    "source_id": "classification-source-ambiguous",
+    "media_type": "text/plain",
+    "payload_digest": {
+      "algorithm": "sha-256",
+      "canonicalization": "raw-utf8",
+      "value": "5c2ff13dc9849d62474e025765ff1abf4a006fbcf8204d73275103420d255585"
+    }
+  },
+  "preferred_candidate_id": "frame-label-semantics",
+  "candidates": [
+    {
+      "candidate_id": "frame-label-semantics",
+      "status": "AMBIGUOUS",
+      "classes": [
+        "LINGUISTIC_AMBIGUITY"
+      ],
+      "scope": "Meaning of the label 'high' in the supplied summary.",
+      "rationale": "The source explicitly lists several incompatible meanings without selecting one.",
+      "provider_confidence": 0.94,
+      "provider_confidence_rationale": "The ambiguity phrase matched the rule set directly; the score is not a truth or evidence value.",
+      "confidence_scale_id": "provider-self-report-unit-interval-0.1",
+      "evidence_ids": [
+        "evidence-ambiguous-entire-sentence"
+      ],
+      "assumptions": []
+    },
+    {
+      "candidate_id": "frame-undocumented-measurement",
+      "status": "IDENTIFIED",
+      "classes": [
+        "OBJECTIVE_MEASUREMENT"
+      ],
+      "scope": "A measured value classified by an undocumented threshold.",
+      "rationale": "One possible reading treats 'high' as a measurement label, but the source does not establish it.",
+      "provider_confidence": 0.32,
+      "provider_confidence_rationale": "The source mentions a result but supplies no measured quantity, unit, or threshold.",
+      "confidence_scale_id": "provider-self-report-unit-interval-0.1",
+      "evidence_ids": [
+        "evidence-ambiguous-entire-sentence"
+      ],
+      "assumptions": [
+        "The word 'result' may refer to a measurement."
+      ]
+    }
+  ],
+  "evidence_fragments": [
+    {
+      "evidence_id": "evidence-ambiguous-entire-sentence",
+      "source_id": "classification-source-ambiguous",
+      "start_byte": 0,
+      "end_byte": 123,
+      "fragment_digest": {
+        "algorithm": "sha-256",
+        "canonicalization": "raw-utf8",
+        "value": "3f3a5eef8764f23dbe0d37d9972f4e80b0954e37174ef0ef392e2b6812e30bae"
+      },
+      "excerpt": "The summary labels the result as high but does not define whether high refers to a measured value, priority, or confidence."
+    }
+  ],
+  "uncertainties": [
+    {
+      "uncertainty_id": "uncertainty-high-dimension",
+      "description": "The dimension, unit, threshold, and communicative function of 'high' are not supplied.",
+      "affects_candidate_ids": [
+        "frame-label-semantics",
+        "frame-undocumented-measurement"
+      ]
+    }
+  ]
+}

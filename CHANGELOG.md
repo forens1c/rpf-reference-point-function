@@ -73,6 +73,15 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   zweisprachige Dokumentation grenzt Kontrollfluss, Semantikanalyse und
   Wahrheitsprüfung ausdrücklich voneinander ab; insgesamt 80 Tests sichern den
   Stand ab.
+- Experimentellen Schnitt `0.5.0.dev0` mit dem nicht-autorisierenden Vertrag
+  `rpf-classification-proposal-0.1` ergänzt. Unveränderliche Python-Modelle,
+  strikter Parser, Draft-2020-12-Schema, SHA-256-Quell- und Fragmentbindung,
+  getrennte Frame-Status/-Klassen sowie getrennte Provider-Konfidenz bilden die
+  Schnittstelle. Drei neutrale öffentliche Vorschläge und sechs maschinenlesbare
+  Negativfälle prüfen unter anderem das Einschleusen von Prozessstatus,
+  Selbstautorisierung und Evidenzwerten. Validator, Ergebnisvertrag und
+  State-Machine bleiben unverändert; Provider, Adapter und Sprachmodell sind
+  ausdrücklich noch nicht enthalten. Insgesamt 105 Tests sichern den Stand ab.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

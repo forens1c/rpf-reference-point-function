@@ -72,17 +72,22 @@ separate from the frozen archive.
 
 ## Current development status
 
-The **non-normative experimental Python implementation 0.4** contains a
+The **non-normative experimental Python implementation 0.5** contains a
 deterministic validator for A1–A4 and P1–P4, a strict versioned JSON parser, a
-machine-readable JSON Schema, the `rpf` command line, and the first executable
-RPF state machine. It evaluates the traceability and rule compliance of a
-supplied process description — not whether its conclusion is true.
+machine-readable JSON Schema, the `rpf` command line, the executable RPF state
+machine, and a separate non-authorizing contract for optional classification
+proposals. It evaluates the traceability and rule compliance of a supplied
+process description — not whether its conclusion is true. A classification
+proposal cannot determine a process status, reason code, state transition,
+competence value, evidence score, or action.
 
 Its evaluation semantics and limitations are documented in
 [validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md). The
 new public interface is described in
 [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md). The new control flow is documented
 in [executable state machine 0.4](docs/STATE_MACHINE_RUNTIME_0.4.en.md).
+The provider boundary is documented in
+[classification proposal contract 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.en.md).
 Further stages appear in the
 [English roadmap](ROADMAP.en.md) and the [German roadmap](ROADMAP.md).
 
@@ -95,6 +100,11 @@ action options, and residual uncertainty separate, then emits an explainable
 status and stable reason codes for every rule. `run_state_machine` then routes
 the versioned result through an immutable transition table and emits a bounded
 audit trace.
+
+The package also contains immutable models, a separate strict parser, and
+integrity verification for `rpf-classification-proposal-0.1`. The contract
+deliberately ends before `ValidatorInput`: version 0.5 includes no provider
+that performs classification, no adapter, and no language model.
 
 Run the public weather example directly:
 
@@ -113,6 +123,7 @@ The bundled input contract is also available in machine-readable form:
 
 ```bash
 rpf schema
+rpf schema --contract classification-proposal
 ```
 
 Minimal use with a constructed `ValidatorInput`:
@@ -151,8 +162,10 @@ an English entry point and links to each source document.
 | [Validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md) | executable rule contract, assumptions, verification, and limitations | English |
 | [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
 | [Executable state machine 0.4](docs/STATE_MACHINE_RUNTIME_0.4.en.md) | declarative transition table, result routing, audit trace, and limitations | English |
-| [Python package](src/rpf_validator) | data model, parser, deterministic evaluator, and state-machine runtime | English |
+| [Classification proposal 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.en.md) | non-authorizing provider contract, integrity binding, and limitations | English |
+| [Python package](src/rpf_validator) | data models, strict parsers, deterministic evaluator, and state-machine runtime | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
+| [Classification proposal schema](src/rpf_validator/schemas/rpf-classification-proposal-0.1.schema.json) | machine-readable, strictly versioned proposal contract | English |
 | [Model boat without a reference definition](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.en.md) | synthetic `NO_REFERENCE` fixture for two undocumented laboratory displays | English |
 | [Coincidence interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md) | synthetic `WARN` fixture separating meaning, confidence, evidence, and causality | English |
 | [Context feedback and reflected desire](docs/TRANSFER_CASE_REFLECTED_DESIRE.en.md) | synthetic `WARN` fixture separating external cue, perceived norm, deficit, and personal desire | English |

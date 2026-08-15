@@ -1,0 +1,66 @@
+{
+  "schema_version": "rpf-classification-proposal-0.1",
+  "proposal_id": "proposal-neutral-missing-001",
+  "proposal_role": "NON_AUTHORITATIVE_SUGGESTION",
+  "provider": {
+    "provider_id": "rpf.synthetic-fixture-provider",
+    "provider_version": "fixture-0.1.0",
+    "provider_kind": "RULE_BASED",
+    "configuration_digest": {
+      "algorithm": "sha-256",
+      "canonicalization": "rfc8785-json",
+      "value": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  },
+  "input_reference": {
+    "case_id": "classification-neutral-missing-001",
+    "assessment_subject_id": "neutral-panel-comparison",
+    "source_id": "classification-source-missing",
+    "media_type": "text/plain",
+    "payload_digest": {
+      "algorithm": "sha-256",
+      "canonicalization": "raw-utf8",
+      "value": "c3110158372e56287c45e0fa45a29fdcc57374b661ad81b9ecb909d4fc9a9ad6"
+    }
+  },
+  "preferred_candidate_id": "frame-definition-missing",
+  "candidates": [
+    {
+      "candidate_id": "frame-definition-missing",
+      "status": "MISSING",
+      "classes": [],
+      "scope": null,
+      "rationale": "The source supplies two values while explicitly withholding every required comparison definition.",
+      "provider_confidence": 0.99,
+      "provider_confidence_rationale": "The missing labels and scale definitions are explicit in the source; this remains provider self-confidence only.",
+      "confidence_scale_id": "provider-self-report-unit-interval-0.1",
+      "evidence_ids": [
+        "evidence-missing-entire-sentence"
+      ],
+      "assumptions": []
+    }
+  ],
+  "evidence_fragments": [
+    {
+      "evidence_id": "evidence-missing-entire-sentence",
+      "source_id": "classification-source-missing",
+      "start_byte": 0,
+      "end_byte": 127,
+      "fragment_digest": {
+        "algorithm": "sha-256",
+        "canonicalization": "raw-utf8",
+        "value": "86ec4f9f8988d4c87ee61711ac36c3cb165c5506cfedfea7c2dc29013e13b88e"
+      },
+      "excerpt": "Panel A displays 14 and panel B displays 82; no channel label, measured quantity, unit, datum, or scale definition is supplied."
+    }
+  ],
+  "uncertainties": [
+    {
+      "uncertainty_id": "uncertainty-external-definition",
+      "description": "A separate document may define the channels, but it is not part of the supplied payload.",
+      "affects_candidate_ids": [
+        "frame-definition-missing"
+      ]
+    }
+  ]
+}

@@ -15,8 +15,14 @@ must remain traceable.
 ## Next objective
 
 The **experimental Python reference implementation** now has a deterministic
-axiom validator and a public JSON/CLI interface. The next major step is planned
-as executable transition logic for the RPF state machine.
+axiom validator, a public JSON/CLI interface, an executable state machine, and
+the separate, non-authorizing proposal contract
+`rpf-classification-proposal-0.1`.
+
+The next bounded step is a small deterministic rule-based classification
+provider. It will only produce the new proposal contract. An adapter to
+`ValidatorInput`, automatic semantic analysis, and a language model remain
+later, separately versioned steps.
 
 The validator will not determine whether a statement is true. It will evaluate
 whether a calibration and decision process:
@@ -112,6 +118,12 @@ not a change to the frozen core.
 
 ### 5 — Optional classification and AI experiments
 
+- [x] Define a versioned, non-authorizing classification proposal contract.
+- [x] Model status, classes, provider confidence, uncertainty, and grounding
+  text fragments as separate dimensions.
+- [x] Prevent a proposal from setting process status, reason codes, state
+  transitions, competence, evidence scores, or actions.
+- [x] Publish neutral positive and negative fixtures for the contract boundary.
 - Evaluate a rule-based reference-frame classifier before an AI-based variant.
 - Treat AI outputs as hypotheses and pass them through the same validator.
 - Examine whether a later schema must explicitly separate the assessment
@@ -180,19 +192,44 @@ Details appear in
 version `0.4.0.dev0` continues to use the unchanged input and result contracts
 `rpf-validator-input-0.2` and `rpf-validator-result-0.2`.
 
+## Completed technical slice 0.5
+
+Version 0.5 establishes the first machine-readable boundary for optional
+classification providers without granting them assessment authority:
+
+- [x] version the `rpf-classification-proposal-0.1` contract,
+- [x] provide immutable Python models, a strict parser, and a Draft 2020-12
+  JSON Schema,
+- [x] record provider identity, configuration digest, source binding, and
+  byte-addressed evidence fragments,
+- [x] keep frame status separate from frame classes and provider confidence
+  separate from `C_i`/`C_e`,
+- [x] reject unknown fields and authorizing interference deterministically,
+- [x] publish three neutral public proposals and a negative-case catalog,
+- [x] leave validator input, validator result, and state-machine trace
+  unchanged.
+
+Details appear in
+[classification proposal contract 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.en.md).
+Package version `0.5.0.dev0` deliberately contains no provider and no adapter.
+
 ## Next technical slice
 
-The next slice prepares stage 5 without placing a language model inside the
-deterministic core:
+The next slice continues stage 5 with a small rule-based provider without
+placing a language model or adapter inside the core:
 
-- design a versioned contract for optional classification providers,
-- evaluate a rule-based reference-frame classifier first,
-- record provider identifier, version, provenance, and assessment authority
-  for every proposal,
-- continue to pass every classification proposal through the same validator
-  and state machine,
-- test that a provider cannot directly override the transition table or
-  process status.
+- implement a small deterministic provider behind a narrow Python interface,
+- define the trusted invocation context or provider registry separately from
+  provider output,
+- produce reproducible proposals for a deliberately limited set of rules,
+- add contract, provenance, and reproducibility tests,
+- continue testing that the provider neither invokes the validator or
+  transition table nor sets process status.
+
+Only after that provider slice should an adapter with an explicit field
+allowlist, binding verification, and its own mapping trace be designed. Only
+that adapter could combine a proposal with an independently supplied base case
+and translate it toward `ValidatorInput`.
 
 Automatic semantic analysis remains a later, replaceable variant. The
 deterministic core can reject structurally invalid or incomplete proposals, but

@@ -35,19 +35,24 @@ Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Wei
 
 ## Aktueller Entwicklungsstand
 
-Die **nicht-normative experimentelle Python-Implementierung 0.4** enthält
+Die **nicht-normative experimentelle Python-Implementierung 0.5** enthält
 einen deterministischen Validator für A1–A4 und P1–P4, einen strikten
 versionierten JSON-Parser, ein maschinenlesbares JSON-Schema, die
-Kommandozeile `rpf` und den ersten ausführbaren RPF-Zustandsautomaten. Sie
+Kommandozeile `rpf`, den ausführbaren RPF-Zustandsautomaten und einen getrennten
+nicht-autorisierenden Vertrag für optionale Klassifikationsvorschläge. Sie
 bewertet die Nachvollziehbarkeit und Regelkonformität einer bereitgestellten
-Prozessbeschreibung — nicht die Wahrheit ihres Ergebnisses.
+Prozessbeschreibung — nicht die Wahrheit ihres Ergebnisses. Ein
+Klassifikationsvorschlag darf weder Prozessstatus noch Reason-Codes,
+Zustandsübergänge, Kompetenz, Evidenz oder Handlungen festlegen.
 
 Die Bewertungssemantik und ihre Grenzen stehen in der
 [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md). Die neue
 öffentliche Schnittstelle beschreibt
 [JSON und CLI 0.3](docs/JSON_CLI_0.3.md). Der neue Kontrollfluss ist im
 [ausführbaren Zustandsautomaten 0.4](docs/STATE_MACHINE_RUNTIME_0.4.md)
-dokumentiert. Weitere Etappen enthält die
+dokumentiert. Die Provider-Grenze beschreibt der
+[Klassifikationsvorschlagsvertrag 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.md).
+Weitere Etappen enthält die
 [deutsche Roadmap](ROADMAP.md); eine vollständige englische Fassung steht in
 der [English roadmap](ROADMAP.en.md).
 
@@ -61,6 +66,12 @@ getrennte Strukturen ab und erzeugt für jede Regel einen erklärbaren Status mi
 stabilen Reason-Codes. `run_state_machine` führt das versionierte Ergebnis
 anschließend durch eine unveränderliche Übergangstabelle und erzeugt einen
 begrenzten Audit-Trace.
+
+Daneben enthält das Paket unveränderliche Modelle, einen eigenen strikten
+Parser und eine Integritätsprüfung für
+`rpf-classification-proposal-0.1`. Dieser Vertrag endet bewusst vor dem
+`ValidatorInput`: Version 0.5 enthält weder einen tatsächlich
+klassifizierenden Provider noch einen Adapter oder ein Sprachmodell.
 
 Direkter Lauf des öffentlichen Wetterbeispiels:
 
@@ -80,6 +91,7 @@ werden:
 
 ```bash
 rpf schema
+rpf schema --contract classification-proposal
 ```
 
 Minimale Verwendung mit einem konstruierten `ValidatorInput`:
@@ -115,8 +127,10 @@ Die Struktur folgt der
 | [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md) | ausführbarer Regelvertrag, Annahmen, Prüfstand und Grenzen |
 | [JSON und CLI 0.3](docs/JSON_CLI_0.3.md) | Parser, JSON-Schema, Kommandozeile, Exit-Codes und öffentliches Beispiel |
 | [Ausführbarer Zustandsautomat 0.4](docs/STATE_MACHINE_RUNTIME_0.4.md) | deklarative Übergangstabelle, Ergebnisrouting, Audit-Trace und Grenzen |
-| [Python-Paket](src/rpf_validator) | Datenmodell, Parser, deterministischer Evaluator und State-Machine-Runtime |
+| [Klassifikationsvorschlag 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.md) | nicht-autorisierender Provider-Vertrag, Integritätsbindung und Grenzen |
+| [Python-Paket](src/rpf_validator) | Datenmodelle, strikte Parser, deterministischer Evaluator und State-Machine-Runtime |
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
+| [Klassifikationsvorschlags-Schema](src/rpf_validator/schemas/rpf-classification-proposal-0.1.schema.json) | maschinenlesbarer, strikt versionierter Vorschlagsvertrag |
 | [Modellboot ohne Referenzdefinition](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.md) | synthetische `NO_REFERENCE`-Fixture zu zwei nicht dokumentierten Laboranzeigen |
 | [Koinzidenz-Interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.md) | synthetische `WARN`-Fixture zur Trennung von Bedeutung, Konfidenz, Evidenz und Kausalität |
 | [Kontext-Rückkopplung und rückgespiegelte Begehrlichkeit](docs/TRANSFER_CASE_REFLECTED_DESIRE.md) | synthetische `WARN`-Fixture zur Trennung von äußerem Reiz, wahrgenommener Norm, Defizit und eigenem Wunsch |
