@@ -32,6 +32,7 @@ Quellen oder Handlung.
 | [Wetterbeispiel](../examples/weather-input-0.2.json) | öffentlicher, neutraler End-to-End-Fall |
 | [Koinzidenz-Interpretation](../examples/coincidence-interpretation-input-0.2.json) | mehrdeutiger Referenzrahmen mit `WARN` |
 | [Rückgespiegelte Begehrlichkeit](../examples/reflected-desire-input-0.2.json) | mehrdeutige Quelle eines Handlungsimpulses mit `WARN` |
+| [Quellen-Echo](../examples/source-echo-input-0.2.json) | behauptungsbezogene Quellenmehrdeutigkeit mit `WARN` |
 | [Loop-Collapse-Selbstbewertung](../examples/loop-collapse-self-input-0.2.json) | A1-Gate mit `DELEGATE` |
 | [Extern dokumentierter Loop-Collapse-Mechanikfall](../examples/loop-collapse-external-input-0.2.json) | erhaltener Signalpfad mit `STOP` |
 
@@ -134,6 +135,15 @@ Defizit-Zuschreibung und ein eigener Wunsch unbemerkt zu einer einzigen
 Inferenz zusammenfallen. Die neutrale ausführbare Fixture lässt die Quelle des
 spontanen Impulses offen und erzeugt deshalb ebenfalls `WARN`.
 
+Der ergänzende
+[Transferfall zu Quellen-Echo und Referenzrahmen-Drift](TRANSFER_CASE_SOURCE_ECHO.md)
+trennt für eine atomare Zielbehauptung die Zahl der Texte von der Zahl
+unabhängiger Evidenzwurzeln. Die Fixture führt deshalb nur eine synthetische
+Primärbeobachtung als Evidenzquelle und lässt Claim-Äquivalenz, Ableitungskanten
+und semantische Drift als Restunsicherheit offen. Der aktuelle Vertrag erkennt
+diese Merkmale nicht selbst; das `WARN` stammt aus dem deklarierten
+mehrdeutigen Referenzrahmen.
+
 ## Öffentliche Szenariomatrix
 
 | Eingabe | Schwerpunkt | Führende Regelspur | Ergebnis |
@@ -141,6 +151,7 @@ spontanen Impulses offen und erzeugt deshalb ebenfalls `WARN`.
 | [Wetter](../examples/weather-input-0.2.json) | neutraler Referenzprozess | keine ausgelöste Regel | `PASS` |
 | [Koinzidenz](../examples/coincidence-interpretation-input-0.2.json) | Bedeutung und Kausalität getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Rückgespiegelte Begehrlichkeit](../examples/reflected-desire-input-0.2.json) | Norm, Defizit und eigenen Wunsch getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Quellen-Echo](../examples/source-echo-input-0.2.json) | Texte, Claims und Evidenzwurzeln getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Loop-Selbstbewertung](../examples/loop-collapse-self-input-0.2.json) | Kompetenz-Gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-Mechanik](../examples/loop-collapse-external-input-0.2.json) | Abbruch- und Reflexivitätsgrenzen | A3/P3 · erreichte Grenzen | `STOP` |
 
@@ -149,7 +160,7 @@ vollständige öffentliche Fixture.
 
 ## Prüfstand und Grenzen
 
-Die Schnittstelle ist durch 62 automatisierte Tests abgedeckt. Dazu gehören
+Die Schnittstelle ist durch 63 automatisierte Tests abgedeckt. Dazu gehören
 Roundtrips, ungültige und doppelte JSON-Felder, genaue Fehlerpfade,
 Querverweise, Standardeingabe, kompakte Ausgabe, Schemaausgabe und CLI-Exit-Codes.
 

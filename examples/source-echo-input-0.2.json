@@ -1,0 +1,170 @@
+{
+  "schema_version": "rpf-validator-input-0.2",
+  "case_id": "source-echo-001",
+  "observation": {
+    "content": "Five synthetic publications repeat or strengthen one target claim while their declared trace leads to a single synthetic primary observation.",
+    "provenance": "Declared synthetic fixture; no real publication or factual claim is represented",
+    "observed_at": null
+  },
+  "problem_domain": "Claim-relative source independence, semantic drift, and evidence aggregation in a synthetic publication chain",
+  "competence": {
+    "status": "SUFFICIENT",
+    "rationale": "Competence is declared only for structural evaluation of the supplied synthetic trace; no automatic source verification or semantic classification is claimed.",
+    "provenance": "Fixture precondition"
+  },
+  "calibration": {
+    "internal_confidence": null,
+    "internal_confidence_rationale": "Confidence in any substantive claim is intentionally unquantified because this fixture evaluates only the declared process structure.",
+    "external_evidence": null,
+    "external_evidence_rationale": "Document count is not converted into evidence strength; the five derivative texts share one declared evidence root for the exact target claim.",
+    "evidence_sources": [
+      {
+        "source_id": "synthetic-primary-observation-q1",
+        "description": "In a small exploratory sample, X under condition Z was associated with Y; causality was not tested.",
+        "provenance": "Synthetic primary observation declared by the fixture",
+        "quality_note": "Limited exploratory scope; no causal inference or generalization beyond the declared sample is supplied."
+      }
+    ],
+    "scale_id": "claim-evidence-unquantified-0.1"
+  },
+  "conflict": {
+    "present": true,
+    "revision_scope": "LOCAL"
+  },
+  "reference_frame": {
+    "status": "AMBIGUOUS",
+    "classes": [
+      "LINGUISTIC_AMBIGUITY",
+      "OBJECTIVE_MEASUREMENT"
+    ],
+    "scope": "Independence must be evaluated for one atomic target claim and a named dimension; publication count, semantic fidelity, causal status, and evidential support are not interchangeable frames.",
+    "assumptions": [
+      "For the exact target claim Q1, all five synthetic derivative texts ultimately trace to synthetic-primary-observation-q1.",
+      "The derivative chain progressively changes possibility, causal status, scope, or communicative function.",
+      "Other claims within the same hypothetical documents may have different provenance and are outside this evaluation.",
+      "Repeated or stronger wording does not by itself add an independent observation."
+    ],
+    "constraints": [
+      {
+        "code": "NO_DOCUMENT_COUNT_AS_EVIDENCE",
+        "description": "Do not treat the number of derivative texts as the number or strength of independent evidence roots for the target claim.",
+        "hard": false
+      }
+    ]
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "faithful-source-echo",
+      "statement": "The texts substantially preserve the target claim but repeat one evidence root.",
+      "evidence_source_ids": [
+        "synthetic-primary-observation-q1"
+      ],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "semantic-drift",
+      "statement": "At least one derivative changes modality, causal status, scope, or communicative function.",
+      "evidence_source_ids": [
+        "synthetic-primary-observation-q1"
+      ],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "independent-corroboration-unverified",
+      "statement": "Additional independent evidence roots exist but are not established by the supplied trace.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "mixed-claim-provenance",
+      "statement": "The documents may be dependent for Q1 while remaining independent for other claims or evidence dimensions.",
+      "evidence_source_ids": [],
+      "internal_confidence": null
+    }
+  ],
+  "termination": {
+    "information_gain": 0.2,
+    "information_gain_epsilon": 0.01,
+    "iteration": 1,
+    "max_iterations": 8,
+    "elapsed_ms": 5.0,
+    "max_time_ms": 200.0,
+    "budget_remaining": 8.0,
+    "budget_minimum": 1.0,
+    "reflexive": false,
+    "recursion_depth": 0,
+    "max_recursion_depth": null
+  },
+  "time_horizons": [
+    {
+      "horizon_id": "claim-review",
+      "label": "Immediate claim-level provenance review",
+      "order": 0
+    },
+    {
+      "horizon_id": "downstream-use",
+      "label": "Before downstream aggregation or action",
+      "order": 1
+    }
+  ],
+  "candidate_actions": [
+    {
+      "action_id": "trace-target-claim-before-aggregation",
+      "description": "Define the atomic target claim, trace each derivative to its evidence root, and preserve semantic differences before aggregating support.",
+      "effects": [
+        {
+          "horizon_id": "claim-review",
+          "expected_benefit": "Publication count remains separate from independent evidence count for the target claim.",
+          "expected_cost": "Claim extraction and provenance tracing require additional review.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "downstream-use",
+          "expected_benefit": "Later summaries can retain scope, modality, causal status, and unresolved dependence.",
+          "expected_cost": "A single consensus score remains unavailable until provenance is resolved.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": true,
+      "rationale": "Claim-level tracing can be revised when additional primary evidence or corrected derivation paths become available.",
+      "rollback_cost": "Recompute the claim graph and any downstream aggregation from the corrected trace."
+    }
+  ],
+  "residual_uncertainty": {
+    "items": [
+      {
+        "item_id": "claim-equivalence",
+        "description": "The current contract does not encode whether the five wordings express the same atomic claim.",
+        "missing_information": [
+          "Versioned claim records",
+          "Declared semantic comparison criteria"
+        ]
+      },
+      {
+        "item_id": "derivation-paths",
+        "description": "The current contract does not encode each derivative text or its derivation edge.",
+        "missing_information": [
+          "Claim-level provenance graph",
+          "Dependency type for every edge"
+        ]
+      },
+      {
+        "item_id": "independent-evidence",
+        "description": "The supplied trace does not establish whether additional independent observations exist for the target claim.",
+        "missing_information": [
+          "Additional primary observations",
+          "Independence assessment by evidence dimension"
+        ]
+      }
+    ],
+    "empty_rationale": null
+  },
+  "validator_config": {
+    "config_id": "source-echo-non-comparable-0.1",
+    "minimum_time_horizons": 2,
+    "calibration_values_comparable": false,
+    "confidence_evidence_divergence_threshold": null
+  },
+  "selected_action_id": "trace-target-claim-before-aggregation",
+  "selection_rationale": "The reversible selection preserves claim-level uncertainty and avoids treating publication count as independent evidence while the governing provenance frame remains ambiguous."
+}

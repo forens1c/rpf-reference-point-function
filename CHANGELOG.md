@@ -51,6 +51,12 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   gleiche Inferenzform ohne inhaltliche Gleichsetzung. Ein dokumentierter
   Kontext-Vervollständigungsfall (`Wort fehlt` → `not self`) ergänzt die
   Quellenprüfung. Insgesamt 62 Tests sichern den Stand ab.
+- Zweisprachigen Transferfall zu Quellen-Echo und Referenzrahmen-Drift ergänzt.
+  Er behandelt Quellenunabhängigkeit relativ zu einer atomaren Behauptung und
+  Evidenzdimension, trennt gemeinsame Evidenzwurzel, semantische Drift und
+  Scheinkonsens und markiert Claim-Provenienz als spätere Vertragserweiterung.
+  Die neue schema-gültige Fixture erzeugt ausschließlich das deklarierte
+  P1-`WARN`; insgesamt 63 Tests sichern den Stand ab.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

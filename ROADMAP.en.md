@@ -116,6 +116,10 @@ not a change to the frozen core.
 - Treat AI outputs as hypotheses and pass them through the same validator.
 - Examine whether a later schema must explicitly separate the assessment
   subject, assessment authority, and provenance of their respective claims.
+- Model source independence relative to a claim and across data, analysis,
+  method, context, and provenance dimensions.
+- Examine evidence roots, derivation edges, scope, epistemic modality, and
+  causal status for a later versioned claim contract.
 - Use the AI agent transfer case as a demanding research case without treating
   it as validation of RPF.
 - Keep authorization separate from technical reachability in security-related
@@ -172,6 +176,10 @@ Compatibility and migration rules for later pre-release schemas remain an open
 parallel task. This includes the role distinction between assessment subject
 and assessment authority exposed by the
 [loop-collapse transfer case](docs/TRANSFER_CASE_LOOP_COLLAPSE.en.md).
+The [Source Echo transfer case](docs/TRANSFER_CASE_SOURCE_ECHO.en.md) adds a
+claim-relative provenance structure as another parallel task; it does not
+change the priority of the state machine and will not be silently added to the
+existing 0.2 input contract.
 
 ## Non-goals of the first prototype
 
