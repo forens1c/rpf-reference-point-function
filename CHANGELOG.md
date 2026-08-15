@@ -57,6 +57,12 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   Scheinkonsens und markiert Claim-Provenienz als spätere Vertragserweiterung.
   Die neue schema-gültige Fixture erzeugt ausschließlich das deklarierte
   P1-`WARN`; insgesamt 63 Tests sichern den Stand ab.
+- Zweisprachigen Wellenbecken-Transferfall als vollständige öffentliche
+  `NO_REFERENCE`-Fixture ergänzt. Das synthetische Modellboot hält nur seine
+  horizontale Station; die Anzeigen `HIGH` und `LOW` bleiben ohne Messgröße,
+  Achse, Nullpunkt, Einheit und Labelsemantik unvergleichbar. Der Fall trennt
+  Fachhypothesen von dokumentierten Kanaldefinitionen, schließt die öffentliche
+  Statusmatrix und erhöht den Prüfstand auf 64 Tests.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

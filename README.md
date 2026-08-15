@@ -105,6 +105,7 @@ Die Struktur folgt der
 | [JSON und CLI 0.3](docs/JSON_CLI_0.3.md) | Parser, JSON-Schema, Kommandozeile, Exit-Codes und öffentliches Beispiel |
 | [Python-Paket](src/rpf_validator) | Datenmodell, Parser und deterministischer Evaluator |
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
+| [Modellboot ohne Referenzdefinition](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.md) | synthetische `NO_REFERENCE`-Fixture zu zwei nicht dokumentierten Laboranzeigen |
 | [Koinzidenz-Interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.md) | synthetische `WARN`-Fixture zur Trennung von Bedeutung, Konfidenz, Evidenz und Kausalität |
 | [Kontext-Rückkopplung und rückgespiegelte Begehrlichkeit](docs/TRANSFER_CASE_REFLECTED_DESIRE.md) | synthetische `WARN`-Fixture zur Trennung von äußerem Reiz, wahrgenommener Norm, Defizit und eigenem Wunsch |
 | [Quellen-Echo und Referenzrahmen-Drift](docs/TRANSFER_CASE_SOURCE_ECHO.md) | behauptungsbezogene Trennung von Dokumentzahl, Evidenzwurzel, Formulierung und Scheinkonsens |
@@ -163,6 +164,14 @@ Scheinkonsens. Die ausführbare Fixture erzeugt nur für den ausdrücklich
 mehrdeutigen Referenzrahmen ein `WARN`; automatische Quellen- oder
 Semantikanalyse bleibt eine spätere, versionierte Erweiterung.
 
+Der ergänzende
+[Wellenbecken-Transferfall](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.md)
+macht den bislang nur durch Unit-Tests belegten `NO_REFERENCE`-Pfad öffentlich
+ausführbar. Zwei nicht dokumentierte Laboranzeigen melden im Modellboot-Versuch
+`HIGH` und `LOW`, während nur seine horizontale Station feststeht. Nautisches
+Fachwissen darf mögliche Deutungen liefern, ersetzt aber weder Kanaldefinition,
+Messgröße, Nullpunkt noch Einheit.
+
 ## Öffentliche Ergebnisbeispiele
 
 | Szenario | Führende Regelspur | Ergebnis |
@@ -171,12 +180,13 @@ Semantikanalyse bleibt eine spätere, versionierte Erweiterung.
 | [Koinzidenz-Interpretation](examples/coincidence-interpretation-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Rückgespiegelte Begehrlichkeit](examples/reflected-desire-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Quellen-Echo](examples/source-echo-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Modellboot im Wellenbecken](examples/wave-tank-no-reference-input-0.2.json) | P1 · `REFERENCE_FRAME_MISSING` | `NO_REFERENCE` |
 | [Loop-Collapse-Selbstbewertung](examples/loop-collapse-self-input-0.2.json) | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-Collapse-Mechanik](examples/loop-collapse-external-input-0.2.json) | A3/P3 · erreichte Abbruchgrenzen | `STOP` |
 
-`NO_REFERENCE` ist bereits durch Unit-Tests abgedeckt; eine vollständige
-öffentliche Fixture für diesen Status steht noch aus. Die Statuswerte bewerten
-den deklarierten Prozess, nicht die Wahrheit des jeweiligen Szenarios.
+Damit besitzt jeder öffentliche Prozessstatus mindestens eine vollständige
+ausführbare Fixture. Die Statuswerte bewerten den deklarierten Prozess, nicht
+die Wahrheit des jeweiligen Szenarios.
 
 ## Grenzen
 

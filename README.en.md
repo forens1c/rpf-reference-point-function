@@ -141,6 +141,7 @@ an English entry point and links to each source document.
 | [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
 | [Python package](src/rpf_validator) | data model, parser, and deterministic evaluator | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
+| [Model boat without a reference definition](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.en.md) | synthetic `NO_REFERENCE` fixture for two undocumented laboratory displays | English |
 | [Coincidence interpretation](docs/TRANSFER_CASE_COINCIDENCE_INTERPRETATION.en.md) | synthetic `WARN` fixture separating meaning, confidence, evidence, and causality | English |
 | [Context feedback and reflected desire](docs/TRANSFER_CASE_REFLECTED_DESIRE.en.md) | synthetic `WARN` fixture separating external cue, perceived norm, deficit, and personal desire | English |
 | [Source Echo and Reference-Frame Drift](docs/TRANSFER_CASE_SOURCE_ECHO.en.md) | claim-relative separation of document count, evidence root, wording, and apparent consensus | English |
@@ -194,6 +195,14 @@ consensus. The executable fixture produces `WARN` only for the explicitly
 ambiguous reference frame; automated source or semantic analysis remains a
 future versioned extension.
 
+The additional
+[wave-tank transfer case](docs/TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.en.md)
+makes the previously unit-test-only `NO_REFERENCE` path publicly executable.
+Two undocumented laboratory displays report `HIGH` and `LOW` in a model-boat
+experiment, while only the boat's horizontal station is fixed. Nautical
+expertise may generate candidate interpretations, but it replaces neither
+channel definitions, measurement quantity, datum, nor unit.
+
 ## Public result examples
 
 | Scenario | Leading rule trace | Result |
@@ -202,12 +211,12 @@ future versioned extension.
 | [Coincidence interpretation](examples/coincidence-interpretation-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Reflected desire](examples/reflected-desire-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Source Echo](examples/source-echo-input-0.2.json) | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Model boat in a wave tank](examples/wave-tank-no-reference-input-0.2.json) | P1 · `REFERENCE_FRAME_MISSING` | `NO_REFERENCE` |
 | [Loop-collapse self-assessment](examples/loop-collapse-self-input-0.2.json) | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-collapse mechanics](examples/loop-collapse-external-input-0.2.json) | A3/P3 · reached termination bounds | `STOP` |
 
-`NO_REFERENCE` is already covered by unit tests; a complete public fixture for
-that status remains outstanding. Statuses evaluate the declared process, not
-the truth of the scenario.
+Every public process status now has at least one complete executable fixture.
+Statuses evaluate the declared process, not the truth of the scenario.
 
 ## AI agent safety transfer case
 

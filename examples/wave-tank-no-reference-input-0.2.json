@@ -1,0 +1,171 @@
+{
+  "schema_version": "rpf-validator-input-0.2",
+  "case_id": "wave-tank-no-reference-001",
+  "observation": {
+    "content": "At one declared horizontal station in a synthetic model-boat wave-tank experiment, two undocumented displays simultaneously showed HIGH and LOW.",
+    "provenance": "Declared synthetic laboratory fixture; no real vessel, instrument, or navigation event is represented",
+    "observed_at": null
+  },
+  "problem_domain": "Structural comparison of two undefined measurement labels in a synthetic wave-tank record",
+  "competence": {
+    "status": "SUFFICIENT",
+    "rationale": "Competence is declared only for identifying missing comparison metadata in the supplied record; no nautical or instrument convention is treated as the undocumented channel definition.",
+    "provenance": "Fixture precondition"
+  },
+  "calibration": {
+    "internal_confidence": null,
+    "internal_confidence_rationale": "No confidence is assigned to a substantive interpretation because the measurement target and label semantics are undefined.",
+    "external_evidence": null,
+    "external_evidence_rationale": "The log supports that the labels occurred, but it does not make their quantities, datums, units, or thresholds comparable.",
+    "evidence_sources": [
+      {
+        "source_id": "synthetic-wave-tank-log",
+        "description": "Synchronized record: model boat at the same horizontal station; display A reported HIGH and display B reported LOW.",
+        "provenance": "Synthetic observation log declared by the fixture",
+        "quality_note": "Channel definitions, measured quantities, vertical datums, units, thresholds, and label semantics are absent."
+      }
+    ],
+    "scale_id": "undefined-channel-comparison-0.1"
+  },
+  "conflict": {
+    "present": true,
+    "revision_scope": "LOCAL"
+  },
+  "reference_frame": {
+    "status": "MISSING",
+    "classes": [],
+    "scope": null,
+    "assumptions": [
+      "The declared station fixes only the model's horizontal location, not its vertical coordinate.",
+      "The two displays were read at the same synthetic observation time.",
+      "HIGH and LOW are arbitrary test-system outputs, not declared nautical standard terms.",
+      "No instrument manual, channel map, datum, unit, or threshold definition is supplied."
+    ],
+    "constraints": [
+      {
+        "code": "NO_IMPLICIT_REFERENCE_INJECTION",
+        "description": "Do not replace missing channel metadata with a familiar domain convention or an evaluator's preferred interpretation.",
+        "hard": false
+      }
+    ]
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "same-quantity-conflict",
+      "statement": "The displays measure the same quantity against the same datum and genuinely conflict.",
+      "evidence_source_ids": [
+        "synthetic-wave-tank-log"
+      ],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "different-measurement-targets",
+      "statement": "The displays refer to different quantities, such as model elevation and a separate wave or clearance measure.",
+      "evidence_source_ids": [
+        "synthetic-wave-tank-log"
+      ],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "different-data-or-thresholds",
+      "statement": "The displays use different datums, units, or label thresholds for related quantities.",
+      "evidence_source_ids": [
+        "synthetic-wave-tank-log"
+      ],
+      "internal_confidence": null
+    },
+    {
+      "hypothesis_id": "measurement-versus-device-state",
+      "statement": "One label describes a physical measurement while the other describes a device or threshold state.",
+      "evidence_source_ids": [
+        "synthetic-wave-tank-log"
+      ],
+      "internal_confidence": null
+    }
+  ],
+  "termination": {
+    "information_gain": 0.2,
+    "information_gain_epsilon": 0.01,
+    "iteration": 1,
+    "max_iterations": 8,
+    "elapsed_ms": 5.0,
+    "max_time_ms": 200.0,
+    "budget_remaining": 8.0,
+    "budget_minimum": 1.0,
+    "reflexive": false,
+    "recursion_depth": 0,
+    "max_recursion_depth": null
+  },
+  "time_horizons": [
+    {
+      "horizon_id": "before-comparison",
+      "label": "Before comparing the two labels",
+      "order": 0
+    },
+    {
+      "horizon_id": "after-metadata",
+      "label": "After traceable channel metadata becomes available",
+      "order": 1
+    }
+  ],
+  "candidate_actions": [
+    {
+      "action_id": "suspend-comparison-and-request-metadata",
+      "description": "Suspend treating HIGH and LOW as comparable and request the channel definitions, quantity, axis, datum, unit, thresholds, and experiment protocol.",
+      "effects": [
+        {
+          "horizon_id": "before-comparison",
+          "expected_benefit": "No model revision is based on an invented common reference frame.",
+          "expected_cost": "The apparent conflict remains unresolved during the metadata request.",
+          "constraint_conflicts": []
+        },
+        {
+          "horizon_id": "after-metadata",
+          "expected_benefit": "The labels can be compared or separated using a traceable measurement definition.",
+          "expected_cost": "The process requires a new evaluation rather than preserving the initial status automatically.",
+          "constraint_conflicts": []
+        }
+      ],
+      "reversible": true,
+      "rationale": "Suspending only the comparison preserves every observed label and every candidate interpretation until a reference frame is documented.",
+      "rollback_cost": "Resume comparison and re-run the validator with the documented channel metadata."
+    }
+  ],
+  "residual_uncertainty": {
+    "items": [
+      {
+        "item_id": "measurement-target",
+        "description": "The quantity measured by each display is unknown.",
+        "missing_information": [
+          "Instrument channel definitions",
+          "Measurement target and axis"
+        ]
+      },
+      {
+        "item_id": "datum-and-unit",
+        "description": "No common vertical datum, unit, or scale is established.",
+        "missing_information": [
+          "Datum or zero point",
+          "Unit and scale"
+        ]
+      },
+      {
+        "item_id": "label-semantics",
+        "description": "The meanings and thresholds of HIGH and LOW are undocumented.",
+        "missing_information": [
+          "Label threshold definitions",
+          "Distinction between measurement and device status"
+        ]
+      }
+    ],
+    "empty_rationale": null
+  },
+  "validator_config": {
+    "config_id": "wave-tank-non-comparable-0.1",
+    "minimum_time_horizons": 2,
+    "calibration_values_comparable": false,
+    "confidence_evidence_divergence_threshold": null
+  },
+  "selected_action_id": "suspend-comparison-and-request-metadata",
+  "selection_rationale": "The reversible selection preserves the recorded outputs without injecting an undocumented reference frame or treating the apparent conflict as resolved."
+}

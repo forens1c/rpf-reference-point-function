@@ -30,6 +30,7 @@ Quellen oder Handlung.
 | [`rpf validate`](../src/rpf_validator/cli.py) | eine Datei oder Standardeingabe prüfen |
 | [`rpf schema`](../src/rpf_validator/cli.py) | das mitgelieferte Eingabeschema ausgeben |
 | [Wetterbeispiel](../examples/weather-input-0.2.json) | öffentlicher, neutraler End-to-End-Fall |
+| [Modellboot im Wellenbecken](../examples/wave-tank-no-reference-input-0.2.json) | fehlende Referenzdefinition mit `NO_REFERENCE` |
 | [Koinzidenz-Interpretation](../examples/coincidence-interpretation-input-0.2.json) | mehrdeutiger Referenzrahmen mit `WARN` |
 | [Rückgespiegelte Begehrlichkeit](../examples/reflected-desire-input-0.2.json) | mehrdeutige Quelle eines Handlungsimpulses mit `WARN` |
 | [Quellen-Echo](../examples/source-echo-input-0.2.json) | behauptungsbezogene Quellenmehrdeutigkeit mit `WARN` |
@@ -144,6 +145,13 @@ und semantische Drift als Restunsicherheit offen. Der aktuelle Vertrag erkennt
 diese Merkmale nicht selbst; das `WARN` stammt aus dem deklarierten
 mehrdeutigen Referenzrahmen.
 
+Der neue
+[Wellenbecken-Transferfall](TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.md) trennt
+eine gleichbleibende horizontale Station von der unbekannten Bedeutung zweier
+Laboranzeigen. Weil Messgröße, Achse, Nullpunkt, Einheit und Labelsemantik
+fehlen, setzt der Validator keinen nautischen oder messtechnischen Rahmen ein.
+Die schema-gültige Fixture erzeugt bestimmungsgemäß `NO_REFERENCE`.
+
 ## Öffentliche Szenariomatrix
 
 | Eingabe | Schwerpunkt | Führende Regelspur | Ergebnis |
@@ -152,15 +160,16 @@ mehrdeutigen Referenzrahmen.
 | [Koinzidenz](../examples/coincidence-interpretation-input-0.2.json) | Bedeutung und Kausalität getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Rückgespiegelte Begehrlichkeit](../examples/reflected-desire-input-0.2.json) | Norm, Defizit und eigenen Wunsch getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Quellen-Echo](../examples/source-echo-input-0.2.json) | Texte, Claims und Evidenzwurzeln getrennt halten | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Wellenbecken](../examples/wave-tank-no-reference-input-0.2.json) | Fachhypothese und dokumentierten Messrahmen trennen | P1 · `REFERENCE_FRAME_MISSING` | `NO_REFERENCE` |
 | [Loop-Selbstbewertung](../examples/loop-collapse-self-input-0.2.json) | Kompetenz-Gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop-Mechanik](../examples/loop-collapse-external-input-0.2.json) | Abbruch- und Reflexivitätsgrenzen | A3/P3 · erreichte Grenzen | `STOP` |
 
-Der `NO_REFERENCE`-Pfad ist durch Unit-Tests abgedeckt, besitzt aber noch keine
-vollständige öffentliche Fixture.
+Alle öffentlichen Prozessstatus besitzen damit mindestens eine vollständige
+ausführbare Fixture.
 
 ## Prüfstand und Grenzen
 
-Die Schnittstelle ist durch 63 automatisierte Tests abgedeckt. Dazu gehören
+Die Schnittstelle ist durch 64 automatisierte Tests abgedeckt. Dazu gehören
 Roundtrips, ungültige und doppelte JSON-Felder, genaue Fehlerpfade,
 Querverweise, Standardeingabe, kompakte Ausgabe, Schemaausgabe und CLI-Exit-Codes.
 

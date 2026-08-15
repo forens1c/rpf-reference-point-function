@@ -29,6 +29,7 @@ implemented rules. It does not confirm its facts, sources, or action.
 | [`rpf validate`](../src/rpf_validator/cli.py) | evaluate a file or standard input |
 | [`rpf schema`](../src/rpf_validator/cli.py) | print the bundled input schema |
 | [Weather example](../examples/weather-input-0.2.json) | public neutral end-to-end case |
+| [Model boat in a wave tank](../examples/wave-tank-no-reference-input-0.2.json) | missing reference definition producing `NO_REFERENCE` |
 | [Coincidence interpretation](../examples/coincidence-interpretation-input-0.2.json) | ambiguous reference frame producing `WARN` |
 | [Reflected desire](../examples/reflected-desire-input-0.2.json) | ambiguous source of an action impulse producing `WARN` |
 | [Source Echo](../examples/source-echo-input-0.2.json) | claim-relative source ambiguity producing `WARN` |
@@ -140,6 +141,13 @@ derivation edges, and semantic drift as residual uncertainty. The current
 contract does not infer these features; the `WARN` comes from the declared
 ambiguous reference frame.
 
+The new
+[wave-tank transfer case](TRANSFER_CASE_WAVE_TANK_NO_REFERENCE.en.md) separates
+an unchanged horizontal station from the unknown meaning of two laboratory
+displays. Because measurement quantity, axis, datum, unit, and label semantics
+are missing, the validator injects no nautical or measurement frame. The
+schema-valid fixture correctly produces `NO_REFERENCE`.
+
 ## Public scenario matrix
 
 | Input | Focus | Leading rule trace | Result |
@@ -148,15 +156,15 @@ ambiguous reference frame.
 | [Coincidence](../examples/coincidence-interpretation-input-0.2.json) | keep meaning and causality separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Reflected desire](../examples/reflected-desire-input-0.2.json) | keep norm, deficit, and personal desire separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Source Echo](../examples/source-echo-input-0.2.json) | keep texts, claims, and evidence roots separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Wave tank](../examples/wave-tank-no-reference-input-0.2.json) | separate domain hypothesis from documented measurement frame | P1 · `REFERENCE_FRAME_MISSING` | `NO_REFERENCE` |
 | [Loop self-assessment](../examples/loop-collapse-self-input-0.2.json) | competence gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop mechanics](../examples/loop-collapse-external-input-0.2.json) | termination and reflexivity bounds | A3/P3 · reached bounds | `STOP` |
 
-The `NO_REFERENCE` path is covered by unit tests but does not yet have a
-complete public fixture.
+Every public process status now has at least one complete executable fixture.
 
 ## Verification and limitations
 
-The interface is covered by 63 automated tests, including roundtrips, invalid
+The interface is covered by 64 automated tests, including roundtrips, invalid
 and duplicate JSON fields, precise error paths, cross-references, standard
 input, compact output, schema output, and CLI exit codes.
 
