@@ -33,5 +33,6 @@ jobs:
           rpf validate examples/coincidence-interpretation-input-0.2.json --compact
           rpf validate examples/reflected-desire-input-0.2.json --compact
           rpf validate examples/source-echo-input-0.2.json --compact
+          rpf validate examples/wave-tank-no-reference-input-0.2.json --compact
           rpf validate examples/loop-collapse-self-input-0.2.json --compact
           rpf validate examples/loop-collapse-external-input-0.2.json --compact
