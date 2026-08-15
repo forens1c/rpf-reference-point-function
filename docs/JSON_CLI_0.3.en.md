@@ -30,6 +30,7 @@ implemented rules. It does not confirm its facts, sources, or action.
 | [`rpf schema`](../src/rpf_validator/cli.py) | print the bundled input schema |
 | [Weather example](../examples/weather-input-0.2.json) | public neutral end-to-end case |
 | [Coincidence interpretation](../examples/coincidence-interpretation-input-0.2.json) | ambiguous reference frame producing `WARN` |
+| [Reflected desire](../examples/reflected-desire-input-0.2.json) | ambiguous source of an action impulse producing `WARN` |
 | [Loop-collapse self-assessment](../examples/loop-collapse-self-input-0.2.json) | A1 gate producing `DELEGATE` |
 | [Externally documented loop-collapse mechanics case](../examples/loop-collapse-external-input-0.2.json) | retained signal path producing `STOP` |
 
@@ -122,12 +123,20 @@ keeps personal salience separate from confidence and external evidence for a
 causal claim. Its unquantified calibration values create no false precision;
 the explicitly ambiguous reference frame correctly produces `WARN`.
 
+The downstream
+[reflected-desire transfer case](TRANSFER_CASE_REFLECTED_DESIRE.en.md) tests
+whether an external cue, a perceived collective preference, deficit
+attribution, and personal desire silently collapse into one inference. The
+neutral executable fixture leaves the source of the spontaneous impulse open
+and therefore also produces `WARN`.
+
 ## Public scenario matrix
 
 | Input | Focus | Leading rule trace | Result |
 | --- | --- | --- | --- |
 | [Weather](../examples/weather-input-0.2.json) | neutral reference process | no triggered rule | `PASS` |
 | [Coincidence](../examples/coincidence-interpretation-input-0.2.json) | keep meaning and causality separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
+| [Reflected desire](../examples/reflected-desire-input-0.2.json) | keep norm, deficit, and personal desire separate | P1 · `REFERENCE_FRAME_AMBIGUOUS` | `WARN` |
 | [Loop self-assessment](../examples/loop-collapse-self-input-0.2.json) | competence gate | A1 · `COMPETENCE_INSUFFICIENT` | `DELEGATE` |
 | [Loop mechanics](../examples/loop-collapse-external-input-0.2.json) | termination and reflexivity bounds | A3/P3 · reached bounds | `STOP` |
 
@@ -136,7 +145,7 @@ complete public fixture.
 
 ## Verification and limitations
 
-The interface is covered by 61 automated tests, including roundtrips, invalid
+The interface is covered by 62 automated tests, including roundtrips, invalid
 and duplicate JSON fields, precise error paths, cross-references, standard
 input, compact output, schema output, and CLI exit codes.
 

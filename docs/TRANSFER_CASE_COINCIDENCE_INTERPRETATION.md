@@ -87,6 +87,15 @@ Kausalinterpretation erforderliche Referenzrahmen ist noch mehrdeutig. Es
 verneint weder die Beobachtung noch ihre persönliche Bedeutung und bestätigt
 keine der offenen Kausalhypothesen.
 
+## Nachgelagerte Kontext-Rückkopplung
+
+Eine Koinzidenz kann nicht nur zu einer Kausalinterpretation führen. Aus ihrer
+wahrgenommenen Häufung kann auch eine soziale Norm und daraus ein persönliches
+Defizit oder Begehren abgeleitet werden. Der separate Transferfall
+[Kontext-Rückkopplung und rückgespiegelte Begehrlichkeit](TRANSFER_CASE_REFLECTED_DESIRE.md)
+untersucht diese nachgelagerte Inferenzkette mit einem ausführbaren neutralen
+Kontrastfall.
+
 ## Ausführung
 
 Nach lokaler Installation:

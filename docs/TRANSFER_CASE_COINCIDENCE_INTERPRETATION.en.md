@@ -82,6 +82,15 @@ The `WARN` originates only from P1. It means that the reference frame required
 for a causal interpretation remains ambiguous. It neither denies the
 observation or its personal meaning nor confirms any open causal hypothesis.
 
+## Downstream context feedback
+
+A coincidence may feed more than a causal interpretation. Its perceived
+frequency may also be translated into a social norm and then into a personal
+deficit or desire. The separate transfer case
+[context feedback and reflected desire](TRANSFER_CASE_REFLECTED_DESIRE.en.md)
+examines this downstream inference chain through an executable neutral contrast
+case.
+
 ## Execution
 
 After local installation:
