@@ -16,6 +16,8 @@ from rpf_validator import (
     RPFState,
     ReferenceFrame,
     ReferenceFrameStatus,
+    RuleId,
+    RuleStatus,
     STATE_MACHINE_MAX_TRANSITIONS,
     STATE_MACHINE_TRACE_VERSION,
     StateMachineErrorCode,
@@ -232,6 +234,62 @@ class StateMachineBoundaryTests(unittest.TestCase):
             caught.exception.code,
             StateMachineErrorCode.INCONSISTENT_RESULT_STATUS,
         )
+
+    def test_pass_with_triggered_termination_rule_is_rejected(self) -> None:
+        result = evaluate(make_valid_input())
+        contradictory_rules = tuple(
+            replace(rule, status=RuleStatus.TRIGGERED)
+            if rule.rule_id is RuleId.A3
+            else rule
+            for rule in result.rule_results
+        )
+        contradictory = replace(result, rule_results=contradictory_rules)
+
+        with self.assertRaises(InconsistentResultStatusError) as caught:
+            run_state_machine(contradictory)
+
+        self.assertIn("PASS", caught.exception.message)
+        self.assertIn("STOP", caught.exception.message)
+
+    def test_warn_without_a_rule_signal_is_rejected(self) -> None:
+        result = replace(
+            evaluate(make_valid_input()),
+            overall_status=ProcessStatus.WARN,
+        )
+
+        with self.assertRaises(InconsistentResultStatusError) as caught:
+            run_state_machine(result)
+
+        self.assertIn("WARN", caught.exception.message)
+        self.assertIn("PASS", caught.exception.message)
+
+    def test_incomplete_rule_trace_is_rejected(self) -> None:
+        result = evaluate(make_valid_input())
+        incomplete = replace(result, rule_results=result.rule_results[:-1])
+
+        with self.assertRaises(InconsistentResultStatusError) as caught:
+            run_state_machine(incomplete)
+
+        self.assertIn("missing rule results", caught.exception.message)
+        self.assertIn("P4", caught.exception.message)
+
+    def test_a1_gate_rejects_later_evaluated_rules(self) -> None:
+        from rpf_validator import CompetenceStatus
+
+        result = evaluate(
+            make_valid_input(competence_status=CompetenceStatus.INSUFFICIENT)
+        )
+        evaluated_after_gate = (
+            result.rule_results[0],
+            replace(result.rule_results[1], status=RuleStatus.SATISFIED),
+            *result.rule_results[2:],
+        )
+        contradictory = replace(result, rule_results=evaluated_after_gate)
+
+        with self.assertRaises(InconsistentResultStatusError) as caught:
+            run_state_machine(contradictory)
+
+        self.assertIn("A1 gate", caught.exception.message)
 
     def test_fixed_transition_bound_is_enforced(self) -> None:
         result = evaluate(make_valid_input())

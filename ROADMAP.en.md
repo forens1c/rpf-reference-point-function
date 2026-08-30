@@ -211,7 +211,17 @@ classification providers without granting them assessment authority:
 
 Details appear in
 [classification proposal contract 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.en.md).
-Package version `0.5.0.dev0` deliberately contains no provider and no adapter.
+Package version `0.5.1.dev0` deliberately contains no provider and no adapter.
+
+## Completed hardening update 0.5.1
+
+- [x] reject incomplete or routing-inconsistent validator result traces,
+- [x] normalize oversized-number decoder failures across both JSON parsers,
+- [x] align Python `media_type` validation with the published proposal schema,
+- [x] require UTF-8-aligned fragment offsets even without an excerpt,
+- [x] retain all existing public contract identifiers and fixture outcomes.
+
+Details appear in [boundary hardening 0.5.1](docs/HARDENING_0.5.1.en.md).
 
 ## Next technical slice
 

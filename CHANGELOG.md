@@ -82,6 +82,14 @@ Alle nennenswerten Änderungen an der öffentlichen Dokumentation werden hier er
   Selbstautorisierung und Evidenzwerten. Validator, Ergebnisvertrag und
   State-Machine bleiben unverändert; Provider, Adapter und Sprachmodell sind
   ausdrücklich noch nicht enthalten. Insgesamt 105 Tests sichern den Stand ab.
+- Hardening-Update `0.5.1.dev0` ergänzt. Die State-Machine weist nun
+  unvollständige, gate-widrige oder zum Gesamtstatus widersprüchliche
+  Regelergebnisspuren ab. Beide JSON-Parser vereinheitlichen Decoderfehler
+  übergroßer Zahlen als `INPUT_SCHEMA_INVALID`; die Medientyp-Prüfung entspricht
+  dem veröffentlichten Vorschlagsschema, und Fragmentoffsets müssen auch ohne
+  Auszug auf UTF-8-Zeichengrenzen liegen. Die Vertragskennungen und Ergebnisse
+  aller gültigen öffentlichen Fixtures bleiben unverändert; insgesamt 114
+  Tests sichern den Stand ab.
 
 ## 2026-08-13 — Öffentlicher Repository-Entwurf
 

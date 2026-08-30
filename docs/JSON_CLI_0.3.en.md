@@ -77,6 +77,7 @@ python -m rpf_validator validate examples/weather-input-0.2.json
 Before evaluation, the parser checks among other things:
 
 - valid UTF-8 JSON without `NaN`, `Infinity`, or duplicate object keys,
+- decoder-range-safe numeric tokens; oversized integers become contract errors,
 - known and required fields plus the declared schema identifier,
 - data types, enums, ranges, and non-empty text,
 - unique model identifiers,
@@ -87,7 +88,9 @@ Structural failures contain the stable reason code `INPUT_SCHEMA_INVALID`, a
 JSONPath-like path, and a rationale. The JSON Schema helps editors and external
 tools perform preliminary validation. The Python parser remains authoritative,
 however, because JSON Schema cannot express every cross-object reference and
-identifier uniqueness rule.
+identifier uniqueness rule. Since package 0.5.1, both public JSON parsers share
+the same decoder-error normalization, so decoder-level numeric range failures
+also follow this response contract rather than escaping as a traceback.
 
 ## Output and exit codes
 
@@ -164,9 +167,11 @@ Every public process status now has at least one complete executable fixture.
 
 ## Verification and limitations
 
-The interface is covered by 64 automated tests, including roundtrips, invalid
+The original interface slice was covered by 64 automated tests, including roundtrips, invalid
 and duplicate JSON fields, precise error paths, cross-references, standard
-input, compact output, schema output, and CLI exit codes.
+input, compact output, schema output, and CLI exit codes. The complete 0.5.1
+repository suite now contains 114 tests, including oversized-integer CLI
+regression coverage.
 
 The CLI:
 

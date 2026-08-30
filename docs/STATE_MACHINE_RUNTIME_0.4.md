@@ -83,6 +83,20 @@ Terminierungsgrenze den Pfad in `DELTA_EVAL`; ein späterer A4-/P4-Befund wird
 nicht benötigt, um den Kontrollfluss weiterzuführen. Die vollständigen
 Regelergebnisse bleiben trotzdem im vorgelagerten `ValidatorResult` erhalten.
 
+### Grenzhärtung in Paketversion 0.5.1
+
+Vor der Auswahl eines dieser Pfade prüft die Runtime nun die routingrelevante
+Konsistenz des Ergebnisvertrags 0.2. Sie verlangt je ein Ergebnis für jede
+A1–A4-/P1–P4-Regel, weist für die jeweilige Regel unzulässige Status zurück,
+erzwingt das A1-Gate und berechnet ausschließlich den Gesamtprozessstatus aus
+den deklarierten Regelstatus und der veröffentlichten Priorität nach. Eine
+Abweichung wird mit `INCONSISTENT_RESULT_STATUS` abgewiesen.
+
+Dies ist eine interne Vertragsprüfung und keine zweite Axiom-Auswertung. Sie
+prüft weder Begründungen noch Reason-Codes oder Quelldaten auf faktische
+Wahrheit. Einzelheiten stehen in der
+[Grenzhärtung 0.5.1](HARDENING_0.5.1.md).
+
 ## Kommandozeile
 
 Ein öffentliches JSON-Szenario kann jetzt direkt durch Validator und Runtime
@@ -137,7 +151,7 @@ assert next_state is RPFState.ISOLATION
 
 Ein nicht deklarierter Übergang wird deterministisch mit
 `INVALID_TRANSITION` abgelehnt. Nicht unterstützte Ergebnisverträge,
-widersprüchliche `STOP`-Spuren und eine Überschreitung der festen Schrittgrenze
+routingwidrige Regelspuren und eine Überschreitung der festen Schrittgrenze
 besitzen eigene technische Fehlercodes. Diese Codes sind bewusst nicht Teil
 der fachlichen A1–A4-/P1–P4-Reason-Codes.
 
@@ -156,13 +170,15 @@ Wahrheitsdetektor und keine Autorisierungsinstanz.
 
 ## Prüfstand
 
-Der technische Schnitt ist durch 80 automatisierte Tests abgesichert. Sie
-prüfen unter anderem:
+Der ursprüngliche technische Schnitt war durch 80 automatisierte Tests
+abgesichert. Das Hardening 0.5.1 erhöht den vollständigen Repository-Prüfstand
+auf 114 Tests. Sie prüfen unter anderem:
 
 - alle fünf öffentlichen Prozessstatus,
 - frühe und adaptive `STOP`-Pfade,
 - unveränderliche Übergangstabelle und Traces,
 - deterministische Wiederholung identischer Läufe,
-- Ablehnung ungültiger Übergänge und inkonsistenter Stoppspuren,
+- Ablehnung ungültiger Übergänge und routingwidriger Ergebnisspuren,
+- vollständige Regelspur, Gesamtstatus und Konsistenz des A1-Gates,
 - feste Übergangsgrenze und Rückkehr zu `IDLE`,
 - `rpf trace` für normale und `NO_REFERENCE`-Szenarien.

@@ -118,6 +118,15 @@ class JsonParserTests(unittest.TestCase):
         self.assertEqual(caught.exception.path, "$")
         self.assertIn("non-standard numeric constant 'NaN'", caught.exception.message)
 
+    def test_oversized_json_integer_is_normalized_as_input_error(self) -> None:
+        text = '{"value": ' + ("9" * 10_000) + "}"
+
+        with self.assertRaises(InputValidationError) as caught:
+            parse_json(text)
+
+        self.assertEqual(caught.exception.path, "$")
+        self.assertIn("numeric value", caught.exception.message)
+
     def test_non_text_input_is_rejected(self) -> None:
         with self.assertRaises(InputValidationError) as caught:
             parse_json(b"{}")  # type: ignore[arg-type]
