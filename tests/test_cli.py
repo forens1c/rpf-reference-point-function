@@ -122,6 +122,22 @@ class CliTests(unittest.TestCase):
         self.assertEqual(payload["path"], "$")
         self.assertIn("invalid JSON", payload["message"])
 
+    def test_oversized_integer_emits_machine_readable_input_error(self) -> None:
+        source = '{"value": ' + ("9" * 10_000) + "}"
+
+        code, stdout, stderr = run_cli(
+            "validate",
+            "-",
+            stdin_text=source,
+        )
+
+        self.assertEqual(code, EXIT_INPUT_ERROR)
+        self.assertEqual(stdout, "")
+        payload = json.loads(stderr)["error"]
+        self.assertEqual(payload["code"], "INPUT_SCHEMA_INVALID")
+        self.assertEqual(payload["path"], "$")
+        self.assertIn("numeric value", payload["message"])
+
     def test_missing_file_emits_machine_readable_io_error(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             missing = Path(directory) / "absent.json"

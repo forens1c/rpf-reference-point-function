@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Implementation status | non-normative experimental contract |
-| Package version | `0.5.0.dev0` |
+| Package version | `0.5.1.dev0` |
 | Proposal contract | `rpf-classification-proposal-0.1` |
 | Existing validator input contract | unchanged `rpf-validator-input-0.2` |
 | Existing validator result contract | unchanged `rpf-validator-result-0.2` |
@@ -77,7 +77,9 @@ cannot automatically be identified as false.
 
 All Python models are immutable dataclasses. Candidate, evidence, and
 uncertainty identifiers must be unique, and cross-references are checked while
-parsing.
+parsing. `media_type` follows the schema's canonical textual form:
+`text/<subtype>` with a lowercase `text` prefix, a non-empty subtype, no
+whitespace, and no additional slash.
 
 ## Status and classes remain separate
 
@@ -106,7 +108,9 @@ contains a description and references the affected candidates.
 
 The complete source text is bound as an exact UTF-8 byte sequence with SHA-256.
 An evidence fragment contains a start byte, an exclusive end byte, its own
-digest, and an optional excerpt limited to 500 characters.
+digest, and an optional excerpt limited to 500 characters. Both byte offsets
+must align to UTF-8 code-point boundaries, whether or not an excerpt is
+present.
 
 ```python
 from pathlib import Path
@@ -162,6 +166,7 @@ tests six separate boundary violations:
 
 Additional tests cover duplicate identifiers, unknown references, mismatched
 source and fragment digests, non-standard JSON numbers, duplicate JSON keys,
+oversized JSON integers, invalid media types, misaligned UTF-8 fragments,
 invalid model metadata, and timestamps without an explicit offset.
 
 ## JSON Schema and Python API
@@ -182,13 +187,13 @@ proposal = parse_classification_proposal_json(source_json)
 
 ## Not implemented yet
 
-Version 0.5 deliberately contains:
+Version 0.5.1 deliberately contains:
 
 - no provider that performs classification,
 - no provider request contract or trusted registry,
 - no adapter to `ValidatorInput`,
 - no automatic semantic analysis,
-- no change to the evaluator or state machine,
+- no change to evaluator rules or the immutable transition table,
 - no automatic factual truth check.
 
 The next useful slice is a small deterministic rule-based provider. Only then
@@ -198,6 +203,8 @@ replaceable provider implementation.
 
 ## Verification
 
-The 0.5 slice raises the full suite to 105 automated tests. New tests cover the
-models, parser, schema, three public proposals, integrity binding, and the
-documented negative boundaries on Python 3.11 or newer.
+The 0.5.1 hardening update raises the full suite to 114 automated tests. They
+cover the models, parser, schema, three public proposals, integrity binding,
+the documented negative boundaries, decoder range failures, media-type parity,
+and UTF-8 boundary alignment on Python 3.11 or newer. See
+[boundary hardening 0.5.1](HARDENING_0.5.1.en.md).

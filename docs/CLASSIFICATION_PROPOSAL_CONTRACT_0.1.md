@@ -5,7 +5,7 @@
 | Feld | Wert |
 | --- | --- |
 | Implementierungsstatus | nicht-normativer experimenteller Vertrag |
-| Paketversion | `0.5.0.dev0` |
+| Paketversion | `0.5.1.dev0` |
 | Vorschlagsvertrag | `rpf-classification-proposal-0.1` |
 | bestehender Validator-Eingabevertrag | unverändert `rpf-validator-input-0.2` |
 | bestehender Validator-Ergebnisvertrag | unverändert `rpf-validator-result-0.2` |
@@ -79,7 +79,9 @@ Evidenz nicht automatisch als unwahr erkannt werden.
 
 Alle Python-Modelle sind unveränderliche Dataclasses. Kandidaten-, Evidenz- und
 Unsicherheitskennungen müssen eindeutig sein; Querverweise werden beim Parsen
-geprüft.
+geprüft. `media_type` folgt der kanonischen Textform des Schemas:
+`text/<subtype>` mit kleingeschriebenem `text`-Präfix, nicht leerem Subtyp,
+ohne Leerraum und ohne weiteren Schrägstrich.
 
 ## Status und Klassen bleiben getrennt
 
@@ -111,7 +113,9 @@ auf die betroffenen Kandidaten.
 
 Der Quelltext wird als exakte UTF-8-Bytefolge mit SHA-256 gebunden. Ein
 Evidenzfragment enthält einen Start- und exklusiven End-Byteoffset, einen
-eigenen Digest und optional einen auf 500 Zeichen begrenzten Auszug.
+eigenen Digest und optional einen auf 500 Zeichen begrenzten Auszug. Beide
+Byteoffsets müssen unabhängig vom Vorhandensein eines Auszugs auf
+UTF-8-Zeichengrenzen liegen.
 
 ```python
 from pathlib import Path
@@ -167,7 +171,8 @@ prüft sechs getrennte Grenzverletzungen:
 
 Weitere Tests decken doppelte Kennungen, unbekannte Querverweise, falsche
 Quell- und Fragment-Digests, nicht standardkonforme JSON-Zahlen, doppelte
-JSON-Schlüssel, unzulässige Modellmetadaten sowie Zeitangaben ohne Zeitzone ab.
+JSON-Schlüssel, übergroße JSON-Integer, ungültige Medientypen, fehljustierte
+UTF-8-Fragmente, unzulässige Modellmetadaten sowie Zeitangaben ohne Zeitzone ab.
 
 ## JSON-Schema und Python-API
 
@@ -187,13 +192,13 @@ proposal = parse_classification_proposal_json(source_json)
 
 ## Noch nicht implementiert
 
-Version 0.5 enthält absichtlich:
+Version 0.5.1 enthält absichtlich:
 
 - keinen tatsächlich klassifizierenden Provider,
 - keinen Provider-Auftragsvertrag oder vertrauenswürdige Registry,
 - keinen Adapter zum `ValidatorInput`,
 - keine automatische Semantikanalyse,
-- keine Änderung an Evaluator oder Zustandsautomat,
+- keine Änderung an Evaluator-Regeln oder unveränderlicher Übergangstabelle,
 - keine automatische Prüfung faktischer Wahrheit.
 
 Der nächste sinnvolle Schnitt ist ein einfacher, deterministischer
@@ -203,7 +208,8 @@ Sprachmodell bleibt eine spätere austauschbare Provider-Implementierung.
 
 ## Prüfstand
 
-Der 0.5-Schnitt erhöht den Gesamtprüfstand auf 105 automatisierte Tests. Die
-neuen Tests prüfen Modelle, Parser, Schema, drei öffentliche Vorschläge,
-Integritätsbindung und die beschriebenen Negativgrenzen unter Python 3.11 oder
-neuer.
+Das Hardening-Update 0.5.1 erhöht den Gesamtprüfstand auf 114 automatisierte
+Tests. Sie prüfen Modelle, Parser, Schema, drei öffentliche Vorschläge,
+Integritätsbindung, die beschriebenen Negativgrenzen, Decoder-Wertebereich,
+Medientyp-Gleichlauf und UTF-8-Grenzen unter Python 3.11 oder neuer. Siehe
+[Grenzhärtung 0.5.1](HARDENING_0.5.1.md).

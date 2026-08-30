@@ -72,7 +72,7 @@ separate from the frozen archive.
 
 ## Current development status
 
-The **non-normative experimental Python implementation 0.5** contains a
+The **non-normative experimental Python implementation 0.5.1** contains a
 deterministic validator for A1–A4 and P1–P4, a strict versioned JSON parser, a
 machine-readable JSON Schema, the `rpf` command line, the executable RPF state
 machine, and a separate non-authorizing contract for optional classification
@@ -80,6 +80,10 @@ proposals. It evaluates the traceability and rule compliance of a supplied
 process description — not whether its conclusion is true. A classification
 proposal cannot determine a process status, reason code, state transition,
 competence value, evidence score, or action.
+
+The 0.5.1 hardening update additionally rejects routing-inconsistent result
+traces, normalizes JSON decoder range failures, aligns proposal media-type
+validation with its schema, and requires UTF-8-aligned evidence fragments.
 
 Its evaluation semantics and limitations are documented in
 [validator implementation 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.en.md). The
@@ -163,6 +167,7 @@ an English entry point and links to each source document.
 | [JSON and CLI 0.3](docs/JSON_CLI_0.3.en.md) | parser, JSON Schema, command line, exit codes, and public example | English |
 | [Executable state machine 0.4](docs/STATE_MACHINE_RUNTIME_0.4.en.md) | declarative transition table, result routing, audit trace, and limitations | English |
 | [Classification proposal 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.en.md) | non-authorizing provider contract, integrity binding, and limitations | English |
+| [Boundary hardening 0.5.1](docs/HARDENING_0.5.1.en.md) | result consistency, JSON error normalization, media-type parity, and UTF-8 fragment boundaries | English |
 | [Python package](src/rpf_validator) | data models, strict parsers, deterministic evaluator, and state-machine runtime | English |
 | [Weather example](examples/weather-input-0.2.json) | directly executable neutral JSON reference case | English |
 | [Classification proposal schema](src/rpf_validator/schemas/rpf-classification-proposal-0.1.schema.json) | machine-readable, strictly versioned proposal contract | English |

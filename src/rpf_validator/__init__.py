@@ -86,7 +86,7 @@ from rpf_validator.state_machine import (
     transition,
 )
 
-__version__ = "0.5.0.dev0"
+__version__ = "0.5.1.dev0"
 
 __all__ = [
     "INPUT_SCHEMA_VERSION",

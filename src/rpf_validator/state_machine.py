@@ -16,7 +16,12 @@ from enum import StrEnum
 from types import MappingProxyType
 from typing import Final, Mapping
 
-from rpf_validator.enums import ProcessStatus, RuleId, RuleStatus
+from rpf_validator.enums import (
+    PROCESS_STATUS_PRIORITY,
+    ProcessStatus,
+    RuleId,
+    RuleStatus,
+)
 from rpf_validator.models import RESULT_SCHEMA_VERSION, ValidatorResult
 
 STATE_MACHINE_TRACE_VERSION: Final = "rpf-state-machine-trace-0.1"
@@ -251,6 +256,64 @@ _ADAPTIVE_STOP_PLAN: Final = (
     TransitionEvent.RESET,
 )
 
+_ALLOWED_RULE_STATUSES: Final[Mapping[RuleId, frozenset[RuleStatus]]] = (
+    MappingProxyType(
+        {
+            RuleId.A1: frozenset(
+                {RuleStatus.SATISFIED, RuleStatus.TRIGGERED}
+            ),
+            RuleId.A2: frozenset({RuleStatus.SATISFIED, RuleStatus.SIGNAL}),
+            RuleId.A3: frozenset(
+                {RuleStatus.SATISFIED, RuleStatus.TRIGGERED}
+            ),
+            RuleId.A4: frozenset(
+                {
+                    RuleStatus.SATISFIED,
+                    RuleStatus.SIGNAL,
+                    RuleStatus.TRIGGERED,
+                }
+            ),
+            RuleId.P1: frozenset(
+                {
+                    RuleStatus.SATISFIED,
+                    RuleStatus.SIGNAL,
+                    RuleStatus.TRIGGERED,
+                    RuleStatus.NOT_APPLICABLE,
+                }
+            ),
+            RuleId.P2: frozenset({RuleStatus.SATISFIED, RuleStatus.SIGNAL}),
+            RuleId.P3: frozenset(
+                {
+                    RuleStatus.SATISFIED,
+                    RuleStatus.TRIGGERED,
+                    RuleStatus.NOT_APPLICABLE,
+                }
+            ),
+            RuleId.P4: frozenset(
+                {
+                    RuleStatus.SATISFIED,
+                    RuleStatus.SIGNAL,
+                    RuleStatus.TRIGGERED,
+                    RuleStatus.NOT_APPLICABLE,
+                }
+            ),
+        }
+    )
+)
+
+_TRIGGERED_PROCESS_STATUS: Final[Mapping[RuleId, ProcessStatus]] = (
+    MappingProxyType(
+        {
+            RuleId.A1: ProcessStatus.DELEGATE,
+            RuleId.A3: ProcessStatus.STOP,
+            RuleId.A4: ProcessStatus.STOP,
+            RuleId.P1: ProcessStatus.NO_REFERENCE,
+            RuleId.P3: ProcessStatus.STOP,
+            RuleId.P4: ProcessStatus.STOP,
+        }
+    )
+)
+
 
 def transition(state: RPFState, event: TransitionEvent) -> RPFState:
     """Return the declared target state or reject the pair deterministically."""
@@ -261,6 +324,66 @@ def transition(state: RPFState, event: TransitionEvent) -> RPFState:
         return ALLOWED_TRANSITIONS[(state, event)]
     except KeyError as exc:
         raise InvalidTransitionError(state, event) from exc
+
+
+def _validate_result_consistency(result: ValidatorResult) -> None:
+    """Reject routing-relevant contradictions in result contract 0.2."""
+
+    by_rule = {rule.rule_id: rule for rule in result.rule_results}
+    missing = tuple(rule_id for rule_id in RuleId if rule_id not in by_rule)
+    if missing:
+        raise InconsistentResultStatusError(
+            "result contract 0.2 is missing rule results: "
+            + ", ".join(rule_id.value for rule_id in missing)
+        )
+
+    a1_status = by_rule[RuleId.A1].status
+    for rule_id in RuleId:
+        rule_status = by_rule[rule_id].status
+        if rule_status is RuleStatus.NOT_EVALUATED:
+            if rule_id is RuleId.A1 or a1_status is not RuleStatus.TRIGGERED:
+                raise InconsistentResultStatusError(
+                    f"{rule_id.value} is NOT_EVALUATED without a triggered "
+                    "A1 gate"
+                )
+            continue
+        if rule_status not in _ALLOWED_RULE_STATUSES[rule_id]:
+            raise InconsistentResultStatusError(
+                f"{rule_id.value} cannot have rule status {rule_status.value} "
+                "in result contract 0.2"
+            )
+
+    if a1_status is RuleStatus.TRIGGERED:
+        evaluated_after_gate = tuple(
+            rule_id
+            for rule_id in tuple(RuleId)[1:]
+            if by_rule[rule_id].status is not RuleStatus.NOT_EVALUATED
+        )
+        if evaluated_after_gate:
+            raise InconsistentResultStatusError(
+                "triggered A1 gate requires later rules to be NOT_EVALUATED; "
+                "evaluated rules: "
+                + ", ".join(rule_id.value for rule_id in evaluated_after_gate)
+            )
+        expected_status = ProcessStatus.DELEGATE
+    else:
+        implied_statuses = [ProcessStatus.PASS]
+        for rule_id in RuleId:
+            rule_status = by_rule[rule_id].status
+            if rule_status is RuleStatus.SIGNAL:
+                implied_statuses.append(ProcessStatus.WARN)
+            elif rule_status is RuleStatus.TRIGGERED:
+                implied_statuses.append(_TRIGGERED_PROCESS_STATUS[rule_id])
+        expected_status = max(
+            implied_statuses,
+            key=PROCESS_STATUS_PRIORITY.__getitem__,
+        )
+
+    if result.overall_status is not expected_status:
+        raise InconsistentResultStatusError(
+            f"overall status {result.overall_status.value} does not match "
+            f"rule trace status {expected_status.value}"
+        )
 
 
 def _stop_plan(result: ValidatorResult) -> tuple[TransitionEvent, ...]:
@@ -302,6 +425,7 @@ def run_state_machine(result: ValidatorResult) -> StateMachineTrace:
             f"unsupported result schema version {result.schema_version!r}"
         )
 
+    _validate_result_consistency(result)
     plan = _plan_for(result)
     state = RPFState.IDLE
     records: list[TransitionRecord] = []

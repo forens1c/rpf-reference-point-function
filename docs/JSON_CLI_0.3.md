@@ -78,6 +78,7 @@ python -m rpf_validator validate examples/weather-input-0.2.json
 Vor der Auswertung prüft der Parser unter anderem:
 
 - gültiges UTF-8-JSON ohne `NaN`, `Infinity` oder doppelte Objektschlüssel,
+- decoder-sichere Zahlentokens; übergroße Integer werden zu Vertragsfehlern,
 - bekannte, erforderliche Felder und die angegebene Schema-Kennung,
 - Datentypen, Enums, Wertebereiche und nicht leere Texte,
 - eindeutige Modellkennungen,
@@ -88,7 +89,11 @@ Strukturfehler enthalten einen stabilen Reason-Code
 `INPUT_SCHEMA_INVALID`, einen JSONPath-ähnlichen Pfad und eine Begründung. Das
 JSON-Schema hilft Editoren und externen Werkzeugen bei der Vorprüfung. Der
 Python-Parser bleibt jedoch maßgeblich, weil ein JSON-Schema nicht alle
-Querverweise und Eindeutigkeitsregeln zwischen Objekten ausdrücken kann.
+Querverweise und Eindeutigkeitsregeln zwischen Objekten ausdrücken kann. Seit
+Paketversion 0.5.1 verwenden beide öffentlichen JSON-Parser dieselbe
+Vereinheitlichung von Decoderfehlern. Wertebereichsfehler bei Zahlentokens
+folgen dadurch ebenfalls diesem Antwortvertrag, statt als Traceback zu
+entweichen.
 
 ## Ausgaben und Exit-Codes
 
@@ -169,9 +174,11 @@ ausführbare Fixture.
 
 ## Prüfstand und Grenzen
 
-Die Schnittstelle ist durch 64 automatisierte Tests abgedeckt. Dazu gehören
-Roundtrips, ungültige und doppelte JSON-Felder, genaue Fehlerpfade,
-Querverweise, Standardeingabe, kompakte Ausgabe, Schemaausgabe und CLI-Exit-Codes.
+Der ursprüngliche Schnitt war durch 64 automatisierte Tests abgedeckt. Dazu
+gehören Roundtrips, ungültige und doppelte JSON-Felder, genaue Fehlerpfade,
+Querverweise, Standardeingabe, kompakte Ausgabe, Schemaausgabe und
+CLI-Exit-Codes. Der vollständige Repository-Prüfstand 0.5.1 umfasst nun 114
+Tests einschließlich der CLI-Regression für übergroße Integer.
 
 Die CLI:
 

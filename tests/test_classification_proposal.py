@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import FrozenInstanceError, replace
+from hashlib import sha256
 import json
 from pathlib import Path
 import unittest
@@ -299,6 +300,30 @@ class ProposalBoundaryTests(unittest.TestCase):
 
         self.assertIn("non-standard", caught.exception.message)
 
+    def test_oversized_integer_is_normalized_as_input_error(self) -> None:
+        text = '{"value": ' + ("9" * 10_000) + "}"
+
+        with self.assertRaises(InputValidationError) as caught:
+            parse_classification_proposal_json(text)
+
+        self.assertEqual(caught.exception.path, "$")
+        self.assertIn("numeric value", caught.exception.message)
+
+    def test_media_type_uses_the_schema_canonical_form(self) -> None:
+        for invalid in ("text/", "TEXT/PLAIN", "text/plain/extra"):
+            with self.subTest(media_type=invalid):
+                value = deepcopy(self.base_value)
+                value["input_reference"]["media_type"] = invalid
+
+                with self.assertRaises(InputValidationError) as caught:
+                    parse_classification_proposal(value)
+
+                self.assertEqual(
+                    caught.exception.path,
+                    "$.input_reference.media_type",
+                )
+                self.assertIn("text/<subtype>", caught.exception.message)
+
     def test_source_payload_hash_mismatch_is_rejected(self) -> None:
         proposal = load_classification_proposal(
             EXAMPLES / "classification-proposal-identified-0.1.json"
@@ -331,6 +356,34 @@ class ProposalBoundaryTests(unittest.TestCase):
             verify_source_payload(changed, source)
 
         self.assertIn("fragment_digest.value", caught.exception.path)
+
+    def test_fragment_range_must_align_without_an_excerpt(self) -> None:
+        source = "A\N{LATIN SMALL LETTER E WITH ACUTE}B"
+        source_bytes = source.encode("utf-8")
+
+        for start_byte, end_byte, invalid_field in (
+            (1, 2, "end_byte"),
+            (2, 3, "start_byte"),
+        ):
+            with self.subTest(invalid_field=invalid_field):
+                value = deepcopy(self.base_value)
+                value["input_reference"]["payload_digest"]["value"] = sha256(
+                    source_bytes
+                ).hexdigest()
+                fragment = value["evidence_fragments"][0]
+                fragment["start_byte"] = start_byte
+                fragment["end_byte"] = end_byte
+                fragment["fragment_digest"]["value"] = sha256(
+                    source_bytes[start_byte:end_byte]
+                ).hexdigest()
+                fragment.pop("excerpt")
+                proposal = parse_classification_proposal(value)
+
+                with self.assertRaises(InputValidationError) as caught:
+                    verify_source_payload(proposal, source)
+
+                self.assertTrue(caught.exception.path.endswith(invalid_field))
+                self.assertIn("UTF-8", caught.exception.message)
 
 
 class ClassificationProposalSchemaTests(unittest.TestCase):

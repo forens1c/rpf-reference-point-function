@@ -30,6 +30,7 @@ PROVIDER_CONFIDENCE_SCALE_ID: Final = "provider-self-report-unit-interval-0.1"
 MAX_EVIDENCE_EXCERPT_LENGTH: Final = 500
 
 _SHA256_HEX = re.compile(r"[0-9a-f]{64}\Z")
+_TEXT_MEDIA_TYPE = re.compile(r"text/[^\s/]+\Z")
 _RFC3339_DATE_TIME = re.compile(
     r"\d{4}-\d{2}-\d{2}[Tt]\d{2}:\d{2}:\d{2}"
     r"(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2})\Z"
@@ -206,9 +207,10 @@ class ProposalInputReference:
         )
         _non_empty(self.source_id, "input_reference.source_id")
         _non_empty(self.media_type, "input_reference.media_type")
-        if not self.media_type.lower().startswith("text/"):
+        if not _TEXT_MEDIA_TYPE.fullmatch(self.media_type):
             raise InputValidationError(
-                "input_reference.media_type", "must identify textual content"
+                "input_reference.media_type",
+                "must match text/<subtype> with a lowercase text prefix",
             )
         if not isinstance(self.payload_digest, ContentDigest):
             raise InputValidationError(
@@ -503,6 +505,22 @@ def verify_source_payload(proposal: ClassificationProposal, payload: str) -> Non
             raise InputValidationError(
                 f"{path}.end_byte", "exceeds the supplied source payload"
             )
+        if (
+            fragment.start_byte > 0
+            and payload_bytes[fragment.start_byte] & 0b1100_0000 == 0b1000_0000
+        ):
+            raise InputValidationError(
+                f"{path}.start_byte",
+                "must align to a UTF-8 text boundary",
+            )
+        if (
+            fragment.end_byte < len(payload_bytes)
+            and payload_bytes[fragment.end_byte] & 0b1100_0000 == 0b1000_0000
+        ):
+            raise InputValidationError(
+                f"{path}.end_byte",
+                "must align to a UTF-8 text boundary",
+            )
         fragment_bytes = payload_bytes[fragment.start_byte : fragment.end_byte]
         actual_fragment = sha256(fragment_bytes).hexdigest()
         if actual_fragment != fragment.fragment_digest.value:
@@ -511,13 +529,7 @@ def verify_source_payload(proposal: ClassificationProposal, payload: str) -> Non
                 "does not match the declared source byte range",
             )
         if fragment.excerpt is not None:
-            try:
-                decoded = fragment_bytes.decode("utf-8")
-            except UnicodeDecodeError as exc:
-                raise InputValidationError(
-                    f"{path}.excerpt",
-                    "byte range does not align to UTF-8 text boundaries",
-                ) from exc
+            decoded = fragment_bytes.decode("utf-8")
             if decoded != fragment.excerpt:
                 raise InputValidationError(
                     f"{path}.excerpt",

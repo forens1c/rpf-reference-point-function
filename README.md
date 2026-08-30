@@ -35,7 +35,7 @@ Die archivierten Fassungen werden nicht rückwirkend verändert. Inhaltliche Wei
 
 ## Aktueller Entwicklungsstand
 
-Die **nicht-normative experimentelle Python-Implementierung 0.5** enthält
+Die **nicht-normative experimentelle Python-Implementierung 0.5.1** enthält
 einen deterministischen Validator für A1–A4 und P1–P4, einen strikten
 versionierten JSON-Parser, ein maschinenlesbares JSON-Schema, die
 Kommandozeile `rpf`, den ausführbaren RPF-Zustandsautomaten und einen getrennten
@@ -44,6 +44,11 @@ bewertet die Nachvollziehbarkeit und Regelkonformität einer bereitgestellten
 Prozessbeschreibung — nicht die Wahrheit ihres Ergebnisses. Ein
 Klassifikationsvorschlag darf weder Prozessstatus noch Reason-Codes,
 Zustandsübergänge, Kompetenz, Evidenz oder Handlungen festlegen.
+
+Das Hardening-Update 0.5.1 weist zusätzlich routingwidrige Ergebnisspuren ab,
+vereinheitlicht Wertebereichsfehler des JSON-Decoders, gleicht die
+Medientyp-Prüfung des Vorschlagsvertrags an sein Schema an und verlangt
+UTF-8-bündige Evidenzfragmente.
 
 Die Bewertungssemantik und ihre Grenzen stehen in der
 [Validator-Implementierung 0.2](docs/VALIDATOR_IMPLEMENTATION_0.2.md). Die neue
@@ -128,6 +133,7 @@ Die Struktur folgt der
 | [JSON und CLI 0.3](docs/JSON_CLI_0.3.md) | Parser, JSON-Schema, Kommandozeile, Exit-Codes und öffentliches Beispiel |
 | [Ausführbarer Zustandsautomat 0.4](docs/STATE_MACHINE_RUNTIME_0.4.md) | deklarative Übergangstabelle, Ergebnisrouting, Audit-Trace und Grenzen |
 | [Klassifikationsvorschlag 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.md) | nicht-autorisierender Provider-Vertrag, Integritätsbindung und Grenzen |
+| [Grenzhärtung 0.5.1](docs/HARDENING_0.5.1.md) | Ergebniskonsistenz, JSON-Fehlernormalisierung, Medientyp-Gleichlauf und UTF-8-Fragmentgrenzen |
 | [Python-Paket](src/rpf_validator) | Datenmodelle, strikte Parser, deterministischer Evaluator und State-Machine-Runtime |
 | [Wetterbeispiel](examples/weather-input-0.2.json) | direkt ausführbarer neutraler JSON-Referenzfall |
 | [Klassifikationsvorschlags-Schema](src/rpf_validator/schemas/rpf-classification-proposal-0.1.schema.json) | maschinenlesbarer, strikt versionierter Vorschlagsvertrag |

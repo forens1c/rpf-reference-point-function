@@ -80,6 +80,19 @@ signals exist, a termination bound already reached in A3 or P3 ends the path
 at `DELTA_EVAL`; a later A4/P4 finding is not required to continue the control
 flow. The preceding `ValidatorResult` still retains every rule result.
 
+### Boundary hardening in package 0.5.1
+
+Before choosing one of these paths, the runtime now validates the
+routing-relevant consistency of result contract 0.2. It requires one result
+for every A1–A4/P1–P4 rule, rejects statuses not admitted for the respective
+rule, enforces the A1 gate, and recomputes only the aggregate process status
+from the declared rule statuses and the published priority order. A mismatch
+is rejected with `INCONSISTENT_RESULT_STATUS`.
+
+This is an internal contract check, not a second axiom evaluation. It does not
+verify the factual truth of rationales, reason codes, or source data. Details
+appear in [boundary hardening 0.5.1](HARDENING_0.5.1.en.md).
+
 ## Command line
 
 A public JSON scenario can now run through both validator and runtime:
@@ -132,7 +145,7 @@ assert next_state is RPFState.ISOLATION
 ```
 
 An undeclared transition is rejected deterministically with
-`INVALID_TRANSITION`. Unsupported result contracts, inconsistent `STOP`
+`INVALID_TRANSITION`. Unsupported result contracts, routing-inconsistent rule
 traces, and an exceeded fixed step bound have separate technical error codes.
 These codes deliberately remain outside the domain-level A1–A4/P1–P4 reason
 codes.
@@ -151,12 +164,14 @@ detector or an authorization authority.
 
 ## Verification
 
-The technical slice is covered by 80 automated tests. They include:
+The original technical slice was covered by 80 automated tests. The 0.5.1
+hardening raises the complete repository suite to 114 tests. They include:
 
 - all five public process statuses,
 - early and adaptive `STOP` paths,
 - immutable transition table and traces,
 - deterministic repetition of identical runs,
-- rejection of invalid transitions and inconsistent stop traces,
+- rejection of invalid transitions and routing-inconsistent result traces,
+- complete-rule, aggregate-status, and A1-gate consistency checks,
 - the fixed transition bound and return to `IDLE`,
 - `rpf trace` for normal and `NO_REFERENCE` scenarios.

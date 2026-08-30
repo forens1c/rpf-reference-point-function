@@ -224,8 +224,20 @@ Klassifikationsanbieter, ohne ihnen Bewertungsautorität zu geben:
 
 Die Einzelheiten stehen im
 [Klassifikationsvorschlagsvertrag 0.1](docs/CLASSIFICATION_PROPOSAL_CONTRACT_0.1.md).
-Die Paketversion `0.5.0.dev0` enthält absichtlich noch keinen Provider und
+Die Paketversion `0.5.1.dev0` enthält absichtlich noch keinen Provider und
 keinen Adapter.
+
+## Abgeschlossenes Hardening-Update 0.5.1
+
+- [x] unvollständige oder routingwidrige Validator-Ergebnisspuren abweisen,
+- [x] Decoderfehler übergroßer Zahlen in beiden JSON-Parsern vereinheitlichen,
+- [x] Python-Prüfung von `media_type` an das veröffentlichte Vorschlagsschema
+  angleichen,
+- [x] UTF-8-bündige Fragmentoffsets auch ohne Auszug verlangen,
+- [x] alle bestehenden öffentlichen Vertragskennungen und Fixture-Ergebnisse
+  beibehalten.
+
+Einzelheiten stehen in der [Grenzhärtung 0.5.1](docs/HARDENING_0.5.1.md).
 
 ## Nächster technischer Schnitt
 
