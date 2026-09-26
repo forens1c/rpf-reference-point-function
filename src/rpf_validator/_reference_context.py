@@ -1,13 +1,16 @@
 # Copyright 2026 Björn (frenetik.B)
 # SPDX-License-Identifier: Apache-2.0
 
-"""Private, immutable epistemic reference context for W1A.
+"""Private, immutable epistemic reference context for W1A and W1B.
 
 This module is an internal overlay over :class:`ValidatorInput`.  It preserves
 claim, reference, dependency, temporal, and admissibility information that the
-public input contract cannot currently express.  It deliberately makes no
-claim about presence, access by an agent, truth, independence, sufficiency,
-causality, validator results, or state-machine behavior.
+public input contract cannot currently express.  W1B retains declared,
+claim-bound presence and agent-access findings; it does not discover presence
+or access, assess absence evidence, or certify the findings.  Point-in-time
+views preserve all matching findings, including unresolved and conflicting
+ones.  There is no truth, independence, sufficiency, causality, evaluator, or
+state-machine integration.
 
 Nothing in this module is re-exported from :mod:`rpf_validator`.
 """
@@ -26,7 +29,7 @@ _INPUT_OBSERVATION_ID = "validator-input-observation"
 
 
 class ReferenceContextError(ValueError):
-    """Raised when an internal W1A context is structurally inconsistent."""
+    """Raised when an internal reference context is structurally inconsistent."""
 
 
 def _non_empty(value: object, path: str) -> None:
@@ -53,6 +56,26 @@ def _aware(value: object, path: str) -> None:
         raise ReferenceContextError(f"{path} must be a timezone-aware datetime")
 
 
+def _instant_key(value: datetime) -> int:
+    """Compare validated aware instants without materializing a UTC datetime.
+
+    Integer microseconds preserve precision beyond datetime's UTC bounds.
+    The actual UTC offset retains distinctions between local DST folds.
+    """
+
+    offset = value.utcoffset()
+    assert offset is not None  # The caller already validated an aware datetime.
+    local_microseconds = (
+        (value.toordinal() * 86_400 + value.hour * 3_600
+         + value.minute * 60 + value.second) * 1_000_000
+        + value.microsecond
+    )
+    offset_microseconds = (
+        (offset.days * 86_400 + offset.seconds) * 1_000_000 + offset.microseconds
+    )
+    return local_microseconds - offset_microseconds
+
+
 class ClaimNamespace(StrEnum):
     """Small internal namespace separating the three supported claim anchors."""
 
@@ -62,7 +85,7 @@ class ClaimNamespace(StrEnum):
 
 
 class ReferenceNamespace(StrEnum):
-    """Separate confirmed input sources from unconfirmed candidates."""
+    """Separate declared input sources from candidates, without proving presence."""
 
     EVIDENCE_SOURCE = "evidence-source"
     CANDIDATE = "candidate"
@@ -322,6 +345,69 @@ class AdmissibilityStatus(StrEnum):
 
 
 @dataclass(frozen=True, slots=True)
+class AgentId:
+    """Opaque case-local identity, with no registry, role, or authority meaning."""
+
+    local_id: str
+
+    def __post_init__(self) -> None:
+        _non_empty(self.local_id, "agent_id.local_id")
+
+
+class PresenceStatus(StrEnum):
+    """Declared scoped finding, never a computed existence or sufficiency proof."""
+
+    KNOWN_PRESENT = "known_present"
+    KNOWN_ABSENT = "known_absent"
+    UNRESOLVED = "unresolved"
+
+
+class AccessStatus(StrEnum):
+    """Declared epistemic reachability, not interpretability or control."""
+
+    AVAILABLE = "available"
+    UNAVAILABLE = "unavailable"
+    UNRESOLVED = "unresolved"
+
+
+@dataclass(frozen=True, slots=True)
+class PresenceFinding:
+    """Bind a declared presence finding to its existing scope/time/basis claim."""
+
+    reference_id: ReferenceId
+    status: PresenceStatus
+    claim_id: ClaimId
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.reference_id, ReferenceId):
+            raise ReferenceContextError("presence.reference_id must be ReferenceId")
+        if not isinstance(self.status, PresenceStatus):
+            raise ReferenceContextError("presence.status must be PresenceStatus")
+        if not isinstance(self.claim_id, ClaimId):
+            raise ReferenceContextError("presence.claim_id must be ClaimId")
+
+
+@dataclass(frozen=True, slots=True)
+class AccessFinding:
+    """Bind an explicit R/A finding to a claim; infer no access to other R/A."""
+
+    reference_id: ReferenceId
+    agent_id: AgentId
+    status: AccessStatus
+    claim_id: ClaimId
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.reference_id, ReferenceId):
+            raise ReferenceContextError("access.reference_id must be ReferenceId")
+        if not isinstance(self.agent_id, AgentId):
+            raise ReferenceContextError("access.agent_id must be AgentId")
+        if not isinstance(self.status, AccessStatus):
+            raise ReferenceContextError("access.status must be AccessStatus")
+        if not isinstance(self.claim_id, ClaimId):
+            raise ReferenceContextError("access.claim_id must be ClaimId")
+
+
+@dataclass(frozen=True, slots=True)
 class DirectDependencies:
     """The two direct dependency kinds for one enrolled claim."""
 
@@ -392,7 +478,7 @@ def _reference_sort_key(value: ReferenceId) -> tuple[str, str]:
 
 @dataclass(frozen=True, slots=True)
 class ReferenceContext:
-    """Immutable W1A overlay over one already validated ``ValidatorInput``."""
+    """Immutable internal overlay over one already validated ``ValidatorInput``."""
 
     validator_input: ValidatorInput
     claims: tuple[ClaimAnchor, ...] = field(default_factory=tuple)
@@ -405,6 +491,8 @@ class ReferenceContext:
     admissibility_assertions: tuple[AdmissibilityAssertion, ...] = field(
         default_factory=tuple
     )
+    presence_findings: tuple[PresenceFinding, ...] = field(default_factory=tuple)
+    access_findings: tuple[AccessFinding, ...] = field(default_factory=tuple)
 
     def __post_init__(self) -> None:
         if not isinstance(self.validator_input, ValidatorInput):
@@ -437,10 +525,18 @@ class ReferenceContext:
             AdmissibilityAssertion,
             "reference_context.admissibility_assertions",
         )
+        _tuple(
+            self.presence_findings, PresenceFinding,
+            "reference_context.presence_findings",
+        )
+        _tuple(
+            self.access_findings, AccessFinding, "reference_context.access_findings"
+        )
         self._validate_identities()
         self._validate_relations()
         self._validate_temporal_facts()
         self._validate_admissibility_assertions()
+        self._validate_findings()
 
     def _validate_identities(self) -> None:
         claim_ids = tuple(claim.claim_id for claim in self.claims)
@@ -555,6 +651,56 @@ class ReferenceContext:
             raise ReferenceContextError(
                 "admissibility assertions must not contain exact duplicates"
             )
+
+    def _validate_findings(self) -> None:
+        finding_claims: set[ClaimId] = set()
+        for finding in (*self.presence_findings, *self.access_findings):
+            self._require_reference(finding.reference_id)
+            self._require_claim(finding.claim_id)
+            if finding.claim_id in finding_claims:
+                raise ReferenceContextError(
+                    "each finding requires its own claim anchor"
+                )
+            finding_claims.add(finding.claim_id)
+        for finding in self.presence_findings:
+            if finding.status is PresenceStatus.UNRESOLVED:
+                continue
+            if self._claim(finding.claim_id).scope is None:
+                raise ReferenceContextError(
+                    "determinate presence requires an explicit claim scope"
+                )
+            if not self._has_presence_basis(finding.claim_id, finding.reference_id):
+                raise ReferenceContextError(
+                    "determinate presence requires an observation or a declared "
+                    "support path beyond the examined reference itself"
+                )
+
+    def _has_presence_basis(
+        self, claim_id: ClaimId, examined_reference: ReferenceId
+    ) -> bool:
+        """Check for a structural binding only, never evidence adequacy.
+
+        Observation anchors already reference Observation.provenance.  Other
+        paths must reach an observation or a registered supporting reference
+        other than the examined R.  Cycles and R's own registration alone do
+        not supply this binding.  Neither a successful check nor the source's
+        namespace establishes truth, search completeness, or sufficiency.
+        """
+
+        visited: set[ClaimId] = set()
+        pending = [claim_id]
+        while pending:
+            current = pending.pop()
+            if current in visited:
+                continue
+            visited.add(current)
+            if current.namespace is ClaimNamespace.OBSERVATION:
+                return True
+            dependencies = self.direct_dependencies(current)
+            if any(r != examined_reference for r in dependencies.reference_ids):
+                return True
+            pending.extend(dependencies.claim_ids)
+        return False
 
     @property
     def claim_ids(self) -> tuple[ClaimId, ...]:
@@ -876,6 +1022,160 @@ class ReferenceContext:
             effective_at=at,
             known_at=at,
         )
+
+    def presence_findings_for(
+        self, reference_id: ReferenceId
+    ) -> tuple[PresenceFinding, ...]:
+        """Return every stored finding for R, including undated/conflicting ones."""
+
+        self._require_reference(reference_id)
+        return tuple(
+            sorted(
+                (f for f in self.presence_findings if f.reference_id == reference_id),
+                key=lambda f: _claim_sort_key(f.claim_id),
+            )
+        )
+
+    def access_findings_for(
+        self, reference_id: ReferenceId, agent_id: AgentId
+    ) -> tuple[AccessFinding, ...]:
+        """Return all stored findings for exactly R/A, without path inference."""
+
+        self._require_reference(reference_id)
+        if not isinstance(agent_id, AgentId):
+            raise ReferenceContextError("access query requires AgentId")
+        return tuple(
+            sorted(
+                (
+                    f for f in self.access_findings
+                    if f.reference_id == reference_id and f.agent_id == agent_id
+                ),
+                key=lambda f: _claim_sort_key(f.claim_id),
+            )
+        )
+
+    def _finding_matches_time(
+        self, claim_id: ClaimId, target_time: datetime, knowledge_cutoff: datetime
+    ) -> bool:
+        """Use the finding's own event and knowledge times, never root times.
+
+        Missing/non-instant facts cannot authorize a dated view.  Creation
+        time is not knowledge time, and an event instant is not a valid-from
+        boundary.  The view records declared findings; it does not re-evaluate
+        their justification paths or admissibility.
+        """
+
+        event = self.temporal_value(claim_id, TemporalRole.TARGET_EVENT)
+        known = self.temporal_value(claim_id, TemporalRole.AVAILABLE_TO_CONTEXT)
+        # Compare instants, including distinct folds of the same local time.
+        return (
+            isinstance(event, datetime)
+            and isinstance(known, datetime)
+            and _instant_key(event) == _instant_key(target_time)
+            and _instant_key(known) <= _instant_key(knowledge_cutoff)
+        )
+
+    def presence_findings_at(
+        self,
+        reference_id: ReferenceId,
+        *,
+        scope: ClaimScope,
+        target_time: datetime,
+        knowledge_cutoff: datetime,
+    ) -> tuple[PresenceFinding, ...]:
+        """Retain all findings matching the exact scope/event and known cutoff.
+
+        Scope equality is explicit declaration equality, not inferred semantic
+        equivalence or inclusion.  No fallback to ReferenceFrame.scope occurs.
+        """
+
+        if not isinstance(scope, ClaimScope):
+            raise ReferenceContextError("presence query requires an explicit scope")
+        if (
+            scope.source is ScopeSource.REFERENCE_FRAME
+            and self.validator_input.reference_frame.scope is None
+        ):
+            raise ReferenceContextError("reference-frame scope is not modeled")
+        _aware(target_time, "presence.target_time")
+        _aware(knowledge_cutoff, "presence.knowledge_cutoff")
+        return tuple(
+            finding for finding in self.presence_findings_for(reference_id)
+            if self._claim(finding.claim_id).scope == scope
+            and self._finding_matches_time(
+                finding.claim_id, target_time, knowledge_cutoff
+            )
+        )
+
+    def access_findings_at(
+        self,
+        reference_id: ReferenceId,
+        agent_id: AgentId,
+        *,
+        target_time: datetime,
+        knowledge_cutoff: datetime,
+    ) -> tuple[AccessFinding, ...]:
+        """Retain all findings for exactly R/A/event known by the given cutoff."""
+
+        _aware(target_time, "access.target_time")
+        _aware(knowledge_cutoff, "access.knowledge_cutoff")
+        return tuple(
+            finding for finding in self.access_findings_for(reference_id, agent_id)
+            if self._finding_matches_time(
+                finding.claim_id, target_time, knowledge_cutoff
+            )
+        )
+
+    def presence_at(
+        self,
+        reference_id: ReferenceId,
+        *,
+        scope: ClaimScope,
+        target_time: datetime,
+        knowledge_cutoff: datetime,
+    ) -> PresenceStatus:
+        """Summarize matching declarations; never overwrite or rank findings.
+
+        Empty, explicitly unresolved, and conflicting views all summarize to
+        unresolved.  presence_findings_at retains their distinct underlying
+        records.  More findings and later arrivals have no deciding vote.
+        """
+
+        statuses = {
+            finding.status
+            for finding in self.presence_findings_at(
+                reference_id, scope=scope, target_time=target_time,
+                knowledge_cutoff=knowledge_cutoff,
+            )
+        }
+        if len(statuses) == 1:
+            return next(iter(statuses))
+        return PresenceStatus.UNRESOLVED
+
+    def access_at(
+        self,
+        reference_id: ReferenceId,
+        agent_id: AgentId,
+        *,
+        target_time: datetime,
+        knowledge_cutoff: datetime,
+    ) -> AccessStatus:
+        """Summarize access declarations, without interpreting their contents.
+
+        Conflicting content claims need not mean conflicting access findings.
+        access_findings_at preserves all matching records, even when the
+        summary is unresolved.  Neither time of arrival nor count breaks ties.
+        """
+
+        statuses = {
+            finding.status
+            for finding in self.access_findings_at(
+                reference_id, agent_id, target_time=target_time,
+                knowledge_cutoff=knowledge_cutoff,
+            )
+        }
+        if len(statuses) == 1:
+            return next(iter(statuses))
+        return AccessStatus.UNRESOLVED
 
     def invalidation_impact(
         self, reference_id: ReferenceId
